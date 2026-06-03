@@ -26,8 +26,9 @@ from story_sense_data import STORY_SENSE_LIBRARY
 EMOTION_MAP = {
     # 积极情绪
     "高兴": 0.85, "快乐": 0.85, "开心": 0.82, "兴奋": 0.88, "激动": 0.90,
-    "温暖": 0.75, "感动": 0.70, "幸福": 0.85, "满足": 0.72, "释然": 0.65,
+    "温暖": 0.75, "幸福": 0.85, "满足": 0.72, "释然": 0.65,
     "希望": 0.70, "期待": 0.68, "惊喜": 0.80, "欢乐": 0.85,
+    "感动": 0.70,  # [P0修复] 移除原重复定义的"感动"键
     # 中性
     "平稳": 0.50, "安稳": 0.48, "平静": 0.45, "日常": 0.50, "普通": 0.50,
     "好奇": 0.55, "新鲜": 0.55, "平淡": 0.45, "仪式感": 0.52,
@@ -41,8 +42,8 @@ EMOTION_MAP = {
     "坚持": 0.45, "倔强": 0.48, "努力": 0.55, "尝试": 0.50,
     "突破": 0.72, "起飞": 0.78, "爆发": 0.80,
     "微光": 0.38, "重新": 0.45, "缓冲": 0.42,
-    # 复合情绪 — 取第一个主要情绪
-    "犹豫": 0.35, "思念": 0.30, "怀念": 0.35, "感动": 0.70, "共鸣": 0.65,
+    # 复合情绪
+    "犹豫": 0.35, "思念": 0.30, "怀念": 0.35, "共鸣": 0.65,
 }
 
 # ============================================================
@@ -52,7 +53,7 @@ EMOTION_EN_MAP = {
     "暖": "warm", "温暖": "warm", "感动": "touched", "美好": "beautiful",
     "释然": "relieved", "开阔": "open", "温柔": "gentle", "淡然": "peaceful",
     "继续": "continuing", "传递": "passing_on", "前行": "moving_on",
-    "暖": "warm", "笑": "laughing", "希望在": "hopeful",
+    "笑": "laughing", "希望在": "hopeful",
     "悲伤": "sad", "难过": "sad", "绝望": "desperate", "恐惧": "terrified",
     "紧张": "tense", "愤怒": "angry", "孤独": "lonely", "压抑": "oppressed",
     "心痛": "heartbroken", "失落": "lost",
@@ -71,15 +72,175 @@ SHOT_TYPE_NAMES = [
 ]
 
 
-class StoryBeat:
-    """一个叙事节拍 — 包含情绪值、节奏、视觉强度、叙事功能"""
+# ============================================================
+# 大师级影视语言指导引擎 — CinematographyDirector
+# ============================================================
+# 设计理念（参考 Walter Murch、Roger Deakins、Thelma Schoonmaker 的剪辑理论）：
+#   - 时长 = 叙事功能：定场给足呼吸，高潮快速切割，低谷留白沉思
+#   - 运镜 = 心理语言：静止=旁观，缓推=亲密/压迫，手持=混乱/真实
+#   - 转场 = 叙事语法：硬切=能量延续，叠化=时间流逝，淡出=章节终结
+# ============================================================
+class CinematographyDirector:
+    """根据故事节拍计算大师级时长/运镜/转场推荐"""
     
-    def __init__(self, name, emotion_value, pace, intensity, narrative_func):
+    # pace → 时长范围（秒）
+    PACE_DURATION = {
+        "slow":   (5, 10),   # 沉思/留白/情感低谷
+        "medium": (3, 6),    # 常规叙事
+        "fast":   (1, 3),    # 高潮/紧张/快切
+    }
+    
+    # 节拍阶段 → 时长精调（progress, pace, base_duration, ref_film）
+    BEAT_STAGE_DURATION = [
+        # (progress_max, pace, (min, max), 影视参考)
+        (0.15, "medium", (5, 8),  "开场定场，《银翼杀手2049》式沉稳建立情境"),
+        (0.35, "medium", (3, 6),  "张力上升期，渐进缩短暗示不安"),
+        (0.55, "medium", (4, 8),  "中段铺陈，让情感沉淀"),
+        (0.70, "slow",   (6, 10), "转折前最低点，《肖申克》雨中伸臂前的沉默"),
+        (0.85, "fast",   (1, 3),  "高潮快剪，《疯狂的麦克斯》追车节奏"),
+        (1.01, "slow",   (5, 10), "收束余韵，《花样年华》结尾缓慢走廊"),
+    ]
+    
+    # intensity 阈值 → (pace, 运镜推荐, 心理效果)
+    CAMERA_BY_INTENSITY = [
+        (0.25, "slow",   "固定机位 / 极缓拉远",      "孤独、渺小、旁观感"),
+        (0.45, "medium", "缓慢推轨 / 轻微摇镜",       "渐进亲密、好奇探索"),
+        (0.65, "medium", "跟拍 / 平稳移轨",           "陪伴感、流畅叙事"),
+        (0.85, "fast",   "手持微晃 / 快速推拉",       "紧迫、混乱、临场感"),
+        (1.01, "fast",   "急推特写 / 360°环绕",      "极致情绪、高潮释放"),
+    ]
+    
+    @staticmethod
+    def get_duration_range(pace, intensity, progress):
+        """根据 pace + 节拍阶段计算时长范围(秒)。
+        
+        参数:
+            pace: "slow"/"medium"/"fast"
+            intensity: 0.0-1.0 视觉强度
+            progress: 0.0-1.0 故事进度
+        返回:
+            (min_sec, max_sec) 时长范围
+        """
+        # 优先按节拍阶段精调
+        for prog_max, stage_pace, dur_range, _ref in CinematographyDirector.BEAT_STAGE_DURATION:
+            if progress < prog_max:
+                # 高情绪强度时缩短时长（视觉冲击需要快切）
+                if intensity > 0.85 and dur_range[0] > 1:
+                    return (max(1, dur_range[0] - 1), max(2, dur_range[1] - 2))
+                return dur_range
+        # fallback
+        return CinematographyDirector.PACE_DURATION.get(pace, (3, 6))
+    
+    @staticmethod
+    def get_camera_directive(intensity, pace, user_style=""):
+        """根据 intensity 推荐运镜，叠加用户偏好。
+        
+        返回:
+            (camera_text, reason) 运镜文本 + 心理效果
+        """
+        # 用户偏好覆盖
+        user_override_map = {
+            "稳重固定镜头": ("固定机位 / 微推", "用户指定稳重风格，配合内在情绪流动"),
+            "流畅运动":     ("平稳移轨 / 跟拍", "用户指定流畅运动，营造叙事感"),
+            "手持纪实":     ("手持微晃 / 跟拍", "用户指定手持，强化真实临场感"),
+            "炫酷动感":     ("急推 / 环绕 / 旋转", "用户指定动感，释放视觉冲击"),
+            "竖屏固定机位为主": ("竖屏固定机位 / 微推拉", "竖屏构图，主体居中"),
+            "竖屏流畅运动":     ("竖屏纵向升降 / 前后推拉", "竖屏运动，强化纵深"),
+        }
+        if user_style in user_override_map:
+            return user_override_map[user_style]
+        
+        # 根据 intensity 自动选择
+        for thresh, _pace, cam_text, reason in CinematographyDirector.CAMERA_BY_INTENSITY:
+            if intensity < thresh:
+                return (cam_text, reason)
+        return ("固定机位", "中性叙事")
+    
+    @staticmethod
+    def get_transition(current_beat, prev_beat, scene_changed=False,
+                       is_first_shot=False, is_last_shot=False,
+                       cross_beat=False, emotion_delta=0.0):
+        """根据节拍关系和场景变化计算转场。
+        
+        返回:
+            (transition_text, reason)
+        """
+        # 首镜：从虚无淡入
+        if is_first_shot:
+            return ("淡入", "从虚无中进入故事世界，建立第一印象")
+        
+        # 末镜：长叠化或淡出
+        if is_last_shot:
+            return ("长叠化 / 淡出黑场", "余韵收束，让情绪在画面消散中沉淀")
+        
+        # 跨节拍 + 情绪跳跃大 → 章节断点
+        if cross_beat and emotion_delta > 0.35:
+            return ("淡出→淡入", "跨节拍情绪反差大，制造章节感的心理断点")
+        
+        # 跨节拍 + 情绪相近 → 匹配剪辑
+        if cross_beat and emotion_delta <= 0.35:
+            return ("匹配剪辑", "节拍切换但情绪延续，用主题/形状/动作匹配呼应")
+        
+        # 高潮→收束（高强度 → 低强度）
+        if prev_beat and prev_beat.intensity > 0.75 and current_beat.intensity < 0.5:
+            return ("长叠化 / 白闪", "高潮余韵的视觉消散，让能量缓慢释放")
+        
+        # 同节拍 + 换场景 → 叠化
+        if scene_changed:
+            return ("叠化", "空间过渡但情绪延续，柔化场景切换")
+        
+        # 同节拍 + 同场景 → 硬切
+        return ("硬切", "保持叙事能量不断，画面节奏紧凑")
+    
+    @staticmethod
+    def build_block(cinematography, cumulative_seconds=None, total_estimated=None):
+        """生成注入 prompt 的影视语言指导文本块。
+        
+        参数:
+            cinematography: get_beat_for_shot 返回的 cinematography 子字典
+            cumulative_seconds: 累计已生成镜头时长（秒），可选
+            total_estimated: 预估总片长（秒），可选
+        返回:
+            可直接拼接到 system prompt 的多行字符串
+        """
+        lines = ["【大师级影视语言指导】"]
+        dur_hint = cinematography.get("duration_hint", "3-6秒")
+        cam = cinematography.get("camera_movement", "固定机位")
+        cam_reason = cinematography.get("camera_reason", "")
+        trans = cinematography.get("transition", "硬切")
+        trans_reason = cinematography.get("transition_reason", "")
+        
+        lines.append(f"▸ 推荐时长：{dur_hint}（请严格按此范围设置「时长」字段）")
+        lines.append(f"▸ 推荐运镜：{cam}（{cam_reason}）")
+        lines.append(f"▸ 推荐转场：{trans}（{trans_reason}）")
+        
+        if cumulative_seconds is not None:
+            mm = int(cumulative_seconds // 60)
+            ss = int(cumulative_seconds % 60)
+            time_str = f"{mm}分{ss:02d}秒" if mm > 0 else f"{ss}秒"
+            if total_estimated:
+                tmm = int(total_estimated // 60)
+                tss = int(total_estimated % 60)
+                total_str = f"{tmm}分{tss:02d}秒" if tmm > 0 else f"{tss}秒"
+                lines.append(f"▸ 时间线：累计约 {time_str} / 预估总长 {total_str}")
+            else:
+                lines.append(f"▸ 时间线：累计约 {time_str}")
+        return "\n".join(lines)
+
+
+class StoryBeat:
+    """一个叙事节拍 — 包含情绪值、节奏、视觉强度、叙事功能、影视语言指导"""
+    
+    def __init__(self, name, emotion_value, pace, intensity, narrative_func,
+                 duration_range=None, camera_style=None):
         self.name = name
         self.emotion_value = emotion_value  # 0.0-1.0
         self.pace = pace                    # "slow" / "medium" / "fast"
         self.intensity = intensity          # 0.0-1.0 视觉冲击力
         self.narrative_func = narrative_func  # 文本描述
+        # 影视语言字段（由 CinematographyDirector 计算）
+        self.duration_range = duration_range or CinematographyDirector.PACE_DURATION.get(pace, (3, 6))
+        self.camera_style = camera_style or ""
     
     def to_dict(self):
         return {
@@ -88,6 +249,8 @@ class StoryBeat:
             "pace": self.pace,
             "intensity": self.intensity,
             "narrative_func": self.narrative_func,
+            "duration_range": self.duration_range,
+            "camera_style": self.camera_style,
         }
 
 
@@ -163,6 +326,8 @@ class StoryArc:
                     pace=pace,
                     intensity=min(intensity, 1.0),
                     narrative_func=emotion_words,
+                    duration_range=CinematographyDirector.get_duration_range(pace, min(intensity, 1.0), progress),
+                    camera_style=CinematographyDirector.get_camera_directive(min(intensity, 1.0), pace, "")[0],
                 )
                 beats.append(beat)
         
@@ -172,11 +337,17 @@ class StoryArc:
         return beats
     
     def _extract_story_steps(self):
-        """提取情节结构的步骤描述"""
+        """提取情节结构的步骤描述
+        
+        [P0修复] 原正则 r'\\d+\\.\\s*(.+?)(?::|$)' 只能匹配半角冒号，
+        但故事感总纲使用的是全角冒号 '：'（U+FF1A），导致步骤解析全部失败。
+        修复为同时匹配半角冒号 ':' 和全角冒号 '：'。
+        """
         steps = []
         for line in self.sense_text.split('\n'):
             line = line.strip()
-            match = re.match(r'\d+\.\s*(.+?)(?::|$)', line)
+            # 同时匹配半角冒号(:)和全角冒号(：)
+            match = re.match(r'\d+\.\s*(.+?)(?:[:：]|$)', line)
             if match:
                 steps.append(match.group(1).strip())
         return steps
@@ -232,6 +403,33 @@ class StoryArc:
         # 情绪描述（中文转英文标签）
         emotion_tags = self._emotion_tags(beat.narrative_func)
         
+        # 影视语言指导（时长/运镜/转场）
+        dur = beat.duration_range
+        dur_hint = f"{dur[0]}-{dur[1]}秒"
+        camera_text, camera_reason = CinematographyDirector.get_camera_directive(
+            beat.intensity, beat.pace, "")
+        # 转场：根据是否为首镜/末镜/节拍边界来决定
+        is_first = (shot_index == 0)
+        is_last = (shot_index >= total_shots - 1)
+        # 判断是否跨节拍（用前一镜头的 beat_idx 对比）
+        prev_beat_idx = min(int(max(shot_index - 1, 0) / max(total_shots, 1) * len(self.beats)), len(self.beats) - 1)
+        cross_beat = (prev_beat_idx != beat_idx) and (shot_index > 0)
+        emotion_delta = abs(beat.emotion_value - self.beats[prev_beat_idx].emotion_value) if cross_beat else 0
+        transition, trans_reason = CinematographyDirector.get_transition(
+            beat, self.beats[prev_beat_idx] if cross_beat else beat,
+            scene_changed=False, is_first_shot=is_first, is_last_shot=is_last,
+            cross_beat=cross_beat, emotion_delta=emotion_delta,
+        )
+        
+        cinematography = {
+            "duration_hint": dur_hint,
+            "duration_range": dur,
+            "camera_movement": camera_text,
+            "camera_reason": camera_reason,
+            "transition": transition,
+            "transition_reason": trans_reason,
+        }
+        
         return {
             "beat_name": beat.name,
             "beat_index": beat_idx,
@@ -245,6 +443,7 @@ class StoryArc:
             "narrative_func": beat.narrative_func,
             "is_final": is_final,
             "recommended_shot_types": recommended_shot_types,
+            "cinematography": cinematography,
             "constraints": {
                 "no_abstract_words": True,
                 "use_visible_description": True,
@@ -326,10 +525,15 @@ class ShotConstraints:
         self.last_shot_type = None
         self.shot_type_history = []
         self.last_duration = None
+        self.duration_history = []      # [新增] 时长历史
+        self.total_duration = 0.0       # [新增] 累计总时长（秒）
         self.last_camera = None
+        self.camera_history = []        # [新增] 运镜历史
         self.last_transition = None
+        self.transition_history = []    # [新增] 转场历史
         self.last_characters = ""
         self.last_scene = ""
+        self.scene_history = []         # [新增] 场景历史，用于检测场景切换
     
     def record_shot(self, shot_data):
         """记录一个已生成的镜头数据"""
@@ -342,15 +546,23 @@ class ShotConstraints:
             
             dur = shot_data.get("duration")
             if dur:
-                self.last_duration = dur
+                try:
+                    dur_val = float(dur)
+                    self.last_duration = dur_val
+                    self.duration_history.append(dur_val)
+                    self.total_duration += dur_val
+                except (ValueError, TypeError):
+                    pass
             
             cam = shot_data.get("camera")
             if cam:
                 self.last_camera = cam
+                self.camera_history.append(cam)
             
             trans = shot_data.get("transition")
             if trans:
                 self.last_transition = trans
+                self.transition_history.append(trans)
             
             chars = shot_data.get("characters")
             if chars:
@@ -359,6 +571,17 @@ class ShotConstraints:
             scene = shot_data.get("scene")
             if scene:
                 self.last_scene = scene
+                self.scene_history.append(scene)
+    
+    def is_scene_changed(self, current_scene_text=""):
+        """根据最新记录判断是否发生场景变化"""
+        if not self.scene_history:
+            return False
+        if not current_scene_text:
+            return False
+        # 简单字面差异：若新场景文本不为空且与最后一次记录差异大，则视为切换
+        last = self.scene_history[-1]
+        return current_scene_text.strip() != last.strip()
     
     def get_constraints_text(self):
         """生成对下一镜头的约束文本"""
@@ -367,21 +590,55 @@ class ShotConstraints:
         # 景别交替约束
         recent = self.shot_type_history[-3:]
         if len(recent) >= 3 and len(set(recent)) == 1:
-            parts.append(f"【⚠️景别警告】最近3个镜头都是{recent[0]}，下一个镜头必须更换为不同的景别。")
+            parts.append(f"【景别警告】最近3个镜头都是{recent[0]}，下一个镜头必须更换为不同的景别。")
         elif len(recent) >= 2 and len(set(recent)) == 1:
             parts.append(f"【提示】最近2个镜头都是{recent[0]}，建议下一个镜头切换景别。")
         
-        # 时长交替
+        # 时长节奏警告：连续3镜时长差异 < 1秒 → 节奏过于均匀
+        recent_dur = self.duration_history[-3:]
+        if len(recent_dur) >= 3:
+            d_max = max(recent_dur)
+            d_min = min(recent_dur)
+            if (d_max - d_min) < 1.0:
+                parts.append(
+                    f"【节奏警告】近3个镜头时长过于均匀（{recent_dur}），"
+                    f"建议下一个镜头使用明显不同的时长，制造节奏对比（短促紧张 vs 沉稳留白）。"
+                )
+        
+        # 运镜交替警告：连续2镜相同运镜
+        recent_cam = self.camera_history[-2:]
+        if len(recent_cam) >= 2 and recent_cam[0] == recent_cam[1]:
+            parts.append(
+                f'【运镜提示】最近2个镜头运镜都是"{recent_cam[0]}"，'
+                f"建议下一镜更换运镜方式（如固定→推/拉、推→摇、跟拍→静止），增加视觉变化。"
+            )
+        
+        # 转场重复警告
+        recent_trans = self.transition_history[-3:]
+        if len(recent_trans) >= 3 and len(set(recent_trans)) == 1:
+            parts.append(
+                f'【转场提示】最近3个镜头转场都是"{recent_trans[0]}"，'
+                f"建议变换转场方式（硬切/叠化/淡入淡出/匹配剪辑）以丰富叙事语法。"
+            )
+        
+        # 时长参考
         if self.last_duration:
             parts.append(f"【参考】上一个镜头时长为{self.last_duration}秒。")
         
-        # 运镜交替
+        # 运镜参考
         if self.last_camera:
             parts.append(f'【参考】上一个镜头运镜方式为"{self.last_camera}"。')
         
-        # 转场
+        # 转场参考
         if self.last_transition:
             parts.append(f'【参考】上一个镜头转场为"{self.last_transition}"。')
+        
+        # 时间线显示
+        if self.total_duration > 0:
+            mm = int(self.total_duration // 60)
+            ss = int(self.total_duration % 60)
+            time_str = f"{mm}分{ss:02d}秒" if mm > 0 else f"{ss}秒"
+            parts.append(f"【时间线】已生成{self.shot_count}个镜头，累计约 {time_str}。")
         
         # 角色一致性
         if self.last_characters:

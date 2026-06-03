@@ -18,10 +18,13 @@ def process_short_drama(
     style, rhythm, camera_style, color_tone,
     api_url, api_key, model_name, temperature, max_tokens, ref_images,
     # 独立的外部依赖
-    random_topic, random_character, random_env, call_ai_fn):
+    random_topic, random_character, random_env, call_ai_fn,
+    # [P1修复] 补上 pick_story_sense_fn 参数，与绘本/故事板模式保持一致
+    pick_story_sense_fn=None):
     """
     接收独立的 random_topic/random_character/random_env/call_ai_fn 作为参数。
 
+    pick_story_sense_fn：可选的回调函数（无参，返回故事感总纲字符串）。
     返回值：拼接后的短剧总纲文本，失败返回空字符串。
     """
     if not api_url:
@@ -36,7 +39,8 @@ def process_short_drama(
 
     drama_sys = build_short_drama_system_prompt(
         topic, character_desc, env_desc, shot_count,
-        style, rhythm, camera_style, color_tone, ref_images
+        style, rhythm, camera_style, color_tone, ref_images,
+        pick_story_sense_fn=pick_story_sense_fn,
     )
     drama_user = build_short_drama_user_prompt(
         topic, shot_count, style, rhythm, camera_style
@@ -50,7 +54,7 @@ def process_short_drama(
             f"整体视觉风格：\n"
             f"风格为{style}，节奏{rhythm}，色彩调性偏向{color_tone}。竖屏9:16垂直构图。\n"
             f"角色物品设定：\n"
-            f"{(character_desc or '待定角色').replace(chr(10), chr(10)).rstrip()}\n"
+            f"{(character_desc or '待定角色').replace(chr(10), ' ').rstrip()}\n"
             f"道具或武器：\n"
             f"待补充。\n"
             f"场景设定：\n"

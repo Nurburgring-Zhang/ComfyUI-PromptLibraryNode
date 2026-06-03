@@ -6,39 +6,37 @@
 # 全部转为普通函数，保留所有创作原则和格式文本
 # ============================================================
 
-import os
 import random
 
-_STORY_SENSE_LIBRARY_CACHE = None
+# [P0修复] 移除原 import os 和全局 _STORY_SENSE_LIBRARY_CACHE
+# 改为从 story_sense_data 模块读取，消除对不存在的 .md 文件的引用
+from story_sense_data import STORY_SENSE_LIBRARY
 
 
-# ============================================================
-# 内部辅助：故事感总纲随机抽取（原类方法 _pick_story_sense）
-# ============================================================
-def _pick_story_sense():
-    """从故事感总纲文库中随机抽取一个"""
-    global _STORY_SENSE_LIBRARY_CACHE
-    library_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "story_sense_library_complete.md")
-    try:
-        if _STORY_SENSE_LIBRARY_CACHE is None:
-            with open(library_path, "r", encoding="utf-8") as f:
-                _STORY_SENSE_LIBRARY_CACHE = f.read()
-        content = _STORY_SENSE_LIBRARY_CACHE
-        items = content.split("【故事感总纲")
-        items = [item for item in items if item.strip() and not item.startswith("#") and "文库" not in item[:20]]
-        if items:
-            chosen = random.choice(items)
-            return "【故事感总纲" + chosen.strip()
-        return ""
-    except Exception:
-        return ""
+def _pick_story_sense_from_data():
+    """从 story_sense_data 常量中随机抽取一个故事感总纲
+    
+    [P0修复] 原实现尝试读取不存在的 story_sense_library_complete.md 文件，
+    改为从已加载的 Python 常量中读取。
+    """
+    if STORY_SENSE_LIBRARY:
+        return random.choice(STORY_SENSE_LIBRARY)
+    return ""
 
 
 # ============================================================
 # _build_child_system_prompt — 调度函数
 # ============================================================
-def build_child_system_prompt(mode, topic, character_desc, env_desc, count, age_group, art_style, ref_images):
-    """根据子模式分派到对应的构建函数"""
+def build_child_system_prompt(mode, topic, character_desc, env_desc, count, age_group, art_style, ref_images,
+                               pick_story_sense_fn=None):
+    """根据子模式分派到对应的构建函数
+    
+    [P0修复] 新增 pick_story_sense_fn 参数，与 __init__.py 调用方签名一致。
+    如果调用方提供了 pick_story_sense_fn，优先使用；否则使用本模块的默认实现。
+    """
+    # 确定使用哪个故事感总纲获取函数
+    sense_fn = pick_story_sense_fn if pick_story_sense_fn is not None else _pick_story_sense_from_data
+
     age_desc = {
         "0-3岁低幼": "画面简单主体突出，色彩鲜明对比强，线条简洁圆润。文字极短（每页5-15字），句式重复有节奏感。",
         "3-6岁幼儿": "画面丰富有清晰视觉焦点，色彩温暖明亮。文字每段10-30字，故事有简单情节。角色形象可爱。",
@@ -57,22 +55,22 @@ def build_child_system_prompt(mode, topic, character_desc, env_desc, count, age_
     env_section = f"环境背景：{env_desc}\n" if env_desc else ""
 
     if mode == "儿童视频格式一":
-        return build_child_v1(style_text, age_text, ref_section, env_section)
+        return build_child_v1(style_text, age_text, ref_section, env_section, sense_fn)
     elif mode == "儿童视频格式二":
-        return build_child_v2(style_text, age_text, ref_section, env_section)
+        return build_child_v2(style_text, age_text, ref_section, env_section, sense_fn)
     elif mode == "儿童微动视频/GIF":
-        return build_child_gif(style_text, age_text, ref_section, env_section)
+        return build_child_gif(style_text, age_text, ref_section, env_section, sense_fn)
     elif mode == "儿童绘本格式":
-        return build_child_book(style_text, age_text, ref_section, env_section)
+        return build_child_book(style_text, age_text, ref_section, env_section, sense_fn)
     return ""
 
 
 # ============================================================
 # _build_child_v1 — 儿童视频格式一
 # ============================================================
-def build_child_v1(style_text, age_text, ref_section, env_section):
+def build_child_v1(style_text, age_text, ref_section, env_section, sense_fn=None):
     """儿童视频格式一 — 系统提示词构建"""
-    sense = _pick_story_sense()
+    sense = sense_fn() if sense_fn else ""
     return (
         f"{sense}\n"
         f"上述故事感总纲是本故事的结构设计核心。严格按照总纲的情节结构来设计故事的起承转合。让故事本身有波折有悬念，不要平铺直叙。情感表达在恰当的情节节点出现，配合故事推动。\n\n"
@@ -104,9 +102,9 @@ def build_child_v1(style_text, age_text, ref_section, env_section):
 # ============================================================
 # _build_child_v2 — 儿童视频格式二
 # ============================================================
-def build_child_v2(style_text, age_text, ref_section, env_section):
+def build_child_v2(style_text, age_text, ref_section, env_section, sense_fn=None):
     """儿童视频格式二 — 系统提示词构建"""
-    sense = _pick_story_sense()
+    sense = sense_fn() if sense_fn else ""
     return (
         f"{sense}\n"
         f"上述故事感总纲是本故事的结构设计核心。严格按照总纲的情节结构来设计故事的起承转合。让故事本身有波折有悬念，不要平铺直叙。情感表达在恰当的情节节点出现。\n\n"
@@ -142,9 +140,9 @@ def build_child_v2(style_text, age_text, ref_section, env_section):
 # ============================================================
 # _build_child_gif — 儿童微动视频/GIF
 # ============================================================
-def build_child_gif(style_text, age_text, ref_section, env_section):
+def build_child_gif(style_text, age_text, ref_section, env_section, sense_fn=None):
     """儿童微动视频/GIF — 系统提示词构建"""
-    sense = _pick_story_sense()
+    sense = sense_fn() if sense_fn else ""
     return (
         f"{sense}\n"
         f"上述故事感总纲是本故事的结构设计核心。严格按照总纲的情节结构来设计故事的起承转合。让故事本身有波折有悬念，不要平铺直叙。情感表达在恰当的情节节点出现。\n\n"
@@ -170,9 +168,9 @@ def build_child_gif(style_text, age_text, ref_section, env_section):
 # ============================================================
 # _build_child_book — 儿童绘本格式
 # ============================================================
-def build_child_book(style_text, age_text, ref_section, env_section):
+def build_child_book(style_text, age_text, ref_section, env_section, sense_fn=None):
     """儿童绘本格式 — 系统提示词构建"""
-    sense = _pick_story_sense()
+    sense = sense_fn() if sense_fn else ""
     return (
         f"{sense}\n"
         f"上述故事感总纲是本故事的结构设计核心。严格按照总纲的情节结构来设计故事的起承转合。让故事本身有波折有悬念，不要平铺直叙。情感表达在恰当的情节节点出现。\n\n"

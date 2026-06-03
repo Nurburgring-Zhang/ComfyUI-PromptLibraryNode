@@ -12,6 +12,9 @@
 #   modes_drama.py      → 短剧模式
 #   modes_child.py      → 儿童内容模式（4种）
 #   modes_design.py     → 专业设计模式（8种）
+#   director_pro.py     → DirectorPromptPro 批次输出引擎
+#   format_templates.py → 共享格式模板（消除跨模块重复）
+#   engine_story_arc.py → StoryArc引擎 + ShotConstraints + PromptSegmenter
 #   web/PromptLibraryNode.js → 参考图上传UI
 # ============================================================
 import os
@@ -42,6 +45,7 @@ from pln_utils import (
     pick_n_lines, history_dedup,
     parse_ref_image_list, load_ref_image_tensors,
     generate_negative_prompt,
+    append_history_log, make_output_id, _next_batch_seq,
 )
 from pln_random import random_topic, random_character, random_env
 from modes_storyboard import (
@@ -52,12 +56,20 @@ from modes_drama import process_short_drama as _process_short_drama_mode_impl
 from modes_child import (
     build_child_system_prompt as _build_child_system_prompt_impl,
 )
-from modes_design import (
-    _build_design_system_prompt,
-    _build_design_user_prompt,
-    _build_design_global_context,
-)
+
+# [P0修复] modes_design 模块可能不存在，用 try/except 守卫避免整个插件加载崩溃
+try:
+    from modes_design import (
+        _build_design_system_prompt,
+        _build_design_user_prompt,
+        _build_design_global_context,
+    )
+    _HAS_DESIGN_MODE = True
+except ImportError:
+    _HAS_DESIGN_MODE = False
+
 from engine_story_arc import StoryArc, ShotConstraints, PromptSegmenter
+
 # ============================================================
 # 模式定义
 # ============================================================
@@ -77,8 +89,9 @@ MODE_CATEGORIES_CHILD = {"儿童视频格式一", "儿童视频格式二", "儿�
 MODE_CATEGORIES_DESIGN = {"电商套图", "海报设计", "品牌设计", "PPT设计",
                            "逻辑关系图设计", "三视图设计", "爆炸拆解图设计", "流水线图设计"}
 
-OUTPUT_NAMES = ("提示词", "绘本提示词", "短剧提示词", "故事提示词", "负面提示词", "儿童提示词")
-OUTPUT_TYPES = ("STRING", "STRING", "STRING", "STRING", "STRING", "STRING")
+# [P0修复] 移除原模块级 OUTPUT_NAMES（6项）和 OUTPUT_TYPES（6项）——
+# 它们是从旧版遗留的死代码，与类级 RETURN_TYPES/RETURN_NAMES（5项）长度不一致，
+# 容易引起维护混乱。ComfyUI 只读取类属性，此处无需保留。
 
 WEB_DIRECTORY = "web"
 
@@ -94,9 +107,14 @@ class PromptLibraryNodePro:
 
     @classmethod
     def _ensure_story_sense(cls):
-        """确保故事感总纲已加载（类级缓存）"""
+        """确保故事感总纲已加载（类级缓存，线程安全）"""
+        # [P2修复] 使用 _instance_lock 保护类级缓存的初始化，
+        # 防止 ComfyUI 多工作流线程并发场景下的竞态条件
         if cls._story_sense_cache is None:
-            cls._story_sense_cache = STORY_SENSE_LIBRARY[:]
+            with cls._instance_lock:
+                # 双重检查锁定（Double-Checked Locking）
+                if cls._story_sense_cache is None:
+                    cls._story_sense_cache = STORY_SENSE_LIBRARY[:]
 
     def _pick_story_sense(self):
         """从故事感总纲常量中随机抽取一个（缓存版本，避免重复读文件）"""
@@ -110,9 +128,22 @@ class PromptLibraryNodePro:
         return {
             "required": {
                 "文件夹路径": ("STRING", {"default": "", "multiline": False}),
-                "读取模式": (["随机抽取", "顺序循环", "洗牌遍历", "权重随机"], {"default": "随机抽取"}),
-                "循环模式": (["无限循环", "读完停止", "历史不重复(50条)"], {"default": "无限循环"}),
+                "读取模式": (
+                    ["随机抽取", "顺序循环", "洗牌遍历", "权重随机",
+                     "等权随机", "短文优先", "长文优先", "文件均衡"],
+                    {"default": "随机抽取"},
+                ),
+                "循环模式": (
+                    ["无限循环", "读完停止", "历史不重复(1000条)",
+                     "批次内不重复", "重置循环位置"],
+                    {"default": "无限循环"},
+                ),
                 "输出数量": ("INT", {"default": 1, "min": 1, "max": 50, "step": 1}),
+                "输出分隔符": (
+                    ["换行", "双换行", "逗号", "分号", "段落分隔(===)", "无分隔"],
+                    {"default": "换行"},
+                ),
+                "启用历史落盘": ("BOOLEAN", {"default": True}),
                 "固定种子_0为真随机": ("INT", {"default": 0}),
                 "关键词筛选": ("STRING", {"default": "", "multiline": False}),
                 "标签筛选": ("STRING", {"default": "", "multiline": False}),
@@ -179,20 +210,59 @@ class PromptLibraryNodePro:
         }
 
     RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING", "IMAGE",)
-    RETURN_NAMES = ("提示词", "模式输出", "负面提示词", "元数据JSON", "回调图片",)
+    RETURN_NAMES = ("文件夹提示词", "剧本模式输出", "负面提示词", "元数据JSON", "回调图片",)
     FUNCTION = "get_prompt"
     CATEGORY = "提示词工具"
     OUTPUT_NODE = True
 
     @classmethod
     def IS_CHANGED(cls, **kwargs):
-        # 每次执行都重新生成（因为随机内容），有意为之
-        return _time.time()
+        # [修复] 智能变更检测：
+        # - 文件夹模式 + seed=0(随机) → 每次强制重算（用户期望新结果）
+        # - 文件夹模式 + 顺序/洗牌循环 → 每次强制重算（需推进idx）
+        # - 固定种子 > 0 且无文件夹 → 用参数哈希缓存（确定性输出）
+        seed = kwargs.get("固定种子_0为真随机", 0)
+        folder = kwargs.get("文件夹路径", "")
+        mode = kwargs.get("读取模式", "随机抽取")
+        模式选择 = kwargs.get("模式选择", "关闭")
+
+        # 文件夹路径有值 → 几乎所有模式都需要重新执行
+        if folder:
+            if seed and seed > 0 and mode == "随机抽取":
+                # 唯一可缓存的情况：固定种子 + 纯随机（确定性复现）
+                # 但顺序/洗牌/文件均衡等有状态的模式不能缓存
+                pass
+            else:
+                return _time.time()
+
+        # 剧本模式 / AI生成 → 需要重新执行（LLM 输出不确定）
+        if 模式选择 != "关闭":
+            return _time.time()
+        if kwargs.get("开启AI生成", False) or kwargs.get("开启AI润色", False):
+            return _time.time()
+
+        # 种子=0 时即使无文件夹也强制重算（未来可能有随机因素）
+        if not seed or seed <= 0:
+            return _time.time()
+
+        # 固定种子 + 无文件夹 + 无AI → 确定性，用参数哈希缓存
+        try:
+            hash_parts = []
+            for k, v in sorted(kwargs.items()):
+                try:
+                    hash_parts.append(f"{k}={v}")
+                except Exception:
+                    pass
+            hash_str = "|".join(hash_parts)
+            return hashlib.md5(hash_str.encode("utf-8")).hexdigest()
+        except Exception:
+            return _time.time()
 
     def __init__(self):
         self._cache_lock = threading.Lock()
         self._cache = {}
         self._last_ai_error = ""
+        self._last_folder_meta = ""
         self._ensure_story_sense()
 
     # ============================================================
@@ -233,6 +303,11 @@ class PromptLibraryNodePro:
         meta_json = {}
 
         # 构建 call_ai 闭包（绑定参数）
+        # [P1修复-合约说明] 此闭包返回 str（仅结果文本），将错误存储在 self._last_ai_error。
+        # 注意：director_pro.py 中的批处理函数直接调用 pln_llm.call_ai()，
+        # 返回 (result_str, error_str) 元组。两套接口的差异是有意设计：
+        # - 本闭包供传统模式和单次模式使用，调用者只需判断返回值是否为空
+        # - director_pro 的批处理需要独立的错误处理逻辑，因此直接使用底层 API
         def _call_ai(system_prompt, user_message):
             result, self._last_ai_error = call_ai(
                 API地址, API密钥, AI模型名,
@@ -243,8 +318,15 @@ class PromptLibraryNodePro:
 
         # ====== 按模式分派 ======
         if 模式选择 == "关闭":
+            self._last_folder_meta = ""
             final_prompt, mode_output = self._process_traditional_mode(kwargs, _call_ai)
             meta_json = {"mode": "关闭"}
+            # [深度优化] 文件夹模式抽取元数据合并入 meta_json
+            if self._last_folder_meta:
+                try:
+                    meta_json["folder_pick"] = json.loads(self._last_folder_meta)
+                except Exception:
+                    pass
         elif 模式选择 in MODE_CATEGORIES_STORYBOARD:
             # 计算故事弧
             story_arc = None
@@ -291,6 +373,7 @@ class PromptLibraryNodePro:
                 random_character,
                 random_env,
                 _call_ai,
+                pick_story_sense_fn=self._pick_story_sense,
             )
             meta_json = {"mode": "短剧模式", "type": "短剧", "shots": 总页数}
         elif 模式选择 in MODE_CATEGORIES_CHILD:
@@ -301,13 +384,17 @@ class PromptLibraryNodePro:
                 ref_image_tensors, _call_ai)
             meta_json = {"mode": 模式选择, "type": "儿童内容"}
         elif 模式选择 in MODE_CATEGORIES_DESIGN:
-            mode_output = self._process_design_mode(
-                模式选择, 主题, 角色描述, 环境背景描述, 总页数, 画面风格, 色彩基调,
-                kwargs.get("产品材质", ""), kwargs.get("产品颜色", ""),
-                kwargs.get("拍摄角度", "自动"), kwargs.get("布光方案", "自动"), kwargs.get("背景类型", "自动"),
-                API地址, API密钥, AI模型名, AI推理温度, AI最大Token数,
-                ref_image_tensors, _call_ai)
-            meta_json = {"mode": 模式选择, "type": "专业设计"}
+            if _HAS_DESIGN_MODE:
+                mode_output = self._process_design_mode(
+                    模式选择, 主题, 角色描述, 环境背景描述, 总页数, 画面风格, 色彩基调,
+                    kwargs.get("产品材质", ""), kwargs.get("产品颜色", ""),
+                    kwargs.get("拍摄角度", "自动"), kwargs.get("布光方案", "自动"), kwargs.get("背景类型", "自动"),
+                    API地址, API密钥, AI模型名, AI推理温度, AI最大Token数,
+                    ref_image_tensors, _call_ai)
+                meta_json = {"mode": 模式选择, "type": "专业设计"}
+            else:
+                mode_output = f"[提示] 设计模式「{模式选择}」需要安装 modes_design 模块才能使用。"
+                meta_json = {"mode": 模式选择, "type": "设计(模块缺失)"}
 
         # 负面词
         启用负面词生成 = kwargs.get("启用负面词生成", False)
@@ -364,6 +451,7 @@ class PromptLibraryNodePro:
             读取模式 = kwargs.get("读取模式", "随机抽取")
             循环模式 = kwargs.get("循环模式", "无限循环")
             输出数量 = kwargs.get("输出数量", 1)
+            输出分隔符 = kwargs.get("输出分隔符", "换行")
             keywords = parse_keywords(关键词筛选)
             wanted_tags = parse_tags(标签筛选)
             files = scan_files(folder_path)
@@ -387,15 +475,77 @@ class PromptLibraryNodePro:
                 if not subject_filtered:
                     return ("", "")
                 all_lines = subject_filtered
-            chosen, self._cache = pick_n_lines(all_lines, 读取模式, 循环模式, 输出数量, folder_path, self._cache)
+            # [深度优化] 传递种子，pick_n_lines 使用独立 RNG
+            chosen, self._cache = pick_n_lines(
+                all_lines, 读取模式, 循环模式, 输出数量,
+                folder_path, self._cache, seed=固定种子_0为真随机,
+            )
             if not chosen:
                 return ("", "")
-            if "不重复" in 循环模式:
-                chosen = history_dedup(chosen, folder_path, self._cache)
+            if "不重复" in 循环模式 and 循环模式 == "历史不重复(1000条)":
+                chosen = history_dedup(
+                    chosen, folder_path, self._cache,
+                    all_lines=all_lines, seed=固定种子_0为真随机,
+                )
                 if not chosen:
                     chosen = [random.choice(all_lines)]
             result_texts = [l["text"] for l in chosen]
-            final_prompt = result_texts[0] if result_texts else ""
+            # [深度优化] 拼接全部 chosen（不再丢弃多条），按用户分隔符
+            sep_map = {
+                "换行": "\n",
+                "双换行": "\n\n",
+                "逗号": ", ",
+                "分号": "; ",
+                "段落分隔(===)": "\n===SEGMENT_BREAK===\n",
+                "无分隔": " ",
+            }
+            sep = sep_map.get(输出分隔符, "\n")
+            final_prompt = sep.join(result_texts) if result_texts else ""
+            # [深度优化] 写入当天历史日志 + 生成 output_id 反查索引
+            启用历史落盘 = kwargs.get("启用历史落盘", True)
+            output_ids = []
+            if 启用历史落盘 and chosen:
+                from datetime import datetime as _dt
+                from pln_utils import _today_str
+                _ts_now = _dt.now()
+                _date_str = _ts_now.strftime("%Y-%m-%d")
+                _batch_seq = _next_batch_seq(_date_str)
+                _records = []
+                for _i, _e in enumerate(chosen, start=1):
+                    _oid = make_output_id(
+                        固定种子_0为真随机, _batch_seq, _i, ts=_ts_now)
+                    output_ids.append(_oid)
+                    _records.append({
+                        "ts": _ts_now.strftime("%Y-%m-%d %H:%M:%S"),
+                        "date": _date_str,
+                        "output_id": _oid,
+                        "batch_seq": _batch_seq,
+                        "folder": folder_path,
+                        "mode": 读取模式,
+                        "loop": 循环模式,
+                        "seed": int(固定种子_0为真随机) if 固定种子_0为真随机 else 0,
+                        "index": _i,
+                        "text": _e["text"],
+                        "source_file": os.path.basename(_e.get("source", "")),
+                    })
+                append_history_log(_records)
+            # [深度优化] 元数据：抽取来源/数量/模式 + output_ids 反查索引
+            try:
+                meta = {
+                    "folder": folder_path,
+                    "mode": 读取模式,
+                    "loop": 循环模式,
+                    "requested": 输出数量,
+                    "delivered": len(result_texts),
+                    "pool_size": len(all_lines),
+                    "sources": list({os.path.basename(l.get("source", "")) for l in chosen}),
+                    "seed": 固定种子_0为真随机,
+                    "output_ids": output_ids,
+                    "history_logged": bool(启用历史落盘 and output_ids),
+                }
+                self._last_folder_meta = json.dumps(meta, ensure_ascii=False)
+            except Exception:
+                self._last_folder_meta = ""
 
         if 开启AI润色 and final_prompt:
             sys_p = kwargs.get("AI润色系统提示词", "") or "将用户输入的prompt润色为高质量英文prompt。直接输出结果。"
@@ -417,7 +567,9 @@ class PromptLibraryNodePro:
                     user_msg)
                 if b_ret:
                     batch_results.append(b_ret)
-            final_prompt = batch_results[0] if batch_results else ""
+            # [P1修复] 拼接所有批量生成结果，而非只取 batch_results[0]
+            # 原来只返回第一条，丢弃了用户请求的多条AI生成结果
+            final_prompt = "\n\n---\n\n".join(batch_results) if batch_results else ""
 
         if 开启翻译 and final_prompt and API地址:
             translated = translate_prompt(
@@ -465,7 +617,7 @@ class PromptLibraryNodePro:
                 f"整体视觉风格：\n"
                 f"画风采用{art_style}，适合{age_group}年龄段的孩子。色彩鲜明活泼，符合儿童的视觉偏好。\n"
                 f"角色物品设定：\n"
-                f"{(character_desc or '待定角色').replace(chr(10), chr(10)).rstrip()}\n"
+                f"{(character_desc or '待定角色').replace(chr(10), ' ').rstrip()}\n"
                 f"道具或武器：\n"
                 f"待补充。\n"
                 f"场景设定：\n"
@@ -573,13 +725,14 @@ class DirectorPromptPro:
         return {"required": required, "optional": optional}
     
     RETURN_TYPES = ("STRING", "STRING",)
-    RETURN_NAMES = ("批次输出", "元数据JSON",)
+    RETURN_NAMES = ("剧本模式批次分镜输出", "元数据JSON",)
     FUNCTION = "process"
     CATEGORY = "提示词工具"
     OUTPUT_NODE = True
     
     @classmethod
     def IS_CHANGED(cls, **kwargs):
+        # [修复] 导演分镜节点每次执行都应产出新结果（调用LLM + 随机性）
         return _time.time()
     
     def __init__(self):
@@ -656,14 +809,18 @@ class DirectorPromptPro:
             )
             meta["type"] = "儿童批次"
         elif 模式选择 in MODE_CATEGORIES_DESIGN:
-            batch_output = process_design_batched(
-                模式选择, 主题, 角色描述, 环境背景描述, 输出数量, 画面风格, 色彩基调,
-                kwargs.get("产品材质", ""), kwargs.get("产品颜色", ""),
-                kwargs.get("拍摄角度", "自动"), kwargs.get("布光方案", "自动"), kwargs.get("背景类型", "自动"),
-                API地址, API密钥, AI模型名, AI推理温度, AI最大Token数,
-                [], pick_story_sense_fn=self._pick_story_sense,
-            )
-            meta["type"] = "设计批次"
+            if _HAS_DESIGN_MODE:
+                batch_output = process_design_batched(
+                    模式选择, 主题, 角色描述, 环境背景描述, 输出数量, 画面风格, 色彩基调,
+                    kwargs.get("产品材质", ""), kwargs.get("产品颜色", ""),
+                    kwargs.get("拍摄角度", "自动"), kwargs.get("布光方案", "自动"), kwargs.get("背景类型", "自动"),
+                    API地址, API密钥, AI模型名, AI推理温度, AI最大Token数,
+                    [], pick_story_sense_fn=self._pick_story_sense,
+                )
+                meta["type"] = "设计批次"
+            else:
+                batch_output = f"[提示] 设计模式「{模式选择}」需要安装 modes_design 模块才能使用。"
+                meta["type"] = "设计(模块缺失)"
         else:
             batch_output = f"DirectorPromptPro暂不支持{模式选择}模式"
             meta["type"] = "不支持"

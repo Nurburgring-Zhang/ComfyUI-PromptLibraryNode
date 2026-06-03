@@ -32,7 +32,7 @@ def process_picture_book_mode(topic, character_desc, env_desc, pages,
             f"整体视觉风格：\n"
             f"风格偏向{style}，整体色调为{color_tone}，适合{age_group}年龄段。\n"
             f"角色物品设定：\n"
-            f"{(character_desc or '待定角色').replace(chr(10), chr(10)).rstrip()}\n"
+            f"{(character_desc or '待定角色').replace(chr(10), ' ').rstrip()}\n"
             f"道具或武器：\n"
             f"待补充。\n"
             f"场景设定：\n"

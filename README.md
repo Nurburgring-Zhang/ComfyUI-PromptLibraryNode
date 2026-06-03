@@ -4,6 +4,10 @@
 
 ---
 
+![PromptLibraryNode Pro 在 ComfyUI 中的界面](web/screenshot_workflow.png)
+
+---
+
 ## 节点总览
 
 | 节点 | 名称 | 输出端口 | 说明 |

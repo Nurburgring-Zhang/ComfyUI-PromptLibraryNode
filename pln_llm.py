@@ -4,14 +4,41 @@
 import json
 import urllib.request
 import urllib.error
+import urllib.parse
 import time as _time
 import random
 
 
+def _validate_api_url(api_url):
+    """校验API URL协议，防止SSRF攻击"""
+    if not api_url:
+        return False, "API地址为空"
+    try:
+        parsed = urllib.parse.urlparse(api_url)
+        if parsed.scheme not in ('http', 'https'):
+            return False, f"不支持的URL协议: {parsed.scheme}，仅支持 http/https"
+        if not parsed.hostname:
+            return False, "URL缺少主机名"
+        return True, ""
+    except Exception as e:
+        return False, f"URL格式错误: {str(e)[:100]}"
+
+
 def call_ai(api_url, api_key, model_name, system_prompt, user_message, temperature, max_tokens):
-    """调用AI API（OpenAI兼容格式），带指数退避重试+抖动"""
+    """调用AI API（OpenAI兼容格式），带指数退避重试+抖动
+    
+    返回:
+        tuple: (result_text, error_text)
+            - 成功时: (结果文本, "")
+            - 失败时: ("", 错误描述)
+    """
     if not api_url:
         return "", "API地址为空"
+
+    # [P3修复] URL协议校验，防止SSRF
+    valid, err_msg = _validate_api_url(api_url)
+    if not valid:
+        return "", err_msg
 
     last_error = ""
     for attempt in range(3):
