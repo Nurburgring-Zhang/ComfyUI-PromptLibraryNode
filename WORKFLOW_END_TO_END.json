@@ -245,9 +245,11 @@
       "name": "端到端灵魂驱动工作流 (Phase 17)",
       "version": "v3.1",
       "date": "2026-08-09",
+      "phase": "25",
       "description": "完整 9 节点端到端工作流 - 灵魂节点 + 剧本三件套 + 导演三件套 + 意图/质检",
       "soul_injection": "所有节点通过 DirectorSoulNode 注入灵魂",
-      "scenarios": "父女在厨房, 雨夜, 1998 年哈尔滨, 王家卫风格, loneliness + longing"
+      "scenarios": "父女在厨房, 雨夜, 1998 年哈尔滨, 王家卫风格, loneliness + longing",
+      "total_nodes": 9
     }
   },
   "version": 0.4
