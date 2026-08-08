@@ -53,6 +53,14 @@ import os
 import sys
 import json
 
+# Phase 17.6: 灵魂注入
+try:
+    from director_soul import soul_inject_simple, EMOTION_MATRIX_60
+    _HAS_SOUL = True
+except Exception:
+    _HAS_SOUL = False
+
+
 try:
     from anti_ai_vocab import (
         ANTI_AI_PHRASES, SPECIFIC_DETAIL_RULES, HUMANIZE_INJECTION,
@@ -465,6 +473,14 @@ class CharacterArcPro:
                 "口头禅": ("STRING", {"default": "我不信。"}),
                 "标志性物件": ("STRING", {"default": "一只破旧的口琴"}),
                 "启用反AI规则": ("BOOLEAN", {"default": True}),
+
+                # === Phase 17.6 灵魂注入 ===
+                "灵魂_主导情感": (["auto"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "auto"}),
+                "灵魂_场景权重": ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_次要情感": (["none"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "none"}),
+                "灵魂_融合模式": (["auto", "F1_单情感主导", "F2_双情感主次融合", "F3_双情感对等融合",
+                                  "F4_三情感递进融合", "F5_矛盾情感爆炸", "F6_复合情绪三角", "F7_情感转化"],
+                                 {"default": "auto"}),
             },
             "optional": {
                 "角色背景": ("STRING", {"default": "", "multiline": True}),
@@ -637,7 +653,36 @@ class CharacterArcPro:
             director_acting_8 += "  - " + d + ": " + m + "\n"
 
         # ===== Character Bible (角色圣经) =====
+        # Phase 17.6: 灵魂注入
+        soul_primary = kwargs.get("灵魂_主导情感", "auto")
+        soul_scene_weight = float(kwargs.get("灵魂_场景权重", 0.5))
+        soul_secondary_raw = kwargs.get("灵魂_次要情感", "none")
+        soul_secondary = [soul_secondary_raw] if soul_secondary_raw and soul_secondary_raw not in ("none", "auto") else None
+        soul_fusion_mode = kwargs.get("灵魂_融合模式", "auto")
+        soul_block = ""
+        if _HAS_SOUL:
+            try:
+                inj, fused, soul_state, soul_dims = soul_inject_simple(
+                    primary=soul_primary,
+                    scene_weight=soul_scene_weight,
+                    secondary=soul_secondary,
+                    fusion_mode=soul_fusion_mode,
+                    scene_context=scene,
+                )
+                soul_block = (
+                    "【灵魂核心 - 角色弧光驱动 (Phase 17.6)】\n"
+                    "主导情感: " + str(fused.get("name", "")) + "\n"
+                    "情感强度: " + "{:.2f}".format(float(fused.get("intensity", 0.5))) + "\n"
+                    "情感极性: " + str(fused.get("polarity", "neutral")) + "\n"
+                    "唤醒度: " + str(fused.get("arousal", "medium")) + "\n"
+                    "════════════════════════════════════\n\n"
+                )
+            except Exception:
+                soul_block = ""
+
         character_bible_parts = []
+        if soul_block:
+            character_bible_parts.append(soul_block)
         character_bible_parts.append("【" + name + " Character Bible — 世界顶级导演级】\n")
         character_bible_parts.append("=" * 70)
         character_bible_parts.append("L1-L7 七层 Prompt 架构 (7-Layer Prompt Architecture)")
