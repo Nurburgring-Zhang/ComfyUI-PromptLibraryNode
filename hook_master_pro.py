@@ -36,6 +36,13 @@ except Exception as e:
     _HAS_MASTERY = False
     _MASTERY_ERROR = str(e)
 
+# Phase 17.6: 灵魂注入
+try:
+    from director_soul import soul_inject_simple, EMOTION_MATRIX_60
+    _HAS_SOUL = True
+except Exception:
+    _HAS_SOUL = False
+
 
 # 8 大钩子类型
 HOOK_TYPES = {
@@ -141,6 +148,14 @@ class HookMasterPro:
 
                 # === 6. 反 AI ===
                 "启用反AI规则": ("BOOLEAN", {"default": True}),
+
+                # === 7. 灵魂注入 (Phase 17.6) ===
+                "灵魂_主导情感": (["auto"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "auto"}),
+                "灵魂_场景权重": ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_次要情感": (["none"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "none"}),
+                "灵魂_融合模式": (["auto", "F1_单情感主导", "F2_双情感主次融合", "F3_双情感对等融合",
+                                  "F4_三情感递进融合", "F5_矛盾情感爆炸", "F6_复合情绪三角", "F7_情感转化"],
+                                 {"default": "auto"}),
             },
             "optional": {
                 "自定义元素": ("STRING", {
@@ -171,8 +186,48 @@ class HookMasterPro:
         library_type = kwargs.get("实战钩子库_5选1", "身份揭秘")
         custom = kwargs.get("自定义元素", "")
 
+        # Phase 17.6: 灵魂注入 (用统一 wrapper, 自动处理 alias 解析 + 字段兼容)
+        soul_primary = kwargs.get("灵魂_主导情感", "auto")
+        soul_scene_weight = float(kwargs.get("灵魂_场景权重", 0.5))
+        soul_secondary_raw = kwargs.get("灵魂_次要情感", "none")
+        soul_secondary = [soul_secondary_raw] if soul_secondary_raw and soul_secondary_raw != "none" and soul_secondary_raw != "auto" else None
+        soul_fusion_mode = kwargs.get("灵魂_融合模式", "auto")
+
+        soul_inj = ""
+        fused_name = ""
+        fused_polarity = "neutral"
+        fused_arousal = "medium"
+        fused_intensity = 0.5
+        if _HAS_SOUL:
+            try:
+                inj, fused, soul_state, soul_dims = soul_inject_simple(
+                    primary=soul_primary,
+                    scene_weight=soul_scene_weight,
+                    secondary=soul_secondary,
+                    fusion_mode=soul_fusion_mode,
+                    scene_context=custom or "钩子场景",
+                )
+                soul_inj = inj
+                fused_name = str(fused.get("name", ""))
+                fused_polarity = str(fused.get("polarity", "neutral"))
+                fused_arousal = str(fused.get("arousal", "medium"))
+                fused_intensity = float(fused.get("intensity", 0.5))
+            except Exception:
+                soul_inj = ""
+
         # 1. 钩子模板
-        template = f"""【{hook_duration} 秒{hook_type}钩子 - 强度 {hook_strength}/10】
+        # 灵魂前缀 (Phase 17.6)
+        soul_header = ""
+        if fused_name and _HAS_SOUL:
+            soul_header = (
+                "【灵魂核心 - 钩子设计】\n"
+                "主导情感: " + fused_name + "\n"
+                "情感强度: " + "{:.2f}".format(fused_intensity) + "\n"
+                "情感极性: " + fused_polarity + "\n"
+                "唤醒度: " + fused_arousal + "\n"
+                "════════════════════════════════════\n\n"
+            )
+        template = f"""{soul_header}【{hook_duration} 秒{hook_type}钩子 - 强度 {hook_strength}/10】
 
 【钩子规则 ({platform} 风格)】
 - 前 {hook_duration} 秒必抛强冲突/强悬念/颠覆认知画面
@@ -207,6 +262,17 @@ class HookMasterPro:
 
 【自定义】
 {custom if custom else "无"}
+
+【灵魂驱动 - 钩子情绪匹配 (Phase 17.6)】
+- 当前主导情感: {fused_name or "默认"}
+- 钩子情绪基调: {fused_polarity or "neutral"} 极性 + {fused_arousal or "medium"} 唤醒度
+- 灵魂规则: 钩子第一秒的情绪必须与主导情感强烈共振
+  - 负极性高唤醒 → 暴力/威胁/绝望开头
+  - 负极性低唤醒 → 失去/告别/告别式开头
+  - 正极性高唤醒 → 复仇/胜利/反转式开头
+  - 正极性低唤醒 → 希望/暖意/和解式开头
+  - 矛盾极性 → 反差/双面/对比式开头
+- 钩子强度与灵魂强度 ({fused_intensity:.2f}) 强相关, 强度越高钩子越极端
 """
 
         # 2. 实战钩子样本 (5 句)
