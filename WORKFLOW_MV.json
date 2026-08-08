@@ -1,0 +1,141 @@
+{
+  "last_node_id": 5,
+  "last_link_id": 4,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "DirectorSoulNode",
+      "pos": [80, 80],
+      "size": [280, 240],
+      "properties": {},
+      "widgets_values": [
+        "longing",
+        ["tenderness"],
+        0.7,
+        "auto",
+        "F2_双情感主次融合",
+        "王家卫",
+        "MV: 男孩在雨夜的城市里寻找已逝的爱人, 慢镜头, 慢歌",
+        0.5
+      ]
+    },
+    {
+      "id": 2,
+      "type": "MvPro",
+      "pos": [440, 80],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "MV",
+        "MV: 男孩在雨夜的城市里寻找已逝的爱人, 慢镜头, 慢歌",
+        "王家卫",
+        "压抑中见希望",
+        "想说对不起",
+        "让观众感到美与失去",
+        "一只旧怀表",
+        "花样年华",
+        true,
+        "longing",
+        0.7,
+        "tenderness",
+        "F2_双情感主次融合"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "MusicScorePro",
+      "pos": [820, 80],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "MV",
+        "MV: 男孩在雨夜的城市里寻找已逝的爱人, 慢镜头, 慢歌",
+        "王家卫",
+        "压抑中见希望",
+        "想说对不起",
+        "让观众感到美与失去",
+        "怀表",
+        "花样年华",
+        true,
+        "longing",
+        0.7,
+        "tenderness",
+        "F2_双情感主次融合"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "SoundDesignPro",
+      "pos": [1200, 80],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "MV",
+        "MV: 男孩在雨夜的城市里寻找已逝的爱人, 慢镜头, 慢歌",
+        "王家卫",
+        "压抑中见希望",
+        "想说对不起",
+        "让观众感到美与失去",
+        "怀表",
+        "花样年华",
+        true,
+        "longing",
+        0.7,
+        "tenderness",
+        "F2_双情感主次融合"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "EditingPro",
+      "pos": [820, 360],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "longing",
+        0.8,
+        "王家卫",
+        240.0,
+        "tenderness",
+        "F2_双情感主次融合"
+      ]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "STRING"],
+    [2, 2, 0, 3, 0, "STRING"],
+    [3, 3, 0, 4, 0, "STRING"],
+    [4, 2, 0, 5, 0, "STRING"]
+  ],
+  "groups": [
+    {
+      "title": "Phase 17 灵魂",
+      "bounding": [50, 40, 340, 320],
+      "color": "#3f789e"
+    },
+    {
+      "title": "MV 4 节点流水线",
+      "bounding": [400, 40, 1180, 320],
+      "color": "#c62828"
+    },
+    {
+      "title": "剪辑收尾",
+      "bounding": [400, 320, 760, 320],
+      "color": "#2e7d32"
+    }
+  ],
+  "config": {},
+  "extra": {
+    "workflow_info": {
+      "name": "MV 流水线 5 节点",
+      "version": "v3.1",
+      "date": "2026-08-09",
+      "description": "MV 完整流水线 - 灵魂 + MV + 音乐 + 声音 + 剪辑",
+      "scenario": "MV: 男孩在雨夜寻找已逝的爱人, 240 秒, 王家卫风格, longing+tenderness"
+    }
+  },
+  "version": 0.4
+}
