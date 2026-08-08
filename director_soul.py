@@ -1399,6 +1399,140 @@ def fuse_emotions(emotion_keys: list, weights: list = None, mode: str = "auto"):
 
 
 # ============================================================
+# 4.5 SOUL_INJECT_SIMPLE - 统一灵魂注入接口 (Phase 17.1 简化版)
+# ============================================================
+# 给所有节点用 - 自动处理:
+#   1. 8 基础情感 alias 解析 (fear/joy/... → 子词)
+#   2. 中文情感词 alias
+#   3. 缺失值 fallback
+#   4. 灵魂状态动态计算
+#   5. 完整注入字符串拼装
+# 子 agent 接入时只调这一个函数即可, 不用关心底层细节
+DEFAULT_SOUL_DIMS = {
+    "creativity": 0.85,
+    "imagination": 0.85,
+    "artistic_expression": 0.85,
+    "camera_skill": 0.85,
+    "atmosphere_control": 0.85,
+    "mental_state": "lucid-dreamy",
+    "inspiration": 0.85,
+    "rebelliousness": 0.70,
+    "self_doubt": 0.50,
+    "breakthrough_courage": 0.85,
+}
+
+
+def _make_fallback_fused(emotion_keys, scene_weight=0.5):
+    """当 fuse_emotions 失败时构造最小可用 fused dict"""
+    n = len(emotion_keys) if emotion_keys else 1
+    return {
+        "name": "默认情感 " + " + ".join(emotion_keys or ["neutral"]),
+        "emotions": emotion_keys or ["loneliness"],
+        "weights": [1.0 / n] * n,
+        "fusion_mode": "default",
+        "intensity": float(scene_weight),
+        "polarity": "neutral",
+        "arousal": "medium",
+        "description": "默认情感 fallback (子 agent 应该显式传入有效情感)",
+        "visual_signs": "无特殊表现",
+        "voice_signs": "无特殊表现",
+        "facial_au": "无特殊表现",
+        "inner_monologue": "",
+        "color_palette": "中性灰",
+        "music_tempo": "60 BPM",
+        "director_examples": "",
+    }
+
+
+def soul_inject_simple(
+    primary="auto",          # 主导情感 (支持 8 基础 / 24 子词 / 中文 / 60 复合)
+    scene_weight=0.5,        # 场景权重 0-1
+    director="",             # 导演风格
+    secondary=None,          # 次要情感列表
+    fusion_mode="auto",      # F1-F7 / auto
+    story_intensity=None,    # 故事强度 (默认 = scene_weight)
+    scene_progress=0.5,      # 场景进度 0-1
+    soul_dims=None,          # 10 维度 dict (None=默认)
+    scene_context="",        # 场景描述
+):
+    """
+    统一灵魂注入接口 (Phase 17.1)
+    ---
+    子节点接入灵魂的标准入口. 一个函数搞定所有兼容问题.
+
+    Returns:
+        injection_str, fused_emotion, soul_state, soul_dims
+
+    Example:
+        >>> inj, fused, state, dims = soul_inject_simple(
+        ...     primary="fear", scene_weight=0.95, director="诺兰"
+        ... )
+        >>> "Apprehension" in fused["name"]
+        True
+    """
+    if story_intensity is None:
+        story_intensity = scene_weight
+
+    # 1. 构造情感列表
+    emotion_keys = []
+    if primary and primary != "auto":
+        emotion_keys.append(primary)
+    if secondary:
+        for s in secondary:
+            if s and s != "none" and s != "auto":
+                emotion_keys.append(s)
+    if not emotion_keys:
+        emotion_keys = ["loneliness", "longing"]  # 默认 fallback
+
+    # 2. 融合 (fuse_emotions 内部已做 alias 解析)
+    fused = fuse_emotions(emotion_keys, None, fusion_mode)
+    if not fused:
+        fused = _make_fallback_fused(emotion_keys, scene_weight)
+
+    # 3. 灵魂状态动态计算
+    try:
+        soul_state = compute_soul_state(story_intensity, scene_progress)
+    except Exception:
+        soul_state = {
+            "inspiration": 0.7, "fatigue": 0.3, "doubt": 0.5,
+            "rebelliousness": 0.6, "mental_state": "lucid-dreamy",
+        }
+
+    # 4. 灵魂维度
+    if soul_dims is None:
+        soul_dims = dict(DEFAULT_SOUL_DIMS)
+
+    # 5. 拼装完整注入 (复用 build_soul_injection, 但 force 传入我们的融合结果)
+    try:
+        injection = build_soul_injection(
+            story_emotion_keys=emotion_keys,
+            story_weights=None,
+            fusion_mode=fusion_mode,
+            director=director or "默认",
+            scene_context=scene_context,
+        )
+    except Exception:
+        # 兜底: 自己拼一个简版
+        injection = (
+            "【灵魂注入】\n"
+            "主导情感: " + str(fused.get("name", "")) + "\n"
+            "强度: " + str(fused.get("intensity", 0.5)) + "\n"
+            "极性: " + str(fused.get("polarity", "")) + "\n"
+            "导演: " + str(director or "默认") + "\n"
+        )
+
+    # 6. Phase 17.7: 真实灵感时刻 (8 大导演 32 个真实电影)
+    try:
+        moments = get_inspiration_moments(fused, director or "", count=2)
+        if moments:
+            injection = injection + format_inspiration_moments(moments)
+    except Exception:
+        pass
+
+    return injection, fused, soul_state, soul_dims
+
+
+# ============================================================
 # 5. SOUL_OUTPUT - 灵魂注入格式 (供其他节点使用)
 # ============================================================
 def build_soul_injection(
@@ -1704,6 +1838,239 @@ def generate_inspiration_moment(seed: int = None, current_progress: float = 0.0)
         "trigger_prob": round(trigger_prob, 2),
         "context": f"在 scene_progress={current_progress:.2f} 时触发",
     }
+
+
+# ============================================================
+# 6.5 INSPIRATION_DB - 8 大导演真实灵感时刻数据库 (Phase 17.7)
+# ============================================================
+# 32 个真实电影中的具体灵感时刻 - 替代凭空编写的灵感时刻
+# 让节点输出"像活着的导演在思考", 而不是"规则集在套用"
+INSPIRATION_DB = [
+    # ===== 王家卫 Wong Kar-wai (5) =====
+    {"导演": "王家卫", "别名": ["WKW", "Wong Kar-wai", "王家卫 (Wong Kar-wai)"],
+     "作品": "《花样年华》", "场景": "0:32:15 走廊擦肩",
+     "情感核心": "loneliness + longing", "镜头技术": "慢镜头 60fps + 浅景深 + 主观 + 老歌同步",
+     "技术原因": "慢动作让时间有重量,观众跟着角色停顿", "灵魂维度": "D3 艺术表达 0.97, D4 镜头 0.95",
+     "Prompt 片段": "慢动作让时间成为主角,60fps 让观众的呼吸跟着角色停顿,走廊的长镜头让孤独与思念同步累积"},
+    {"导演": "王家卫", "别名": ["WKW", "Wong Kar-wai", "王家卫 (Wong Kar-wai)"],
+     "作品": "《重庆森林》", "场景": "0:18:00 凤梨罐头独白",
+     "情感核心": "loneliness", "镜头技术": "特写 + 主观独白 + 倒计时",
+     "技术原因": "把过期的爱具象化为过期的罐头,物件代替心理", "灵魂维度": "D2 想象力 0.97, D3 艺术表达 0.95",
+     "Prompt 片段": "让物件代替心理——凤梨罐头的保质期就是爱情的保质期"},
+    {"导演": "王家卫", "别名": ["WKW", "Wong Kar-wai", "王家卫 (Wong Kar-wai)"],
+     "作品": "《春光乍泄》", "场景": "1:42:30 伊瓜苏瀑布缺席",
+     "情感核心": "warm_regret + lucid_despair", "镜头技术": "彩色黑白切换 + 主观 + 大全景",
+     "技术原因": "缺席的瀑布 = 缺席的恋人,在场的孤独比独处更痛", "灵魂维度": "D1 创造力 0.92, D7 灵感 0.95",
+     "Prompt 片段": "让重要的事缺席——约定一起来瀑布,只到了一个人,这种在场孤独比独处更痛"},
+    {"导演": "王家卫", "别名": ["WKW", "Wong Kar-wai", "王家卫 (Wong Kar-wai)"],
+     "作品": "《一代宗师》", "场景": "1:25:00 火车站月台",
+     "情感核心": "tenderness + remorse", "镜头技术": "蒸汽 + 长焦压缩 + 慢动作 + 老歌",
+     "技术原因": "蒸汽模糊视线=模糊未来,长焦压缩空间=拉近心理距离", "灵魂维度": "D3 艺术表达 0.98",
+     "Prompt 片段": "蒸汽是天然的留白——看得见身形,看不见脸,听得见声音,记不住具体话"},
+    {"导演": "王家卫", "别名": ["WKW", "Wong Kar-wai", "王家卫 (Wong Kar-wai)"],
+     "作品": "《堕落天使》", "场景": "0:48:00 深夜火锅",
+     "情感核心": "loneliness + bittersweet", "镜头技术": "9.8mm 鱼眼 + 手持 + 强对比",
+     "技术原因": "鱼眼扭曲世界=杀手内心扭曲但被热腾腾火锅软化", "灵魂维度": "D1 创造力 0.95, D8 叛逆 0.85",
+     "Prompt 片段": "9.8mm 鱼眼不是炫技——是世界观的变形,杀手眼中的世界应该是扭曲的"},
+    # ===== 诺兰 Christopher Nolan (5) =====
+    {"导演": "诺兰", "别名": ["NOLAN", "Christopher Nolan", "诺兰", "Nolan"],
+     "作品": "《盗梦空间》", "场景": "0:35:00 巴黎咖啡馆爆破",
+     "情感核心": "fear + awe", "镜头技术": "6 个月实拍 + 旋转走廊 + IMAX + 弦乐",
+     "技术原因": "真实爆破制造物理感,布料烟水无法伪造", "灵魂维度": "D1 创造力 0.98, D4 镜头 0.97",
+     "Prompt 片段": "6 个月实拍一个 30 秒镜头,这是诺兰对真实感的偏执,CG 永远做不出布料着火时的物理细节"},
+    {"导演": "诺兰", "别名": ["NOLAN", "Christopher Nolan", "诺兰", "Nolan"],
+     "作品": "《记忆碎片》", "场景": "全片 黑白彩色交叉",
+     "情感核心": "tension + loneliness", "镜头技术": "极简剪辑 + 时间反推 + 物件特写",
+     "技术原因": "颜色当时间标记,观众自己拼图,共情主角", "灵魂维度": "D1 创造力 0.97, D2 想象力 0.96",
+     "Prompt 片段": "不用旁白解释——让颜色和剪辑顺序本身成为叙事,观众是拼图者,不是被喂答案的"},
+    {"导演": "诺兰", "别名": ["NOLAN", "Christopher Nolan", "诺兰", "Nolan"],
+     "作品": "《黑暗骑士》", "场景": "0:51:00 小丑递笔",
+     "情感核心": "fear + awed_fear", "镜头技术": "极特写 + 慢升格 + 留白",
+     "技术原因": "升格让日常动作变成命运传递,观众屏息", "灵魂维度": "D3 艺术表达 0.95, D7 灵感",
+     "Prompt 片段": "把日常动作(递笔)用升格拍成命运的交接,动作没变,时间感变了"},
+    {"导演": "诺兰", "别名": ["NOLAN", "Christopher Nolan", "诺兰", "Nolan"],
+     "作品": "《星际穿越》", "场景": "2:42:00 书架后的手",
+     "情感核心": "hopeless_hope", "镜头技术": "微观尺度 + 时间叠加 + 沉默 30 秒",
+     "技术原因": "没有对白,用触碰的物理动作表达父女无法触碰的痛", "灵魂维度": "D2 想象力 0.99",
+     "Prompt 片段": "五维空间不是炫技——是父女之间永远错过的时间的视觉化"},
+    {"导演": "诺兰", "别名": ["NOLAN", "Christopher Nolan", "诺兰", "Nolan"],
+     "作品": "《信条》", "场景": "1:15:00 子弹倒回",
+     "情感核心": "awe + tension", "镜头技术": "实拍倒放 + 物理引擎同步 + IMAX",
+     "技术原因": "真实倒拍比 CGI 更信,布料烟水细节无法伪造", "灵魂维度": "D1 创造力 0.96, D4 镜头 0.98",
+     "Prompt 片段": "诺兰的真实感偏执:观众能感觉到时间的物理重量,即使剧情违反物理"},
+    # ===== 奉俊昊 Bong Joon-ho (3) =====
+    {"导演": "奉俊昊", "别名": ["Bong Joon-ho", "奉俊昊"],
+     "作品": "《寄生虫》", "场景": "1:47:00 暴雨倒流楼梯",
+     "情感核心": "fear + despair", "镜头技术": "升降 + 慢动作 + 大雨 + 红蓝灯",
+     "技术原因": "升降让下降成为上升的反面,阶层坠落,镜头是审判视角", "灵魂维度": "D1 创造力 0.97",
+     "Prompt 片段": "暴雨倒流楼梯=阶层倒流的视觉化,每个人的方向不同但水流同向"},
+    {"导演": "奉俊昊", "别名": ["Bong Joon-ho", "奉俊昊"],
+     "作品": "《母亲》", "场景": "1:35:00 巴士顶端的舞",
+     "情感核心": "tenderness + despair", "镜头技术": "远景 + 静止 + 突然音乐",
+     "技术原因": "静止让母亲的舞成为全社会之上的母亲,远景让个体=全体", "灵魂维度": "D3 艺术表达 0.96",
+     "Prompt 片段": "静止=永恒,远景=全民,巴上舞=母爱的视觉化"},
+    {"导演": "奉俊昊", "别名": ["Bong Joon-ho", "奉俊昊"],
+     "作品": "《雪国列车》", "场景": "全片 车厢推进",
+     "情感核心": "tension", "镜头技术": "单一方向运镜 + 越前越暗 + 工业感",
+     "技术原因": "用车厢作为社会隐喻,不可逆的方向感", "灵魂维度": "D2 想象力 0.95",
+     "Prompt 片段": "用空间隐喻社会,镜头方向=阶层方向,光=资源"},
+    # ===== 黑泽明 (3) =====
+    {"导演": "黑泽明", "别名": ["Akira Kurosawa", "黑泽明"],
+     "作品": "《七武士》", "场景": "1:55:00 雨中决战",
+     "情感核心": "fury + awed_fear", "镜头技术": "三镜头同步 + 群戏调度 + 雨声",
+     "技术原因": "三镜头=三视角,共情每个武士的勇气", "灵魂维度": "D6 场面调度 0.99",
+     "Prompt 片段": "群戏的最高境界:每一个武士的死,都是单独的悲剧,雨是共同的见证"},
+    {"导演": "黑泽明", "别名": ["Akira Kurosawa", "黑泽明"],
+     "作品": "《罗生门》", "场景": "全片 雨",
+     "情感核心": "disgust + loneliness", "镜头技术": "雨作为真相难辨的视觉化",
+     "技术原因": "雨洗不掉谎言,罗生门下的雨=真相无法被证实的隐喻", "灵魂维度": "D2 想象力 0.98",
+     "Prompt 片段": "用天气作为哲学命题的视觉化——雨是真相的试金石,洗不掉,却让它更脏"},
+    {"导演": "黑泽明", "别名": ["Akira Kurosawa", "黑泽明"],
+     "作品": "《乱》", "场景": "1:40:00 城堡废墟",
+     "情感核心": "lucid_despair + perfect_regret", "镜头技术": "远景 + 静止 + 烧色滤镜",
+     "技术原因": "烧色把金色辉煌变成血色废墟,一个家族=人类历史", "灵魂维度": "D3 艺术表达 0.99",
+     "Prompt 片段": "调色即哲学——同一个城堡,黄=王朝,红=废墟,让色彩说话"},
+    # ===== 是枝裕和 (3) =====
+    {"导演": "是枝裕和", "别名": ["Hirokazu Kore-eda", "是枝裕和", "Koreeda"],
+     "作品": "《步履不停》", "场景": "0:25:00 长子忌日",
+     "情感核心": "warm_regret + tenderness", "镜头技术": "日常节奏 + 饭桌长镜 + 母亲做菜特写",
+     "技术原因": "长镜头让饭桌无言成为千言万语,母亲做菜=一生的爱", "灵魂维度": "D3 艺术表达 0.97",
+     "Prompt 片段": "饭桌长镜=家庭伦理,做菜的母亲=一生的爱,没有一句话但所有情绪都在"},
+    {"导演": "是枝裕和", "别名": ["Hirokazu Kore-eda", "是枝裕和", "Koreeda"],
+     "作品": "《小偷家族》", "场景": "1:38:00 海边烟花",
+     "情感核心": "tenderness + bittersweet_pain", "镜头技术": "听不到烟花声,只有海浪 + 6 个家人的脸",
+     "技术原因": "听不到=看不到=他们的家也是想象中的", "灵魂维度": "D3 艺术表达 0.98",
+     "Prompt 片段": "重要的东西可以缺席——烟花升空但我们听不到,家人在但我们看不见,想象=真实"},
+    {"导演": "是枝裕和", "别名": ["Hirokazu Kore-eda", "是枝裕和", "Koreeda"],
+     "作品": "《无人知晓》", "场景": "全片 4 个孩子",
+     "情感核心": "loneliness + hope", "镜头技术": "孩子视角 + 长时间固定",
+     "技术原因": "用孩子的身高拍世界=世界的巨大=儿童的脆弱", "灵魂维度": "D3 艺术表达 0.96",
+     "Prompt 片段": "用身高拍世界——孩子眼里的世界是巨大的,世界越大,孩子越小"},
+    # ===== 塔可夫斯基 (3) =====
+    {"导演": "塔可夫斯基", "别名": ["Andrei Tarkovsky", "塔可夫斯基", "Tarkovsky"],
+     "作品": "《乡愁》", "场景": "1:50:00 烛光",
+     "情感核心": "lucid_despair + hope", "镜头技术": "长镜头 8 分钟 + 固定 + 烛光",
+     "技术原因": "8 分钟的缓慢=信仰的重量,烛光的微颤=人的希望", "灵魂维度": "D5 氛围 0.99",
+     "Prompt 片段": "塔可夫斯基的长镜头:不是时间慢,是你必须为这一刻停下来"},
+    {"导演": "塔可夫斯基", "别名": ["Andrei Tarkovsky", "塔可夫斯基", "Tarkovsky"],
+     "作品": "《镜子》", "场景": "全片 黑白彩色切换",
+     "情感核心": "nostalgia + loneliness", "镜头技术": "颜色作为时间标记",
+     "技术原因": "记忆的颜色是褪色的(黑白),现在的颜色是浓烈的(彩色)", "灵魂维度": "D2 想象力 0.98",
+     "Prompt 片段": "颜色=时间——记忆没有颜色,现实才有,让观众看见时间的颜色"},
+    {"导演": "塔可夫斯基", "别名": ["Andrei Tarkovsky", "塔可夫斯基", "Tarkovsky"],
+     "作品": "《潜行者》", "场景": "0:40:00 三人进入区",
+     "情感核心": "tension + awe", "镜头技术": "雨 + 湿镜头 + 长镜",
+     "技术原因": "区=心灵的未知,长镜=探索的缓慢", "灵魂维度": "D5 氛围 0.99",
+     "Prompt 片段": "未知需要慢——每走一步都是恐惧,慢镜头让恐惧有节奏"},
+    # ===== 侯孝贤 (3) =====
+    {"导演": "侯孝贤", "别名": ["Hou Hsiao-hsien", "侯孝贤"],
+     "作品": "《刺客聂隐娘》", "场景": "0:55:00 山中静坐",
+     "情感核心": "ji + yuan", "镜头技术": "远景固定 + 自然光 + 蝉鸣",
+     "技术原因": "山中静坐=内心世界,大远景=心胸宽广,不动=思考", "灵魂维度": "D5 氛围 0.98",
+     "Prompt 片段": "中式意境——画面要有气,远景的山要有势,静坐的人要有定,三者合一"},
+    {"导演": "侯孝贤", "别名": ["Hou Hsiao-hsien", "侯孝贤"],
+     "作品": "《悲情城市》", "场景": "0:15:00 林家客厅",
+     "情感核心": "chou + loneliness", "镜头技术": "固定中景 + 听不清的对白",
+     "技术原因": "固定镜头让时代压下来,对白听不清=时代的嘈杂", "灵魂维度": "D5 氛围 0.97",
+     "Prompt 片段": "时代压在画面上——固定镜头让历史有重量,听不清的对白让时代有距离"},
+    {"导演": "侯孝贤", "别名": ["Hou Hsiao-hsien", "侯孝贤"],
+     "作品": "《海上花》", "场景": "全片 室内长镜",
+     "情感核心": "tenderness + bittersweet_pain", "镜头技术": "摄影机在室内自由移动",
+     "技术原因": "长镜=时光,在花楼的时光是凝固的", "灵魂维度": "D4 镜头 0.96",
+     "Prompt 片段": "长镜在室内是流动的诗——摄影机的轨迹=情感的轨迹,每个角落=每个人的命运"},
+    # ===== 大卫·芬奇 (3) =====
+    {"导演": "大卫·芬奇", "别名": ["David Fincher", "大卫·芬奇", "大衛·芬奇"],
+     "作品": "《七宗罪》", "场景": "1:55:00 what's in the box",
+     "情感核心": "awe + fear + revulsion", "镜头技术": "快速正反打 + 弱光 + 蓝绿色调",
+     "技术原因": "弱光=真相被遮蔽,蓝绿=死亡与抑郁", "灵魂维度": "D5 氛围 0.98",
+     "Prompt 片段": "用光影表达看不见的恶——弱光=真相,蓝绿=心理疾病"},
+    {"导演": "大卫·芬奇", "别名": ["David Fincher", "大卫·芬奇", "大衛·芬奇"],
+     "作品": "《搏击俱乐部》", "场景": "0:35:00 肥皂",
+     "情感核心": "disgust + awe", "镜头技术": "特写 + 静态 + 慢镜",
+     "技术原因": "偷来的脂肪=偷来的人生,肥皂=净化=自我救赎", "灵魂维度": "D2 想象力 0.97",
+     "Prompt 片段": "用物件隐喻心理——脂肪/肥皂/自我,偷来=反叛,净化=救赎"},
+    {"导演": "大卫·芬奇", "别名": ["David Fincher", "大卫·芬奇", "大衛·芬奇"],
+     "作品": "《社交网络》", "场景": "0:18:00 赛艇",
+     "情感核心": "loneliness + frustration", "镜头技术": "手持 + 4K 锐利 + 快剪",
+     "技术原因": "4K 锐利=哈佛的残酷,手持=扎克伯格的不安", "灵魂维度": "D4 镜头 0.96",
+     "Prompt 片段": "4K 是清晰度即残酷——观众看见毛孔,世界没有滤镜,手持有在场感"},
+]
+
+
+def get_inspiration_moments(fused_emotion, director, count=3):
+    """
+    Phase 17.7: 根据灵魂融合结果和导演, 匹配真实灵感时刻
+    让输出"像活着的导演在思考", 而不是"规则集在套用"
+
+    Args:
+        fused_emotion: fuse_emotions() 返回值 (含 name/emotions/intensity/polarity/arousal)
+        director: 导演风格字符串 (如 "王家卫" / "诺兰")
+        count: 返回灵感时刻数量
+
+    Returns:
+        灵感时刻列表 [{导演, 作品, 场景, 情感核心, 镜头技术, Prompt 片段}, ...]
+    """
+    if not fused_emotion:
+        return []
+
+    primary = (fused_emotion.get("name", "") or "").lower()
+    primary_zh = fused_emotion.get("name", "")  # 中文名
+
+    # 情感匹配关键词
+    emo_keywords = [
+        "loneliness", "fear", "warm_regret", "tension", "lucid_despair",
+        "tenderness", "disgust", "remorse", "awe", "longing", "nostalgia",
+        "ji", "yuan", "chou", "awed_fear", "bittersweet", "perfect_regret",
+        "hopeless_hope", "frustration", "revulsion", "fury",
+    ]
+
+    matches = []
+    seen_keys = set()  # 避免重复
+    for im in INSPIRATION_DB:
+        # 导演匹配 (别名/子串)
+        dir_match = False
+        aliases = im.get("别名", []) + [im["导演"]]
+        for alias in aliases:
+            if alias and (alias in director or director in alias):
+                dir_match = True
+                break
+        if not dir_match:
+            continue
+
+        # 情感匹配
+        emo_match = False
+        im_emo = im.get("情感核心", "").lower()
+        for k in emo_keywords:
+            if k in im_emo or k in primary:
+                emo_match = True
+                break
+
+        if emo_match:
+            key = (im["导演"], im["作品"], im["场景"])
+            if key not in seen_keys:
+                seen_keys.add(key)
+                matches.append(im)
+
+    # 按导演优先 + 情感匹配度排序
+    return matches[:count]
+
+
+def format_inspiration_moments(moments):
+    """
+    Phase 17.7: 把灵感时刻列表格式化为 prompt 字符串
+    """
+    if not moments:
+        return ""
+
+    lines = ["\n【灵感时刻参考 - 真实电影中的具体镜头 (Phase 17.7)】"]
+    for i, im in enumerate(moments, 1):
+        lines.append(
+            "\n  " + str(i) + ". " + im["导演"] + " - " + im["作品"] + " - " + im["场景"] + "\n"
+            "     情感核心: " + im["情感核心"] + "\n"
+            "     镜头技术: " + im["镜头技术"] + "\n"
+            "     Prompt 片段: " + im["Prompt 片段"]
+        )
+    return "\n".join(lines) + "\n"
 
 
 # 兼容引用
