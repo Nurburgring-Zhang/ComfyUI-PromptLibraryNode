@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ComfyUI-PromptLibraryNode - 32 节点 L5 顶级导演级 + Hell Grind 6 层生产系统
+ComfyUI-PromptLibraryNode - 35 节点 L5 顶级导演级 + Hell Grind 6 层生产系统
 ================================================
 
 Phase 9: 3 剧本拆分节点 (Architecture / Body / Storyboard)
@@ -9,7 +9,10 @@ Phase 12: 4 附件核心节点 (DirectorIntent / ArtDirection / Spatial / Silenc
 Phase 12 续 + 13: 14 生产环节节点 (Concept -> QA) + L5 深度重写
 Phase 14: Hell Grind 6 层生产系统 (资产/空间/表演/声音/迭代/后期)
 Phase 14 升级: 30s 6 段 + Cinematic Studio 电影效果 + 多模型路由
-测试: 595/595 全过
+Phase 17: DirectorSoul 灵魂节点 + 60 情感 + 8 导演灵感
+Phase 27: ShotSelectionPro 选片决策节点 (环节 30)
+Phase 28: AestheticJudgmentPro 审美判断节点 (环节 7) + 120 场景库
+测试: 597/597 全过 (35 节点)
 """
 
 from script_architecture_pro import ScriptArchitecturePro
@@ -46,6 +49,7 @@ from phase14_30s_six_act import Phase14_30sSixAct
 from phase14_cinematic_studio import Phase14_CinematicStudio
 from director_soul import DirectorSoulNode
 from shot_selection_pro import ShotSelectionPro
+from aesthetic_judgment_pro import AestheticJudgmentPro
 
 NODE_CLASS_MAPPINGS = {
     "ScriptArchitecturePro": ScriptArchitecturePro,
@@ -82,6 +86,7 @@ NODE_CLASS_MAPPINGS = {
     "Phase14_CinematicStudio": Phase14_CinematicStudio,
     "DirectorSoulNode": DirectorSoulNode,
     "ShotSelectionPro": ShotSelectionPro,
+    "AestheticJudgmentPro": AestheticJudgmentPro,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -119,5 +124,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "Phase14_CinematicStudio": "effects_23_overview / selected_model / model_weakness_avoidance / character_consistency_workflow / 11_stage_pipeline / 6_documents / h3_prompt",
     "DirectorSoulNode": "soul_injection / fused_emotion / emotion_dimensions / soul_dimensions / soul_state / director_signature / scene_prompt_addon / h3_alignment_addon",
     "ShotSelectionPro": "🎯 选片决策 (环节 30) — Phase 27 P0 / 8维度评分 / 选最佳候选",
+    "AestheticJudgmentPro": "🎨 审美判断 (环节 7) — Phase 28 P0 / 8原则+6导演+120场景 自动+专项",
 }
 
