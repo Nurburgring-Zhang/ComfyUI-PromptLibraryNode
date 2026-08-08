@@ -30,6 +30,13 @@ except Exception as e:
     _HAS_ANTI_AI = False
     _ANTI_AI_ERROR = str(e)
 
+# Phase 17.6: 灵魂注入
+try:
+    from director_soul import soul_inject_simple, EMOTION_MATRIX_60
+    _HAS_SOUL = True
+except Exception:
+    _HAS_SOUL = False
+
 
 # 8 大对白类型
 DIALOGUE_TYPES = {
@@ -143,6 +150,14 @@ class DialogueMasterPro:
 
                 # === 4. 反 AI ===
                 "启用反AI规则": ("BOOLEAN", {"default": True}),
+
+                # === 5. 灵魂注入 (Phase 17.6) ===
+                "灵魂_主导情感": (["auto"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "auto"}),
+                "灵魂_场景权重": ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_次要情感": (["none"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "none"}),
+                "灵魂_融合模式": (["auto", "F1_单情感主导", "F2_双情感主次融合", "F3_双情感对等融合",
+                                  "F4_三情感递进融合", "F5_矛盾情感爆炸", "F6_复合情绪三角", "F7_情感转化"],
+                                 {"default": "auto"}),
             },
             "optional": {
                 "潜台词方向": ("STRING", {
@@ -178,8 +193,47 @@ class DialogueMasterPro:
         emotion = kwargs.get("情绪基调", "紧张")
         subtext = kwargs.get("潜台词方向", "他们表面上在谈公事, 其实在试探对方底牌")
 
+        # Phase 17.6: 灵魂注入
+        soul_primary = kwargs.get("灵魂_主导情感", "auto")
+        soul_scene_weight = float(kwargs.get("灵魂_场景权重", 0.5))
+        soul_secondary_raw = kwargs.get("灵魂_次要情感", "none")
+        soul_secondary = [soul_secondary_raw] if soul_secondary_raw and soul_secondary_raw not in ("none", "auto") else None
+        soul_fusion_mode = kwargs.get("灵魂_融合模式", "auto")
+
+        soul_inj = ""
+        fused_name = ""
+        fused_polarity = "neutral"
+        fused_arousal = "medium"
+        fused_intensity = 0.5
+        if _HAS_SOUL:
+            try:
+                inj, fused, soul_state, soul_dims = soul_inject_simple(
+                    primary=soul_primary,
+                    scene_weight=soul_scene_weight,
+                    secondary=soul_secondary,
+                    fusion_mode=soul_fusion_mode,
+                    scene_context=scene,
+                )
+                soul_inj = inj
+                fused_name = str(fused.get("name", ""))
+                fused_polarity = str(fused.get("polarity", "neutral"))
+                fused_arousal = str(fused.get("arousal", "medium"))
+                fused_intensity = float(fused.get("intensity", 0.5))
+            except Exception:
+                soul_inj = ""
+
         # 1. 对白系统 prompt
-        system = f"""【任务: 写出 {c1_id} 与 {c2_id} 在 {scene} 的对白】
+        soul_header = ""
+        if fused_name and _HAS_SOUL:
+            soul_header = (
+                "【灵魂核心 - 对白情绪驱动 (Phase 17.6)】\n"
+                "主导情感: " + fused_name + "\n"
+                "情感强度: " + "{:.2f}".format(fused_intensity) + "\n"
+                "情感极性: " + fused_polarity + "\n"
+                "唤醒度: " + fused_arousal + "\n"
+                "════════════════════════════════════\n\n"
+            )
+        system = f"""{soul_header}【任务: 写出 {c1_id} 与 {c2_id} 在 {scene} 的对白】
 
 【对白类型: {dlg_type}】
 {DIALOGUE_TYPES[dlg_type]}
@@ -216,6 +270,17 @@ class DialogueMasterPro:
 【对白样本(反 AI 演示)】
 {BAD_AI_DIALOGUE[0][0]}  ✗ AI 套路
 {BAD_AI_DIALOGUE[0][1]}  ✓ 真人写法
+
+【灵魂驱动 - 对白情绪注入 (Phase 17.6)】
+- 当前主导情感: {fused_name or "默认"}
+- 情感极性: {fused_polarity or "neutral"} / 唤醒度: {fused_arousal or "medium"} / 强度: {fused_intensity:.2f}
+- 灵魂规则: 角色对白必须与主导情感强共振
+  - 负极性高唤醒 → 短促冲突, 几乎不留余地, 沉默即答案
+  - 负极性低唤醒 → 慢速告别, 长句+沉默, 失去感
+  - 正极性高唤醒 → 快速反转, 反讽幽默, 短句爆发
+  - 正极性低唤醒 → 慢热温暖, 轻声细语, 亲密感
+  - 矛盾极性 → 嘴上一套身体另一套, 强潜文本
+- 身体习惯/口头禅必须与灵魂情绪一致
 """
 
         # 2. 对白样本
