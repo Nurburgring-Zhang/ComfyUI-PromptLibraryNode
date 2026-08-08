@@ -118,5 +118,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "Phase14_30sSixAct": "six_act_overview / act_1_establish / act_2_introduce / act_3_interact / act_4_conflict / act_5_climax / act_6_hook / h3_three_fields_prompt",
     "Phase14_CinematicStudio": "effects_23_overview / selected_model / model_weakness_avoidance / character_consistency_workflow / 11_stage_pipeline / 6_documents / h3_prompt",
     "DirectorSoulNode": "soul_injection / fused_emotion / emotion_dimensions / soul_dimensions / soul_state / director_signature / scene_prompt_addon / h3_alignment_addon",
+    "ShotSelectionPro": "🎯 选片决策 (环节 30) — Phase 27 P0 / 8维度评分 / 选最佳候选",
 }
 
