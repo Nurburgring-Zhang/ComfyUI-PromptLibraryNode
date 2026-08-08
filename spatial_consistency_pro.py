@@ -35,6 +35,13 @@ except Exception as e:
     _HAS_ANTI_AI = False
     _ANTI_AI_ERROR = str(e)
 
+# Phase 17.6: 灵魂注入
+try:
+    from director_soul import soul_inject_simple, EMOTION_MATRIX_60
+    _HAS_SOUL = True
+except Exception:
+    _HAS_SOUL = False
+
 
 # 空间布局 8 种
 SPACE_LAYOUTS = {
@@ -98,6 +105,14 @@ class SpatialConsistencyPro:
 
                 # === 5. 反 AI ===
                 "启用反AI规则": ("BOOLEAN", {"default": True}),
+
+                # === 6. Phase 17.6 灵魂注入 ===
+                "灵魂_主导情感": (["auto"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "auto"}),
+                "灵魂_场景权重": ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_次要情感": (["none"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "none"}),
+                "灵魂_融合模式": (["auto", "F1_单情感主导", "F2_双情感主次融合", "F3_双情感对等融合",
+                                  "F4_三情感递进融合", "F5_矛盾情感爆炸", "F6_复合情绪三角", "F7_情感转化"],
+                                 {"default": "auto"}),
             },
         }
 
@@ -125,8 +140,43 @@ class SpatialConsistencyPro:
         s3 = kwargs.get("镜头停留强度_1_10", 9)
         s4 = kwargs.get("位置可信强度_1_10", 10)
 
+        # Phase 17.6: 灵魂注入
+        soul_primary = kwargs.get("灵魂_主导情感", "auto")
+        soul_scene_weight = float(kwargs.get("灵魂_场景权重", 0.5))
+        soul_secondary_raw = kwargs.get("灵魂_次要情感", "none")
+        soul_secondary = [soul_secondary_raw] if soul_secondary_raw and soul_secondary_raw not in ("none", "auto") else None
+        soul_fusion_mode = kwargs.get("灵魂_融合模式", "auto")
+        soul_header = ""
+        fused_name = ""
+        fused_polarity = "neutral"
+        fused_arousal = "medium"
+        fused_intensity = 0.5
+        if _HAS_SOUL:
+            try:
+                inj, fused, soul_state, soul_dims = soul_inject_simple(
+                    primary=soul_primary,
+                    scene_weight=soul_scene_weight,
+                    secondary=soul_secondary,
+                    fusion_mode=soul_fusion_mode,
+                    scene_context=space_detail,
+                )
+                fused_name = str(fused.get("name", ""))
+                fused_polarity = str(fused.get("polarity", "neutral"))
+                fused_arousal = str(fused.get("arousal", "medium"))
+                fused_intensity = float(fused.get("intensity", 0.5))
+                soul_header = (
+                    "【灵魂核心 - 空间设计驱动 (Phase 17.6)】\n"
+                    "主导情感: " + fused_name + "\n"
+                    "情感强度: " + "{:.2f}".format(fused_intensity) + "\n"
+                    "情感极性: " + fused_polarity + "\n"
+                    "唤醒度: " + fused_arousal + "\n"
+                    "════════════════════════════════════\n\n"
+                )
+            except Exception:
+                soul_header = ""
+
         # 1. 空间设计
-        design = f"""【空间设计 Bible】
+        design = f"""{soul_header}【空间设计 Bible】
 
 空间类型: {space_type}
 空间细节: {space_detail}
