@@ -1545,8 +1545,31 @@ def build_soul_injection(
     """
     构建导演灵魂注入 - 供所有其他节点使用
     """
-    # 1. 情感融合
-    fused_emotion = fuse_emotions(story_emotion_keys or ["loneliness"], story_weights, fusion_mode)
+    # 1. 情感融合 (容错: 即使输入不在 60 情感表内也至少返回一个默认)
+    try:
+        fused_emotion = fuse_emotions(story_emotion_keys or ["loneliness"], story_weights, fusion_mode)
+    except Exception:
+        fused_emotion = None
+    if not fused_emotion:
+        # 回退: 通用默认情感
+        fused_emotion = {
+            "fusion_mode": "F1_单情感主导",
+            "emotions": ["loneliness"],
+            "weights": [1.0],
+            "name": "Loneliness 孤独",
+            "category": "Fused",
+            "intensity": 0.7,
+            "polarity": "negative",
+            "arousal": "low",
+            "description": "[100%] 渴望连接但无连接的状态",
+            "visual_signs": "[100%] 身体蜷缩, 视线远眺, 经常独自一人",
+            "voice_signs": "[100%] 经常沉默, 偶发自言自语",
+            "facial_au": "[100%] AU1+AU4+AU15+AU43 (孤独组合)",
+            "inner_monologue": "[100%] 有谁在听吗",
+            "color_palette": "[100%] 冷蓝, 苍白, 灰",
+            "music_tempo": "[100%] 40 BPM, 单音钢琴",
+            "director_examples": "[100%] 塔可夫斯基《镜子》 - 独居的母亲",
+        }
 
     # 2. 灵魂状态 (基于故事情感 + 导演风格)
     soul_state = {

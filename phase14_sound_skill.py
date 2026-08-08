@@ -1491,7 +1491,7 @@ class Phase14SoundSkill:
             "10 条反 AI 规则 (声音层):\n"
             + "\n".join(f"  - {r}" for r in AUDIO_ANTI_AI_RULES) + "\n\n"
             "6 步后期处理 pipeline:\n"
-            + "\n".join(f"  - {k}: {v.get('tool', '?')}" for k, v in POST_PROCESS_PIPELINE.items()) + "\n\n"
+            + "\n".join(f"  - {k}: {(v.get('tool', '?') if isinstance(v, dict) else str(v)[:80])}" for k, v in POST_PROCESS_PIPELINE.items()) + "\n\n"
             "压力下 5 种声音变化:\n"
             + "\n".join(f"  - {k}: {v}" for k, v in PRESSURE_VOICE_CHANGES.items()) + "\n"
         )
