@@ -68,10 +68,31 @@ try:
         inject_h3_rules_11, inject_specific_detail_rules, inject_director_control_11,
         inject_seedance_25_quotes,
     )
+    # Phase 17 灵魂注入: soul_inject_simple 是统一 wrapper
+    from director_soul import (
+        soul_inject_simple, EMOTION_MATRIX_60, EMOTION_FUSION_7,
+        SOUL_DIMENSIONS_10, DEFAULT_SOUL_DIMS,
+        fuse_emotions, build_soul_injection, compute_soul_state,
+    )
     _HAS_AI_DEPS = True
+    _HAS_SOUL = True
 except Exception as e:  # pragma: no cover
     _HAS_AI_DEPS = False
+    _HAS_SOUL = False
     _AI_DEPS_ERROR = str(e)
+
+# ============================================================
+# 灵魂输入选项 (供 INPUT_TYPES 使用) - Phase 17.1
+# ============================================================
+if _HAS_SOUL:
+    SOUL_EMOTION_KEYS = ["auto"] + list(EMOTION_MATRIX_60.keys())
+    SOUL_FUSION_MODES = [
+        "auto", "F1_单情感主导", "F2_双情感主次融合", "F3_双情感对等融合",
+        "F4_三情感递进融合", "F5_矛盾情感爆炸", "F6_复合情绪三角", "F7_情感转化",
+    ]
+else:  # pragma: no cover
+    SOUL_EMOTION_KEYS = ["auto", "loneliness", "fear", "warm_regret", "longing", "tenderness", "remorse", "joy", "grief"]
+    SOUL_FUSION_MODES = ["auto", "F1_单情感主导", "F3_双情感对等融合"]
 
 try:
     from phase14_master_orchestrator import (
@@ -424,6 +445,286 @@ def _build_h3(scene, shot_size, camera_move, props):
 
 
 # ============================================================
+# Phase 17: 灵魂驱动的分镜生成 (真正的差异化输出)
+# ============================================================
+def _build_shot_list_from_soul(fused_emotion, soul_state, soul_dims,
+                                scene, props, shot_size, camera_move, director):
+    """
+    真正由灵魂驱动的 5 镜头分镜生成.
+    不同情感 (loneliness/fear/warm_regret) 会生成真正不同的镜头列表.
+    """
+    # 提取灵魂特征
+    em_name = fused_emotion.get("name", "中性情感") if fused_emotion else "中性情感"
+    em_polarity = fused_emotion.get("polarity", "neutral") if fused_emotion else "neutral"
+    em_arousal = fused_emotion.get("arousal", "medium") if fused_emotion else "medium"
+    em_intensity = fused_emotion.get("intensity", 0.5) if fused_emotion else 0.5
+    em_visual = fused_emotion.get("visual_signs", "") if fused_emotion else ""
+    em_voice = fused_emotion.get("voice_signs", "") if fused_emotion else ""
+    em_inner = fused_emotion.get("inner_monologue", "") if fused_emotion else ""
+    em_color = fused_emotion.get("color_palette", "") if fused_emotion else ""
+    em_music = fused_emotion.get("music_tempo", "") if fused_emotion else ""
+    em_category = fused_emotion.get("category", "State") if fused_emotion else "State"
+
+    # 灵魂状态
+    inspiration = soul_state.get("inspiration", 0.5) if soul_state else 0.5
+    fatigue = soul_state.get("fatigue", 0.3) if soul_state else 0.3
+    doubt = soul_state.get("doubt", 0.5) if soul_state else 0.5
+    rebelliousness = soul_state.get("rebelliousness", 0.5) if soul_state else 0.5
+
+    # 拆解 props
+    if " / " in props:
+        prop_list = [p.strip() for p in props.split(" / ") if p.strip()]
+    elif "、" in props:
+        prop_list = [p.strip() for p in props.split("、") if p.strip()]
+    else:
+        prop_list = [props] if props else ["关键物件"]
+    first_prop = prop_list[0] if prop_list else "关键物件"
+    last_prop = prop_list[-1] if len(prop_list) > 1 else first_prop
+
+    # 场景描述
+    scene_short = (scene[:60] if scene else "父女厨房场景")
+
+    # === Shot 1: 由极性 + 唤醒度决定开场 ===
+    if em_polarity == "negative" and em_arousal == "high":
+        # 恐惧类: 开场就是紧张
+        shot1 = (
+            "a tight close-up on the character's hand gripping " + first_prop + ", "
+            "knuckles white, breathing shallow. The " + em_name + " is already established: "
+            + em_visual[:80] + " | 灵魂极性: " + em_polarity + " | 唤醒度: " + em_arousal + ". "
+            "The scene—" + scene_short + "—begins in medias res, no exposition. "
+            "The camera holds. EXACTLY ONE 关键动作, NEVER add another."
+        )
+    elif em_polarity == "negative" and em_arousal == "low":
+        # 孤独/悲伤类: 开场远景, 人在空间中缩小
+        shot1 = (
+            "a wide static shot of " + scene_short + ", the character small in the frame, "
+            "the " + first_prop + " placed off-center, untouched. " + em_name + ": "
+            + em_visual[:80] + " | 灵魂极性: " + em_polarity + " | 唤醒度: " + em_arousal + ". "
+            "The camera does not move for 2 seconds, letting the emptiness speak. "
+            "No dialogue. Director (" + director + ") signature: silence before sound."
+        )
+    elif em_polarity == "positive":
+        # 温暖/喜悦类: 开场明亮
+        shot1 = (
+            "a medium shot, warm light from the side, the character reaching for " + first_prop + " "
+            "with a soft half-smile. " + em_name + ": " + em_visual[:80] + " | 灵魂极性: " + em_polarity + ". "
+            "The scene—" + scene_short + "—breathes, the camera tracks gently inward. "
+            "Music key: " + em_music[:60]
+        )
+    else:  # mixed
+        # 矛盾/复杂情感: 开场双重视角
+        shot1 = (
+            "a split composition: the " + first_prop + " in soft focus in the foreground, "
+            "the character's face half-lit, half-shadowed. " + em_name + " (mixed polarity): "
+            + em_visual[:80] + ". The camera breathes with the character's hand on " + first_prop + ". "
+            "Inner monologue: " + em_inner[:60] + " | 灵魂状态: doubt " + ("%.2f" % doubt) + ", "
+            "fatigue " + ("%.2f" % fatigue)
+        )
+
+    # === Shot 2: 由 arousal + emotion category 决定进入方式 ===
+    em_lower = (em_name or "").lower()
+    if em_arousal == "high" and inspiration > 0.7:
+        shot2_motion = "Quick Cut + Handheld Shake"
+        shot2_action = "The character turns sharply, eyes wide, the " + first_prop + " slips — EXACTLY 0.3 second of impact before cut"
+    elif em_arousal == "low" and ("loneliness" in em_lower or "grief" in em_lower or "lonely" in em_lower):
+        shot2_motion = "Slow Pull Out (人物在空间里缩小)"
+        shot2_action = "The character steps back from " + first_prop + ", the room becomes vast. No words. Just the distance growing. S1: <d>[Chinese] " + (em_inner[:12] if em_inner else "远了") + "</d>"
+    elif em_arousal == "low" and fatigue > 0.5:
+        shot2_motion = "Slow Push In (极慢, 0.05m/s)"
+        shot2_action = "The character stares at " + first_prop + ", breath visible in the cold air, no words, just presence"
+    elif "fear" in em_lower or "terror" in em_lower or "anxiety" in em_lower or "apprehension" in em_lower:
+        # 恐惧类情感: 紧张进入
+        shot2_motion = "Snap Tilt + Hold (突然定格)"
+        shot2_action = "A sudden sound. The character freezes, hand on " + first_prop + ". Eyes dart. The breath catches. S1: <d>[Chinese] " + (em_voice[:15] if em_voice else "什么声音") + "</d>"
+    elif "regret" in em_lower or "warm" in em_lower or "longing" in em_lower or "tenderness" in em_lower:
+        # 遗憾/思念类: 温柔的进入
+        shot2_motion = "Slow Push In (warm) + 微摇"
+        shot2_action = "The character reaches for " + first_prop + ", fingers trembling slightly. A half-smile, then gone. S1: <d>[Chinese] " + (em_inner[:15] if em_inner else "那时候") + "</d>"
+    else:
+        shot2_motion = camera_move + " (medium amplitude)"
+        shot2_action = "The character's hand finds " + first_prop + ", fingers slow, deliberate. S1 says: <d>[Chinese] " + em_inner[:15] + "</d>"
+
+    shot2 = (
+        "[Shot 2] At 00:03.500, the camera executes " + shot2_motion + ". "
+        + shot2_action + " | 灵魂声线: " + em_voice[:60] + " | " + em_name
+    )
+
+    # === Shot 3: 由 intensity + emotion 决定交互深度 ===
+    if em_intensity > 0.7 and ("fear" in em_lower or "terror" in em_lower):
+        shot3_detail = "extreme close-up of the eyes, pupils dilated, the " + first_prop + " reflected in them"
+        shot3_dialogue = em_voice[:20] if em_voice else "不对"
+    elif em_intensity > 0.7 and ("regret" in em_lower or "tenderness" in em_lower):
+        shot3_detail = "close-up of the hand caressing " + first_prop + ", gentle pressure"
+        shot3_dialogue = em_inner[:25] if em_inner else "对不起"
+    elif em_intensity > 0.7:
+        shot3_detail = "close-up of the eyes, pupils contracting, " + em_visual.split(",")[0] if em_visual else "tight inner life"
+        shot3_dialogue = em_inner[:25] if em_inner else "我知道"
+    elif "loneliness" in em_lower or "grief" in em_lower:
+        shot3_detail = "wide shot, character turned away from camera, " + first_prop + " between them and us"
+        shot3_dialogue = "（无声）"
+    else:
+        shot3_detail = "medium shot, hands in frame, the " + first_prop + " held loosely"
+        shot3_dialogue = "嗯。"
+
+    shot3 = (
+        "[Shot 3] At 00:08.000, the camera cuts to a " + shot3_detail + ". "
+        "The camera holds a Static Shot. S1 says: <d>[Chinese] " + shot3_dialogue + "</d> "
+        "| " + em_name + " 强度: " + ("%.2f" % em_intensity) + " | 面部肌肉: " + (fused_emotion.get("facial_au", "") if fused_emotion else "")
+    )
+
+    # === Shot 4: 由 doubt + rebelliousness + emotion 决定冲突方式 ===
+    if doubt > 0.6 and rebelliousness > 0.6:
+        shot4 = (
+            "[Shot 4] At 00:15.000, the camera breaks the 180° axis (deliberate, soul.driven). "
+            "Over-the-shoulder shot from the OTHER side, the " + first_prop + " now in the background. "
+            "The character speaks, then catches themselves. S1 says: <d>[Chinese] 对不起。</d> "
+            "| 灵魂驱动: doubt " + ("%.2f" % doubt) + ", rebelliousness " + ("%.2f" % rebelliousness)
+        )
+    elif "fear" in em_lower or "terror" in em_lower:
+        # 恐惧类: 冲突是外部压力
+        shot4 = (
+            "[Shot 4] At 00:15.000, a fast pan to the window. " + first_prop + " clutched tight. "
+            "The character steps back. The room shrinks. 1 second of held breath. "
+            "| 灵魂: " + em_name + " 强度 " + ("%.2f" % em_intensity) + " | 外部威胁: 声音从窗外"
+        )
+    elif "regret" in em_lower or "tenderness" in em_lower or "warm" in em_lower:
+        # 遗憾类: 冲突是内心的
+        shot4 = (
+            "[Shot 4] At 00:15.000, close-up of the face in profile. A single tear, not falling. "
+            "The " + last_prop + " blurred in foreground. 2 seconds of " + em_name + ". "
+            "| 灵魂: " + em_name + " 强度 " + ("%.2f" % em_intensity) + " | 内在冲突: 想说未说"
+        )
+    elif doubt > 0.6:
+        shot4 = (
+            "[Shot 4] At 00:15.000, over-the-shoulder shot. The character looks down, "
+            "the " + last_prop + " catches the light. 2 seconds of " + em_name + " silence. "
+            "| 灵魂怀疑: " + ("%.2f" % doubt) + " | 面部: " + (fused_emotion.get("facial_au", "") if fused_emotion else "")
+        )
+    else:
+        shot4 = (
+            "[Shot 4] At 00:15.000, " + camera_move + " toward the other character. "
+            "The frame tightens, intimacy grows. The " + last_prop + " bridges the two. "
+            "| " + em_name + " 强度: " + ("%.2f" % em_intensity)
+        )
+
+    # === Shot 5: 由 polarity 决定收尾 ===
+    if em_polarity == "negative" and em_arousal == "high":
+        shot5 = (
+            "[Shot 5] At 00:22.000, the camera pulls back rapidly, a wide shot of " + scene_short + " "
+            "now in chaos. The " + last_prop + " lies abandoned. 3 seconds of held breath. "
+            "| 灵魂: 恐惧强度 " + ("%.2f" % em_intensity) + " | 余韵: 紧张"
+        )
+    elif em_polarity == "negative":
+        shot5 = (
+            "[Shot 5] At 00:22.000, the camera holds a Static Shot. 5-10 seconds of " + em_name + " silence. "
+            "Only " + em_voice[:40] + ". The " + last_prop + " on the table, untouched. End of shot. "
+            "| 灵魂调色: " + em_color
+        )
+    elif em_polarity == "positive":
+        shot5 = (
+            "[Shot 5] At 00:22.000, the camera tracks gently with the character. Warm light holds. "
+            "The " + last_prop + " passed from hand to hand. 1 soft laugh. S2 says: <d>[Chinese] " + em_inner[-15:] if em_inner else "谢谢你" + "</d> "
+            "| " + em_name + " 调色: " + em_color
+        )
+    else:  # mixed - 矛盾情感
+        shot5 = (
+            "[Shot 5] At 00:22.000, the camera freezes mid-motion, a half-frame. "
+            "The character's face is unreadable: " + (fused_emotion.get("facial_au", "") if fused_emotion else "") + ". "
+            "The " + last_prop + " between them, neither reaching. 4 seconds of " + em_name + ". "
+            "| 灵魂混合: " + em_polarity + " | 调色: " + em_color
+        )
+
+    # === Shot 6: 钩子 (由疲劳度 + emotion 决定) ===
+    if fatigue > 0.6:
+        shot6 = (
+            "[Shot 6] At 00:27.000, the camera holds on an EMPTY frame for 3 seconds. "
+            "Only " + first_prop + " remains. The character has left. End of shot. "
+            "| 灵魂疲劳度 " + ("%.2f" % fatigue) + " - 让观众自己填充"
+        )
+    elif "fear" in em_lower or "terror" in em_lower:
+        # 恐惧类: 钩子是门后的声音
+        shot6 = (
+            "[Shot 6] At 00:27.000, the camera holds on a dark doorway. "
+            "A sound. The " + last_prop + " lies abandoned. 2 seconds. Then: cut. "
+            "| 灵魂: " + em_name + " 钩子 - 门外的声音"
+        )
+    elif "loneliness" in em_lower or "grief" in em_lower:
+        # 孤独类: 钩子是空房间
+        shot6 = (
+            "[Shot 6] At 00:27.000, the camera holds on an empty chair, " + first_prop + " still on the table. "
+            "Footsteps fade. The door closes. End of shot. "
+            "| 灵魂: " + em_name + " 钩子 - 人走了, 物件还在"
+        )
+    elif "regret" in em_lower or "tenderness" in em_lower or "warm" in em_lower:
+        # 遗憾类: 钩子是未寄出的信
+        shot6 = (
+            "[Shot 6] At 00:27.000, the camera holds. " + first_prop + " in soft light. "
+            "A hand reaches in, almost touches, then withdraws. 3 seconds. End of shot. "
+            "| 灵魂: " + em_name + " 钩子 - 几乎触碰, 又收回"
+        )
+    else:
+        shot6 = (
+            "[Shot 6] At 00:27.000, the camera holds for 3 seconds. The " + last_prop + " catches the light. "
+            "S1 half-whispers: <d>[Chinese] 还在。</d> End of shot. "
+            "| " + em_name + " 余韵: 留 1 个未说完的台词"
+        )
+
+    shots = [shot2, shot3, shot4, shot5, shot6]
+
+    # === Soundscape (由灵魂声音特征 + 调色板) ===
+    if em_polarity == "negative" and em_arousal == "high":
+        soundscape = (
+            "Sharp, irregular breathing. A chair scrapes. A window rattles in the wind. "
+            "Distant siren, far away. The clock ticks too fast. The " + first_prop + " "
+            "knocks against the table. Soul-driven ambient: " + em_voice[:100] + ". "
+            "Color: " + em_color + "."
+        )
+    elif em_polarity == "negative":
+        soundscape = (
+            "Steady rain taps against the window. The " + first_prop + " sits in silence. "
+            "The clock ticks. A breath, held and released. The old radio is off. "
+            "Soul-driven ambient: " + em_voice[:100] + " | " + em_name + ". "
+            "Color: " + em_color + "."
+        )
+    elif em_polarity == "positive":
+        soundscape = (
+            "Soft laughter off-screen. A kettle whistling. The " + first_prop + " "
+            "rustles in good hands. Music in the next room. Footsteps, light. "
+            "Soul-driven ambient: " + em_voice[:100] + " | " + em_name + ". "
+            "Color: " + em_color + "."
+        )
+    else:  # mixed
+        soundscape = (
+            "Two clocks, ticking out of sync. The " + first_prop + " held by one hand, "
+            "then another. A door half-open. Outside: traffic, distant. Inside: held breath. "
+            "Soul-driven ambient: " + em_voice[:100] + " | " + em_name + " (mixed). "
+            "Color: " + em_color + "."
+        )
+
+    # === Music (由灵魂 music_tempo) ===
+    music = "Soul-driven tempo: " + em_music + ". No lyrics, only " + em_name + " color."
+
+    return shot1, shots, soundscape, music
+
+
+def _build_h3_with_soul(scene, shot_size, camera_move, props, fused_emotion, soul_state, soul_dims, director):
+    """
+    H3 三大字段的"灵魂驱动"版本.
+    内部调用 _build_shot_list_from_soul 生成真正差异化的镜头列表.
+    """
+    style = "Cinematic, live-action, 35mm film grain"
+    shot_1, shots, soundscape, music = _build_shot_list_from_soul(
+        fused_emotion=fused_emotion,
+        soul_state=soul_state,
+        soul_dims=soul_dims,
+        scene=scene, props=props,
+        shot_size=shot_size, camera_move=camera_move,
+        director=director,
+    )
+    return style, shot_1, shots, soundscape, music
+
+
+# ============================================================
 # DirectorStoryboardPro 主类
 # ============================================================
 class DirectorStoryboardPro:
@@ -466,6 +767,21 @@ class DirectorStoryboardPro:
                 "情绪基调": ("STRING", {"default": "压抑中见希望"}),
                 "导演意图_观众应感到": ("STRING", {"default": "让观众感到复杂, 难说清"}),
                 "生成样例小段": ("BOOLEAN", {"default": True}),
+                # === Phase 17.1: 灵魂注入 (统一 wrapper: soul_inject_simple) ===
+                "灵魂_主导情感": (SOUL_EMOTION_KEYS, {"default": "auto"}),
+                "灵魂_次要情感": (SOUL_EMOTION_KEYS, {"default": "none"}),
+                "灵魂_场景权重": ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_融合模式": (SOUL_FUSION_MODES, {"default": "auto"}),
+                "灵魂_主导权重": ("FLOAT", {"default": 0.7, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_创造力": ("FLOAT", {"default": 0.85, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_镜头技巧": ("FLOAT", {"default": 0.85, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_氛围掌控": ("FLOAT", {"default": 0.85, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_灵感指数": ("FLOAT", {"default": 0.80, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_疲劳指数": ("FLOAT", {"default": 0.30, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_怀疑指数": ("FLOAT", {"default": 0.50, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_叛逆指数": ("FLOAT", {"default": 0.65, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_故事强度": ("FLOAT", {"default": 0.6, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_场景进度": ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.05}),
             },
         }
 
@@ -473,6 +789,10 @@ class DirectorStoryboardPro:
     RETURN_NAMES = ("storyboard", "anti_ai_sample", "iteration_chain")
     FUNCTION = "build_storyboard"
     CATEGORY = "PromptLibrary/剧本输出"
+
+    # 提供 build() 别名 (灵魂验证用)
+    def build(self, **kwargs):
+        return self.build_storyboard(**kwargs)
 
     def build_storyboard(self, **kwargs):
         # ===== 提取用户输入 =====
@@ -501,6 +821,86 @@ class DirectorStoryboardPro:
         intent_feel = _str(kwargs.get("导演意图_观众应感到"), "让观众感到复杂, 难说清")
         sample_on = bool(kwargs.get("生成样例小段", True))
 
+        # ============================================================
+        # Phase 17.1 灵魂注入 (统一 wrapper: soul_inject_simple)
+        # 这是真正接入灵魂的核心 - 不同情感真的产生不同分镜
+        # ============================================================
+        soul_primary = _str(kwargs.get("灵魂_主导情感"), "auto")
+        soul_secondary_raw = _str(kwargs.get("灵魂_次要情感"), "none")
+        soul_scene_weight = float(kwargs.get("灵魂_场景权重", 0.5) or 0.5)
+        soul_fusion_mode = _str(kwargs.get("灵魂_融合模式"), "auto")
+
+        if _HAS_SOUL:
+            try:
+                # 解析次要情感 (支持单个)
+                secondary = None
+                if soul_secondary_raw and soul_secondary_raw not in ("none", "auto", ""):
+                    secondary = [soul_secondary_raw]
+
+                # 调用统一灵魂 wrapper
+                soul_injection, fused_emotion, soul_state, soul_dims = soul_inject_simple(
+                    primary=soul_primary,
+                    scene_weight=soul_scene_weight,
+                    director=director,
+                    secondary=secondary,
+                    fusion_mode=soul_fusion_mode,
+                    story_intensity=float(kwargs.get("灵魂_故事强度", 0.6) or 0.6),
+                    scene_progress=float(kwargs.get("灵魂_场景进度", 0.5) or 0.5),
+                    scene_context=script,
+                )
+
+                # 用用户输入的灵魂维度覆盖默认值 (允许微调)
+                user_dims = {
+                    "creativity": float(kwargs.get("灵魂_创造力", 0.85) or 0.85),
+                    "camera_skill": float(kwargs.get("灵魂_镜头技巧", 0.85) or 0.85),
+                    "atmosphere_control": float(kwargs.get("灵魂_氛围掌控", 0.85) or 0.85),
+                }
+                soul_dims.update(user_dims)
+
+                # 用用户输入的灵魂状态覆盖
+                soul_state["inspiration"] = float(kwargs.get("灵魂_灵感指数", 0.80) or 0.80)
+                soul_state["fatigue"] = float(kwargs.get("灵魂_疲劳指数", 0.30) or 0.30)
+                soul_state["doubt"] = float(kwargs.get("灵魂_怀疑指数", 0.50) or 0.50)
+                soul_state["rebelliousness"] = float(kwargs.get("灵魂_叛逆指数", 0.65) or 0.65)
+
+            except Exception as e:
+                # 兜底: 仍然要保证输出可用
+                soul_injection = "【灵魂注入】(降级模式: " + str(e)[:80] + ")"
+                fused_emotion = {
+                    "name": soul_primary if soul_primary != "auto" else "默认情感",
+                    "intensity": soul_scene_weight,
+                    "polarity": "neutral",
+                    "arousal": "medium",
+                    "visual_signs": "",
+                    "voice_signs": "",
+                    "inner_monologue": "",
+                    "color_palette": "",
+                    "music_tempo": "",
+                    "facial_au": "",
+                    "category": "State",
+                    "emotions": [soul_primary] if soul_primary != "auto" else ["loneliness"],
+                }
+                soul_state = {
+                    "inspiration": 0.7, "fatigue": 0.3, "doubt": 0.5,
+                    "rebelliousness": 0.6, "mental_state": "lucid-dreamy",
+                }
+                soul_dims = dict(DEFAULT_SOUL_DIMS) if _HAS_SOUL else {"creativity": 0.85}
+        else:
+            soul_injection = "【灵魂注入】未加载 director_soul (降级)"
+            fused_emotion = None
+            soul_state = {"inspiration": 0.7, "fatigue": 0.3, "doubt": 0.5,
+                          "rebelliousness": 0.6, "mental_state": "lucid-dreamy"}
+            soul_dims = {"creativity": 0.85, "imagination": 0.85, "artistic_expression": 0.85,
+                         "camera_skill": 0.85, "atmosphere_control": 0.85}
+
+        # 灵魂摘要 (供后续输出引用)
+        em_name = fused_emotion.get("name", "中性情感") if fused_emotion else "中性情感"
+        em_polarity = fused_emotion.get("polarity", "neutral") if fused_emotion else "neutral"
+        em_arousal = fused_emotion.get("arousal", "medium") if fused_emotion else "medium"
+        em_intensity = fused_emotion.get("intensity", 0.5) if fused_emotion else 0.5
+        em_fusion_mode = fused_emotion.get("fusion_mode", "F1_单情感主导") if fused_emotion else "F1_单情感主导"
+        em_emotions_list = fused_emotion.get("emotions", []) if fused_emotion else []
+
         # ===== 节点专属 =====
         director_meta = MASTER_DIRECTORS_8.get(director, {})
         domain_name = "导演分镜 (环节 23, 25)"
@@ -516,7 +916,10 @@ class DirectorStoryboardPro:
         context_brief = (
             "导演=" + director + ", 景别=" + shot_size + ", 运动=" + camera_move + ", "
             "光影=" + lighting + ", 色彩=" + color_tone + ", 声音=" + sound_design + ", "
-            "剪辑=" + edit_pace + ", 长镜头=" + str(long_take) + "s, 声音先于画面=" + str(sound_first)
+            "剪辑=" + edit_pace + ", 长镜头=" + str(long_take) + "s, 声音先于画面=" + str(sound_first) + ", "
+            "灵魂主导=" + em_name + " (" + str(em_emotions_list) + "), 极性=" + em_polarity
+            + ", 唤醒度=" + em_arousal + ", 强度=" + ("%.2f" % em_intensity)
+            + ", 融合模式=" + em_fusion_mode
         )
         skill_harness = (
             "12 维导演分镜 (镜头/景别/运动/光影/色彩/声音/表演/节奏/剪辑/留白/反转/余韵) + "
@@ -599,8 +1002,13 @@ class DirectorStoryboardPro:
         l6 = _build_l6(sound_design, "吃饭吧。", "嗯。", "沉默 4 步公式: 一句短台词 + 3 秒沉默 + 微表情 + 改变关系动作 + 5 秒呼吸")
         l7 = _build_l7()
 
-        # ===== H3 三大字段 =====
-        style, shot_1, shots, soundscape, music = _build_h3(script, shot_size, camera_move, props)
+        # ===== H3 三大字段 (Phase 17: 灵魂驱动版) =====
+        # 关键: 用 _build_h3_with_soul 让不同情感产生真正不同的镜头列表
+        style, shot_1, shots, soundscape, music = _build_h3_with_soul(
+            scene=script, shot_size=shot_size, camera_move=camera_move, props=props,
+            fused_emotion=fused_emotion, soul_state=soul_state, soul_dims=soul_dims,
+            director=director,
+        )
         h3_prompt = build_h3_three_fields(
             style=style, shot_1_content=shot_1, shots_content=shots,
             soundscape=soundscape, music=music, language="Chinese",
@@ -650,13 +1058,23 @@ class DirectorStoryboardPro:
         # ===== 组装主输出 =====
         main = []
         main.append("=" * 70)
-        main.append("【DirectorStoryboardPro】世界顶级导演集群级 — Phase 16 深度重写")
+        main.append("【DirectorStoryboardPro】世界顶级导演集群级 — Phase 17 灵魂驱动版")
         main.append("  节点: " + domain_name)
         main.append("  焦点: " + domain_focus)
         main.append("  导演: " + director)
         main.append("  代表: " + _pick(director_meta, "代表作品", "—"))
         main.append("  格言: " + _pick(director_meta, "格言", "—"))
+        main.append("  灵魂主导: " + em_name + " (" + str(em_emotions_list) + ")")
+        main.append("  灵魂极性/唤醒度/强度: " + em_polarity + " / " + em_arousal + " / " + ("%.2f" % em_intensity))
+        main.append("  灵魂融合模式: " + em_fusion_mode)
         main.append("=" * 70)
+        main.append("")
+        # === Phase 17: 灵魂注入块 (来自 soul_inject_simple) ===
+        main.append("=" * 70)
+        main.append("【灵魂注入 (soul_inject_simple 统一 wrapper)】")
+        main.append("=" * 70)
+        main.append(soul_injection)
+        main.append("")
         main.append("")
         main.append("【12 维分镜参数】")
         main.append("  1. 景别: " + shot_size)
