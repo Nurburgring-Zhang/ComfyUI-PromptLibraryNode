@@ -77,8 +77,8 @@ NODES_25 = [
 ]
 for n in NODES_25:
     check(f"节点 {n} 已注册", n in init.NODE_CLASS_MAPPINGS)
-check(f"NODE_CLASS_MAPPINGS 35 节点 (实际 {len(init.NODE_CLASS_MAPPINGS)})",
-      len(init.NODE_CLASS_MAPPINGS) == 35)
+check(f"NODE_CLASS_MAPPINGS 41 节点 (实际 {len(init.NODE_CLASS_MAPPINGS)})",
+      len(init.NODE_CLASS_MAPPINGS) == 41)
 
 # Phase 1-2 旧 2 主类节点 (PromptLibraryNodePro / DirectorPromptPro) 已废弃 - 现以 director_engine.DirectorPromptBuilder + pln_*.py 模块承担
 # 关键输入检查 (Phase 1-2 旧节点已不再使用)

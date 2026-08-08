@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-ComfyUI-PromptLibraryNode - 35 节点 L5 顶级导演级 + Hell Grind 6 层生产系统
+ComfyUI-PromptLibraryNode - 41 节点 L5 顶级导演级 + Hell Grind 6 层生产系统
 ================================================
 
 Phase 9: 3 剧本拆分节点 (Architecture / Body / Storyboard)
@@ -11,8 +11,10 @@ Phase 14: Hell Grind 6 层生产系统 (资产/空间/表演/声音/迭代/后�
 Phase 14 升级: 30s 6 段 + Cinematic Studio 电影效果 + 多模型路由
 Phase 17: DirectorSoul 灵魂节点 + 60 情感 + 8 导演灵感
 Phase 27: ShotSelectionPro 选片决策节点 (环节 30)
-Phase 28: AestheticJudgmentPro 审美判断节点 (环节 7) + 120 场景库
-测试: 597/597 全过 (35 节点)
+Phase 28 P0: AestheticJudgmentPro 审美判断节点 (环节 7) + 120 场景库
+Phase 28 P1: VersionControlPro / StyleGuidePro / MarketAudiencePro
+Phase 28 P2: CleanupPassPro / FormatOutputPro / ProjectArchivePro
+测试: 657/657 全过 (41 节点)
 """
 
 from script_architecture_pro import ScriptArchitecturePro
@@ -50,6 +52,12 @@ from phase14_cinematic_studio import Phase14_CinematicStudio
 from director_soul import DirectorSoulNode
 from shot_selection_pro import ShotSelectionPro
 from aesthetic_judgment_pro import AestheticJudgmentPro
+from version_control_pro import VersionControlPro
+from style_guide_pro import StyleGuidePro
+from market_audience_pro import MarketAudiencePro
+from cleanup_pass_pro import CleanupPassPro
+from format_output_pro import FormatOutputPro
+from project_archive_pro import ProjectArchivePro
 
 NODE_CLASS_MAPPINGS = {
     "ScriptArchitecturePro": ScriptArchitecturePro,
@@ -87,6 +95,12 @@ NODE_CLASS_MAPPINGS = {
     "DirectorSoulNode": DirectorSoulNode,
     "ShotSelectionPro": ShotSelectionPro,
     "AestheticJudgmentPro": AestheticJudgmentPro,
+    "VersionControlPro": VersionControlPro,
+    "StyleGuidePro": StyleGuidePro,
+    "MarketAudiencePro": MarketAudiencePro,
+    "CleanupPassPro": CleanupPassPro,
+    "FormatOutputPro": FormatOutputPro,
+    "ProjectArchivePro": ProjectArchivePro,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -125,5 +139,11 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "DirectorSoulNode": "soul_injection / fused_emotion / emotion_dimensions / soul_dimensions / soul_state / director_signature / scene_prompt_addon / h3_alignment_addon",
     "ShotSelectionPro": "🎯 选片决策 (环节 30) — Phase 27 P0 / 8维度评分 / 选最佳候选",
     "AestheticJudgmentPro": "🎨 审美判断 (环节 7) — Phase 28 P0 / 8原则+6导演+120场景 自动+专项",
+    "VersionControlPro": "🔀 版本控制 (环节 35) — Phase 28 P1 / commit/branch/tag/rollback",
+    "StyleGuidePro": "🎨 风格指南 (环节 8) — Phase 28 P1 / 5风格+5配色+6导演+20口诀",
+    "MarketAudiencePro": "📊 市场受众 (环节 36) — Phase 28 P1 / 8类型+5档期+3定位+4维评分",
+    "CleanupPassPro": "🧹 清理通道 (P2) — Phase 28 P2 / 反AI+重复+模板+空白",
+    "FormatOutputPro": "📐 格式化输出 (P2) — Phase 28 P2 / 8种格式 (text/md/json/yaml/xml/html/csv/srt)",
+    "ProjectArchivePro": "📦 项目归档 (P2) — Phase 28 P2 / 序列化+哈希+多格式",
 }
 

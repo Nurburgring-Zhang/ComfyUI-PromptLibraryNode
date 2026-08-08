@@ -570,8 +570,8 @@ test_master_data_coverage()
 # V. 7 类 L5 节点(3 拆 + 4 专业 + 4 附件 + 14 环节) = 25 节点
 # ============================================================
 def test_27_nodes():
-    check(f"35 节点注册 (实际 {len(init.NODE_CLASS_MAPPINGS)})",
-          len(init.NODE_CLASS_MAPPINGS) == 35)
+    check(f"41 节点注册 (实际 {len(init.NODE_CLASS_MAPPINGS)})",
+          len(init.NODE_CLASS_MAPPINGS) == 41)
     for name in ["ScriptArchitecturePro", "ScriptBodyPro", "DirectorStoryboardPro",
                  "VerticalShortDramaPro", "HookMasterPro", "DialogueMasterPro", "CharacterArcPro",
                  "DirectorIntentPro", "ArtDirectionPro", "SpatialConsistencyPro", "SilenceMasteryPro",
