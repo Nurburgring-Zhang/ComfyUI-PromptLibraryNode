@@ -15,6 +15,7 @@ WORKFLOWS = [
     ("WORKFLOW_MARKET_AWARE.json", 6, "Phase 28 P1"),
     ("WORKFLOW_CLEANUP_PUBLISH.json", 6, "Phase 28 P2"),
     ("WORKFLOW_MV_V2.json", 6, "Phase 28 P0+P1"),
+    ("WORKFLOW_ALL_NODES.json", 41, "Phase 28 全节点"),
 ]
 
 # 41 节点清单
@@ -73,9 +74,13 @@ for filename, expected_nodes, phase in WORKFLOWS:
     invalid = [t for t in types if t not in VALID_NODES]
     check("节点类型有效 ({})".format(invalid if invalid else "全部"), len(invalid) == 0)
 
-    # 链接有效
+    # 链接有效 (ALL_NODES 是矩阵, 31 节点独立, 期望少量真实 link)
     links = data.get("links", [])
-    check("链接数 >= {}".format(actual_nodes - 1), len(links) >= actual_nodes - 1)
+    if filename == "WORKFLOW_ALL_NODES.json":
+        # ALL_NODES 是矩阵工作流,只有主链 5 + 次链 5 = 8 真实 link
+        check("链接数 == 8 (主链 5 + 次链 5, 31 节点独立) (实际 {})".format(len(links)), len(links) == 8)
+    else:
+        check("链接数 >= {}".format(actual_nodes - 1), len(links) >= actual_nodes - 1)
 
     # 元信息
     info = data.get("extra", {}).get("workflow_info", {})
