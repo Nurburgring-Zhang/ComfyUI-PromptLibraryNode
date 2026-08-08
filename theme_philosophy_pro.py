@@ -74,6 +74,13 @@ except Exception as e:  # pragma: no cover
     _HAS_AI_DEPS = False
     _AI_DEPS_ERROR = str(e)
 
+# Phase 17.6: 灵魂注入
+try:
+    from director_soul import soul_inject_simple, EMOTION_MATRIX_60
+    _HAS_SOUL = True
+except Exception:
+    _HAS_SOUL = False
+
 try:
     from phase14_master_orchestrator import (
         L1_INTENT_TEMPLATE, L2_ASSET_TEMPLATE, L3_SPATIAL_TEMPLATE,
@@ -484,6 +491,14 @@ class ThemePhilosophyPro:
                 "关键道具": ("STRING", {"default": "一封没寄出的信 / 半瓶白酒 / 老式收音机 / 缝纫机"}),
                 "关键参考片": ("STRING", {"default": "《花样年华》色调 / 《一一》节奏 / 《步履不停》家庭"}),
                 "启用反AI规则": ("BOOLEAN", {"default": True}),
+
+                # === Phase 17.6 灵魂注入 ===
+                "灵魂_主导情感": (["auto"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "auto"}),
+                "灵魂_场景权重": ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.05}),
+                "灵魂_次要情感": (["none"] + (sorted(EMOTION_MATRIX_60.keys()) if _HAS_SOUL else ["loneliness"]), {"default": "none"}),
+                "灵魂_融合模式": (["auto", "F1_单情感主导", "F2_双情感主次融合", "F3_双情感对等融合",
+                                  "F4_三情感递进融合", "F5_矛盾情感爆炸", "F6_复合情绪三角", "F7_情感转化"],
+                                 {"default": "auto"}),
             },
         }
 
@@ -823,6 +838,35 @@ class ThemePhilosophyPro:
         }
         main.append(inject_director_intent(intent_5d))
         main.append("")
+
+        # Phase 17.6: 灵魂注入
+        soul_primary = kwargs.get("灵魂_主导情感", "auto")
+        soul_scene_weight = float(kwargs.get("灵魂_场景权重", 0.5))
+        soul_secondary_raw = kwargs.get("灵魂_次要情感", "none")
+        soul_secondary = [soul_secondary_raw] if soul_secondary_raw and soul_secondary_raw not in ("none", "auto") else None
+        soul_fusion_mode = kwargs.get("灵魂_融合模式", "auto")
+        if _HAS_SOUL:
+            try:
+                inj, fused, soul_state, soul_dims = soul_inject_simple(
+                    primary=soul_primary,
+                    scene_weight=soul_scene_weight,
+                    secondary=soul_secondary,
+                    fusion_mode=soul_fusion_mode,
+                    scene_context=scene,
+                )
+                soul_block = (
+                    "【灵魂核心 - 主题哲学驱动 (Phase 17.6)】\n"
+                    "主导情感: " + str(fused.get("name", "")) + "\n"
+                    "情感强度: " + "{:.2f}".format(float(fused.get("intensity", 0.5))) + "\n"
+                    "情感极性: " + str(fused.get("polarity", "neutral")) + "\n"
+                    "唤醒度: " + str(fused.get("arousal", "medium")) + "\n"
+                    "════════════════════════════════════"
+                )
+                main.append(soul_block)
+                main.append("")
+            except Exception:
+                pass
+
         main_output = "\n".join(main)
 
         # ===== 反 AI 词表清洗 =====
