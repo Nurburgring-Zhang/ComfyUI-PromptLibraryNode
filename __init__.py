@@ -45,6 +45,7 @@ from phase14_iteration_post import IterationPostPro
 from phase14_30s_six_act import Phase14_30sSixAct
 from phase14_cinematic_studio import Phase14_CinematicStudio
 from director_soul import DirectorSoulNode
+from shot_selection_pro import ShotSelectionPro
 
 NODE_CLASS_MAPPINGS = {
     "ScriptArchitecturePro": ScriptArchitecturePro,
@@ -80,6 +81,7 @@ NODE_CLASS_MAPPINGS = {
     "Phase14_30sSixAct": Phase14_30sSixAct,
     "Phase14_CinematicStudio": Phase14_CinematicStudio,
     "DirectorSoulNode": DirectorSoulNode,
+    "ShotSelectionPro": ShotSelectionPro,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
