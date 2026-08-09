@@ -1,23 +1,34 @@
 {
-  "last_node_id": 23,
-  "last_link_id": 17,
+  "last_node_id": 21,
+  "last_link_id": 20,
   "nodes": [
     {
       "id": 1,
-      "type": "DirectorSoulNode",
+      "type": "DirectorMasteryNode",
       "pos": [
         100,
         100
       ],
       "size": [
         260,
-        110
+        142
       ],
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "上游灵魂注入",
+          "type": "STRING",
+          "link": null,
+          "label": "上游灵魂注入",
+          "color": "#7f9e5a",
+          "tooltip": "上游节点注入的灵魂字符串 (可被本节点综合)",
+          "slot_index": 0
+        }
+      ],
       "outputs": [
         {
-          "name": "灵魂注入",
+          "name": "灵魂注入_整合",
           "type": "STRING",
+          "label": "灵魂注入_整合",
           "links": [
             1,
             2,
@@ -39,29 +50,39 @@
           "slot_index": 0
         },
         {
-          "name": "融合情感",
+          "name": "审美判断",
           "type": "STRING",
-          "links": [],
+          "label": "审美判断",
+          "links": [
+            18
+          ],
           "color": "#7f9e5a",
           "slot_index": 1
         },
         {
-          "name": "情感维度",
+          "name": "风格指南",
           "type": "STRING",
-          "links": [],
+          "label": "风格指南",
+          "links": [
+            19
+          ],
           "color": "#7f9e5a",
           "slot_index": 2
         },
         {
-          "name": "灵魂维度",
+          "name": "导演意图",
           "type": "STRING",
-          "links": [],
+          "label": "导演意图",
+          "links": [
+            20
+          ],
           "color": "#7f9e5a",
           "slot_index": 3
         },
         {
-          "name": "灵魂状态",
+          "name": "统一电影提示词",
           "type": "STRING",
+          "label": "统一电影提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 4
@@ -69,31 +90,26 @@
         {
           "name": "导演签名",
           "type": "STRING",
+          "label": "导演签名",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 5
         },
         {
-          "name": "场景提示词addon",
+          "name": "反AI清理后",
           "type": "STRING",
+          "label": "反AI清理后",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 6
-        },
-        {
-          "name": "H3对齐addon",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 7
         }
       ],
       "widgets_values": [
         "auto",
-        "none",
-        "none",
-        "none",
-        "none",
+        "auto",
+        "auto",
+        "auto",
+        "auto",
         "auto",
         1.0,
         1.0,
@@ -105,175 +121,27 @@
         1.0,
         1.0,
         1.0,
-        "王家卫",
-        "",
         1.0,
-        1.0
+        1.0,
+        1.0,
+        "Paul Thomas Anderson (PTA)",
+        "",
+        "",
+        "梦幻",
+        "Paul Thomas Anderson (PTA)",
+        "情感冲击",
+        "",
+        false
       ],
-      "title": "DirectorSoulNode",
+      "title": "DirectorMasteryNode",
       "properties": {}
     },
     {
       "id": 2,
-      "type": "AestheticJudgmentPro",
-      "pos": [
-        100,
-        250
-      ],
-      "size": [
-        260,
-        100
-      ],
-      "inputs": [
-        {
-          "name": "目标情感",
-          "type": "STRING",
-          "link": null,
-          "color": "#7f9e5a",
-          "tooltip": ""
-        },
-        {
-          "name": "8原则权重",
-          "type": "STRING",
-          "link": null,
-          "color": "#7f9e5a",
-          "tooltip": ""
-        },
-        {
-          "name": "灵魂_主导情感",
-          "type": "STRING",
-          "link": null,
-          "color": "#7f9e5a",
-          "tooltip": ""
-        },
-        {
-          "name": "灵魂_次要情感",
-          "type": "STRING",
-          "link": null,
-          "color": "#7f9e5a",
-          "tooltip": ""
-        },
-        {
-          "name": "灵魂注入",
-          "type": "STRING",
-          "link": null,
-          "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "审美判断",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 0
-        },
-        {
-          "name": "8原则评分",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 1
-        },
-        {
-          "name": "色彩系统",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 2
-        },
-        {
-          "name": "场景匹配",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 3
-        },
-        {
-          "name": "电影指南",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 4
-        },
-        {
-          "name": "色彩心理学",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 5
-        }
-      ],
-      "widgets_values": [
-        "",
-        "auto",
-        "auto",
-        "ON",
-        1.0,
-        "auto"
-      ],
-      "title": "AestheticJudgmentPro",
-      "properties": {}
-    },
-    {
-      "id": 3,
-      "type": "StyleGuidePro",
-      "pos": [
-        100,
-        400
-      ],
-      "size": [
-        260,
-        100
-      ],
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "风格指南",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 0
-        },
-        {
-          "name": "完整提示词",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 1
-        },
-        {
-          "name": "色板",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 2
-        },
-        {
-          "name": "色彩口诀",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 3
-        }
-      ],
-      "widgets_values": [
-        "梦幻",
-        "单色",
-        "auto",
-        "ON",
-        "ON"
-      ],
-      "title": "StyleGuidePro",
-      "properties": {}
-    },
-    {
-      "id": 4,
       "type": "AssetRegistry",
       "pos": [
         100,
-        550
+        250
       ],
       "size": [
         260,
@@ -284,6 +152,7 @@
         {
           "name": "资产描述符",
           "type": "STRING",
+          "label": "资产描述符",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -291,6 +160,7 @@
         {
           "name": "状态描述符",
           "type": "STRING",
+          "label": "状态描述符",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -298,6 +168,7 @@
         {
           "name": "声音签名",
           "type": "STRING",
+          "label": "声音签名",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -305,6 +176,7 @@
         {
           "name": "行为签名",
           "type": "STRING",
+          "label": "行为签名",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 3
@@ -312,6 +184,7 @@
         {
           "name": "完整提示词块",
           "type": "STRING",
+          "label": "完整提示词块",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 4
@@ -319,6 +192,7 @@
         {
           "name": "锁定测试报告",
           "type": "STRING",
+          "label": "锁定测试报告",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 5
@@ -334,11 +208,11 @@
       "properties": {}
     },
     {
-      "id": 5,
+      "id": 3,
       "type": "DirectorIntentPro",
       "pos": [
         100,
-        700
+        400
       ],
       "size": [
         260,
@@ -349,14 +223,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": null,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "意图声明",
           "type": "STRING",
+          "label": "意图声明",
           "links": [
             4,
             16
@@ -367,6 +244,7 @@
         {
           "name": "导演意图样例",
           "type": "STRING",
+          "label": "导演意图样例",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -374,6 +252,7 @@
         {
           "name": "反AI清理后",
           "type": "STRING",
+          "label": "反AI清理后",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -417,7 +296,7 @@
       "properties": {}
     },
     {
-      "id": 6,
+      "id": 4,
       "type": "ScriptArchitecturePro",
       "pos": [
         500,
@@ -432,21 +311,26 @@
           "name": "额外禁用词",
           "type": "STRING",
           "link": null,
+          "label": "额外禁用词",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 0
         },
         {
           "name": "灵魂注入",
           "type": "STRING",
           "link": 1,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 1
         }
       ],
       "outputs": [
         {
           "name": "故事架构",
           "type": "STRING",
+          "label": "故事架构",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -454,6 +338,7 @@
         {
           "name": "反AI规则",
           "type": "STRING",
+          "label": "反AI规则",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -461,6 +346,7 @@
         {
           "name": "迭代链",
           "type": "STRING",
+          "label": "迭代链",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -499,7 +385,7 @@
       "properties": {}
     },
     {
-      "id": 7,
+      "id": 5,
       "type": "ScriptBodyPro",
       "pos": [
         500,
@@ -514,28 +400,35 @@
           "name": "上游_故事架构",
           "type": "STRING",
           "link": null,
+          "label": "上游_故事架构",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 0
         },
         {
           "name": "额外禁用词",
           "type": "STRING",
           "link": null,
+          "label": "额外禁用词",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 1
         },
         {
           "name": "灵魂注入",
           "type": "STRING",
           "link": 2,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 2
         }
       ],
       "outputs": [
         {
           "name": "剧本正文",
           "type": "STRING",
+          "label": "剧本正文",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -543,6 +436,7 @@
         {
           "name": "反AI样例",
           "type": "STRING",
+          "label": "反AI样例",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -550,6 +444,7 @@
         {
           "name": "迭代链",
           "type": "STRING",
+          "label": "迭代链",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -579,7 +474,7 @@
       "properties": {}
     },
     {
-      "id": 8,
+      "id": 6,
       "type": "DirectorStoryboardPro",
       "pos": [
         500,
@@ -594,56 +489,71 @@
           "name": "上游_剧本正文",
           "type": "STRING",
           "link": null,
+          "label": "上游_剧本正文",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 0
         },
         {
           "name": "额外禁用词",
           "type": "STRING",
           "link": null,
+          "label": "额外禁用词",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 1
         },
         {
           "name": "关键道具",
           "type": "STRING",
           "link": null,
+          "label": "关键道具",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 2
         },
         {
           "name": "潜文本_情感",
           "type": "STRING",
           "link": null,
+          "label": "潜文本_情感",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 3
         },
         {
           "name": "情绪基调",
           "type": "STRING",
           "link": null,
+          "label": "情绪基调",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 4
         },
         {
           "name": "导演意图_观众应感到",
           "type": "STRING",
           "link": 4,
+          "label": "导演意图_观众应感到",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 5
         },
         {
           "name": "灵魂注入",
           "type": "STRING",
           "link": 3,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 6
         }
       ],
       "outputs": [
         {
           "name": "分镜",
           "type": "STRING",
+          "label": "分镜",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -651,6 +561,7 @@
         {
           "name": "反AI样例",
           "type": "STRING",
+          "label": "反AI样例",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -658,6 +569,7 @@
         {
           "name": "迭代链",
           "type": "STRING",
+          "label": "迭代链",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -701,7 +613,7 @@
       "properties": {}
     },
     {
-      "id": 9,
+      "id": 7,
       "type": "ConceptPitchPro",
       "pos": [
         500,
@@ -716,14 +628,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": 5,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "概念H3提示词",
           "type": "STRING",
+          "label": "概念H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -731,6 +646,7 @@
         {
           "name": "经验矩阵",
           "type": "STRING",
+          "label": "经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -738,6 +654,7 @@
         {
           "name": "AI深度处理",
           "type": "STRING",
+          "label": "AI深度处理",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -765,7 +682,7 @@
       "properties": {}
     },
     {
-      "id": 10,
+      "id": 8,
       "type": "WorldBuildingPro",
       "pos": [
         500,
@@ -780,14 +697,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": 6,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "世界H3提示词",
           "type": "STRING",
+          "label": "世界H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -795,6 +715,7 @@
         {
           "name": "光影9D设计",
           "type": "STRING",
+          "label": "光影9D设计",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -802,6 +723,7 @@
         {
           "name": "视觉语言参数",
           "type": "STRING",
+          "label": "视觉语言参数",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -809,6 +731,7 @@
         {
           "name": "色彩60_30_10",
           "type": "STRING",
+          "label": "色彩60_30_10",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 3
@@ -816,6 +739,7 @@
         {
           "name": "摄影8大师",
           "type": "STRING",
+          "label": "摄影8大师",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 4
@@ -823,6 +747,7 @@
         {
           "name": "经验矩阵",
           "type": "STRING",
+          "label": "经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 5
@@ -866,7 +791,7 @@
       "properties": {}
     },
     {
-      "id": 11,
+      "id": 9,
       "type": "ThemePhilosophyPro",
       "pos": [
         900,
@@ -881,14 +806,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": 7,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "主题H3提示词",
           "type": "STRING",
+          "label": "主题H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -896,6 +824,7 @@
         {
           "name": "经验矩阵",
           "type": "STRING",
+          "label": "经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -903,6 +832,7 @@
         {
           "name": "AI深度处理",
           "type": "STRING",
+          "label": "AI深度处理",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -931,7 +861,7 @@
       "properties": {}
     },
     {
-      "id": 12,
+      "id": 10,
       "type": "ArtDirectionPro",
       "pos": [
         900,
@@ -946,56 +876,71 @@
           "name": "视觉风格",
           "type": "STRING",
           "link": null,
+          "label": "视觉风格",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 0
         },
         {
           "name": "材质重点",
           "type": "STRING",
           "link": null,
+          "label": "材质重点",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 1
         },
         {
           "name": "光影",
           "type": "STRING",
           "link": null,
+          "label": "光影",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 2
         },
         {
           "name": "颜色",
           "type": "STRING",
           "link": null,
+          "label": "颜色",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 3
         },
         {
           "name": "空间布局",
           "type": "STRING",
           "link": null,
+          "label": "空间布局",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 4
         },
         {
           "name": "导演风格",
           "type": "STRING",
           "link": null,
+          "label": "导演风格",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 5
         },
         {
           "name": "灵魂注入",
           "type": "STRING",
           "link": 8,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 6
         }
       ],
       "outputs": [
         {
           "name": "美术圣经",
           "type": "STRING",
+          "label": "美术圣经",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1003,6 +948,7 @@
         {
           "name": "视觉语言参数",
           "type": "STRING",
+          "label": "视觉语言参数",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1010,6 +956,7 @@
         {
           "name": "色彩60_30_10",
           "type": "STRING",
+          "label": "色彩60_30_10",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1017,6 +964,7 @@
         {
           "name": "光影9D设计",
           "type": "STRING",
+          "label": "光影9D设计",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 3
@@ -1024,6 +972,7 @@
         {
           "name": "摄影8大师",
           "type": "STRING",
+          "label": "摄影8大师",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 4
@@ -1031,6 +980,7 @@
         {
           "name": "灵魂注入载荷",
           "type": "STRING",
+          "label": "灵魂注入载荷",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 5
@@ -1038,6 +988,7 @@
         {
           "name": "H3三字段addon",
           "type": "STRING",
+          "label": "H3三字段addon",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 6
@@ -1045,6 +996,7 @@
         {
           "name": "电影签名addon",
           "type": "STRING",
+          "label": "电影签名addon",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 7
@@ -1088,7 +1040,7 @@
       "properties": {}
     },
     {
-      "id": 13,
+      "id": 11,
       "type": "SpatialLayout",
       "pos": [
         900,
@@ -1103,6 +1055,7 @@
         {
           "name": "空间提示词",
           "type": "STRING",
+          "label": "空间提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1110,6 +1063,7 @@
         {
           "name": "地理块",
           "type": "STRING",
+          "label": "地理块",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1117,6 +1071,7 @@
         {
           "name": "初始镜头",
           "type": "STRING",
+          "label": "初始镜头",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1124,6 +1079,7 @@
         {
           "name": "连续性",
           "type": "STRING",
+          "label": "连续性",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 3
@@ -1139,7 +1095,7 @@
       "properties": {}
     },
     {
-      "id": 14,
+      "id": 12,
       "type": "ActingSkill",
       "pos": [
         900,
@@ -1154,21 +1110,26 @@
           "name": "上一句尾音",
           "type": "STRING",
           "link": null,
+          "label": "上一句尾音",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 0
         },
         {
           "name": "对手角色",
           "type": "STRING",
           "link": null,
+          "label": "对手角色",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 1
         }
       ],
       "outputs": [
         {
           "name": "角色表演块",
           "type": "STRING",
+          "label": "角色表演块",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1176,6 +1137,7 @@
         {
           "name": "5支柱字典",
           "type": "STRING",
+          "label": "5支柱字典",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1183,6 +1145,7 @@
         {
           "name": "5元素驱动",
           "type": "STRING",
+          "label": "5元素驱动",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1210,7 +1173,7 @@
       "properties": {}
     },
     {
-      "id": 15,
+      "id": 13,
       "type": "CostumePropSetPro",
       "pos": [
         900,
@@ -1225,14 +1188,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": 9,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "服化道H3提示词",
           "type": "STRING",
+          "label": "服化道H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1240,6 +1206,7 @@
         {
           "name": "经验矩阵",
           "type": "STRING",
+          "label": "经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1247,6 +1214,7 @@
         {
           "name": "AI深度处理",
           "type": "STRING",
+          "label": "AI深度处理",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1272,7 +1240,7 @@
       "properties": {}
     },
     {
-      "id": 16,
+      "id": 14,
       "type": "SoundDesignPro",
       "pos": [
         1300,
@@ -1287,14 +1255,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": 10,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "声音H3提示词",
           "type": "STRING",
+          "label": "声音H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1302,6 +1273,7 @@
         {
           "name": "经验矩阵",
           "type": "STRING",
+          "label": "经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1309,6 +1281,7 @@
         {
           "name": "AI深度处理",
           "type": "STRING",
+          "label": "AI深度处理",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1334,7 +1307,7 @@
       "properties": {}
     },
     {
-      "id": 17,
+      "id": 15,
       "type": "MusicScorePro",
       "pos": [
         1300,
@@ -1349,14 +1322,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": 11,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "音乐H3提示词",
           "type": "STRING",
+          "label": "音乐H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1364,6 +1340,7 @@
         {
           "name": "经验矩阵",
           "type": "STRING",
+          "label": "经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1371,6 +1348,7 @@
         {
           "name": "AI深度处理",
           "type": "STRING",
+          "label": "AI深度处理",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1396,7 +1374,7 @@
       "properties": {}
     },
     {
-      "id": 18,
+      "id": 16,
       "type": "SilenceMasteryPro",
       "pos": [
         1300,
@@ -1411,14 +1389,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": 12,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "沉默设计",
           "type": "STRING",
+          "label": "沉默设计",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1426,6 +1407,7 @@
         {
           "name": "沉默公式",
           "type": "STRING",
+          "label": "沉默公式",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1433,6 +1415,7 @@
         {
           "name": "导演样例",
           "type": "STRING",
+          "label": "导演样例",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1460,7 +1443,7 @@
       "properties": {}
     },
     {
-      "id": 19,
+      "id": 17,
       "type": "ColorGradingPro",
       "pos": [
         1300,
@@ -1475,14 +1458,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": 13,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "调色H3提示词",
           "type": "STRING",
+          "label": "调色H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1490,6 +1476,7 @@
         {
           "name": "色彩60_30_10",
           "type": "STRING",
+          "label": "色彩60_30_10",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1497,6 +1484,7 @@
         {
           "name": "色彩8大师",
           "type": "STRING",
+          "label": "色彩8大师",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1504,6 +1492,7 @@
         {
           "name": "调色3阶段",
           "type": "STRING",
+          "label": "调色3阶段",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 3
@@ -1511,6 +1500,7 @@
         {
           "name": "光影9D设计",
           "type": "STRING",
+          "label": "光影9D设计",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 4
@@ -1518,6 +1508,7 @@
         {
           "name": "经验矩阵",
           "type": "STRING",
+          "label": "经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 5
@@ -1559,7 +1550,7 @@
       "properties": {}
     },
     {
-      "id": 20,
+      "id": 18,
       "type": "VfxPro",
       "pos": [
         1300,
@@ -1574,14 +1565,17 @@
           "name": "灵魂注入",
           "type": "STRING",
           "link": 14,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 0
         }
       ],
       "outputs": [
         {
           "name": "特效H3提示词",
           "type": "STRING",
+          "label": "特效H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1589,6 +1583,7 @@
         {
           "name": "经验矩阵",
           "type": "STRING",
+          "label": "经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1596,6 +1591,7 @@
         {
           "name": "AI深度处理",
           "type": "STRING",
+          "label": "AI深度处理",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1621,7 +1617,7 @@
       "properties": {}
     },
     {
-      "id": 21,
+      "id": 19,
       "type": "EditingPro",
       "pos": [
         1700,
@@ -1636,49 +1632,62 @@
           "name": "导演意图_观众应感到",
           "type": "STRING",
           "link": 16,
+          "label": "导演意图_观众应感到",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 0
         },
         {
           "name": "潜文本_情感",
           "type": "STRING",
           "link": null,
+          "label": "潜文本_情感",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 1
         },
         {
           "name": "情绪基调",
           "type": "STRING",
           "link": null,
+          "label": "情绪基调",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 2
         },
         {
           "name": "关键道具",
           "type": "STRING",
           "link": null,
+          "label": "关键道具",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 3
         },
         {
           "name": "关键参考片",
           "type": "STRING",
           "link": null,
+          "label": "关键参考片",
           "color": "#7f9e5a",
-          "tooltip": ""
+          "tooltip": "",
+          "slot_index": 4
         },
         {
           "name": "灵魂注入",
           "type": "STRING",
           "link": 15,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "slot_index": 5
         }
       ],
       "outputs": [
         {
           "name": "剪辑灵魂提示词",
           "type": "STRING",
+          "label": "剪辑灵魂提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1686,6 +1695,7 @@
         {
           "name": "节奏经验矩阵",
           "type": "STRING",
+          "label": "节奏经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1693,6 +1703,7 @@
         {
           "name": "AI深度灵魂处理",
           "type": "STRING",
+          "label": "AI深度灵魂处理",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1733,7 +1744,7 @@
       "properties": {}
     },
     {
-      "id": 22,
+      "id": 20,
       "type": "IterationPostPro",
       "pos": [
         1700,
@@ -1748,6 +1759,7 @@
         {
           "name": "迭代H3提示词",
           "type": "STRING",
+          "label": "迭代H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1755,6 +1767,7 @@
         {
           "name": "经验矩阵",
           "type": "STRING",
+          "label": "经验矩阵",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1762,6 +1775,7 @@
         {
           "name": "AI深度处理",
           "type": "STRING",
+          "label": "AI深度处理",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1782,7 +1796,7 @@
       "properties": {}
     },
     {
-      "id": 23,
+      "id": 21,
       "type": "CinematicStudio",
       "pos": [
         1700,
@@ -1790,21 +1804,51 @@
       ],
       "size": [
         260,
-        122
+        134
       ],
       "inputs": [
         {
           "name": "灵魂注入",
           "type": "STRING",
           "link": 17,
+          "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+          "tooltip": "来自 DirectorMasteryNode.output[0] 灵魂注入_整合 (60 情感 + 10 维度)",
+          "slot_index": 0
+        },
+        {
+          "name": "审美注入",
+          "type": "STRING",
+          "link": 18,
+          "label": "审美注入",
+          "color": "#7f9e5a",
+          "tooltip": "来自 AestheticJudgmentPro.output[0] 审美判断 (8 原则)",
+          "slot_index": 1
+        },
+        {
+          "name": "风格注入",
+          "type": "STRING",
+          "link": 19,
+          "label": "风格注入",
+          "color": "#7f9e5a",
+          "tooltip": "来自 StyleGuidePro.output[0] 风格指南 (5 调色)",
+          "slot_index": 2
+        },
+        {
+          "name": "导演意图",
+          "type": "STRING",
+          "link": 20,
+          "label": "导演意图",
+          "color": "#7f9e5a",
+          "tooltip": "来自 DirectorIntentPro.output[0] 意图声明 (4 类意图)",
+          "slot_index": 3
         }
       ],
       "outputs": [
         {
           "name": "23效果总览",
           "type": "STRING",
+          "label": "23效果总览",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -1812,6 +1856,7 @@
         {
           "name": "视觉语言参数",
           "type": "STRING",
+          "label": "视觉语言参数",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
@@ -1819,6 +1864,7 @@
         {
           "name": "色彩60_30_10",
           "type": "STRING",
+          "label": "色彩60_30_10",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 2
@@ -1826,6 +1872,7 @@
         {
           "name": "光影9D设计",
           "type": "STRING",
+          "label": "光影9D设计",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 3
@@ -1833,6 +1880,7 @@
         {
           "name": "摄影8大师",
           "type": "STRING",
+          "label": "摄影8大师",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 4
@@ -1840,6 +1888,7 @@
         {
           "name": "选中模型",
           "type": "STRING",
+          "label": "选中模型",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 5
@@ -1847,6 +1896,7 @@
         {
           "name": "模型弱点规避",
           "type": "STRING",
+          "label": "模型弱点规避",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 6
@@ -1854,6 +1904,7 @@
         {
           "name": "角色一致性工作流",
           "type": "STRING",
+          "label": "角色一致性工作流",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 7
@@ -1861,6 +1912,7 @@
         {
           "name": "11阶段流水线",
           "type": "STRING",
+          "label": "11阶段流水线",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 8
@@ -1868,6 +1920,7 @@
         {
           "name": "H3提示词",
           "type": "STRING",
+          "label": "H3提示词",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 9
@@ -1906,7 +1959,7 @@
       1,
       1,
       0,
-      6,
+      4,
       1,
       "STRING"
     ],
@@ -1914,7 +1967,7 @@
       2,
       1,
       0,
-      7,
+      5,
       2,
       "STRING"
     ],
@@ -1922,15 +1975,15 @@
       3,
       1,
       0,
-      8,
+      6,
       6,
       "STRING"
     ],
     [
       4,
-      5,
+      3,
       0,
-      8,
+      6,
       5,
       "STRING"
     ],
@@ -1938,7 +1991,7 @@
       5,
       1,
       0,
-      9,
+      7,
       0,
       "STRING"
     ],
@@ -1946,7 +1999,7 @@
       6,
       1,
       0,
-      10,
+      8,
       0,
       "STRING"
     ],
@@ -1954,7 +2007,7 @@
       7,
       1,
       0,
-      11,
+      9,
       0,
       "STRING"
     ],
@@ -1962,7 +2015,7 @@
       8,
       1,
       0,
-      12,
+      10,
       6,
       "STRING"
     ],
@@ -1970,7 +2023,7 @@
       9,
       1,
       0,
-      15,
+      13,
       0,
       "STRING"
     ],
@@ -1978,7 +2031,7 @@
       10,
       1,
       0,
-      16,
+      14,
       0,
       "STRING"
     ],
@@ -1986,7 +2039,7 @@
       11,
       1,
       0,
-      17,
+      15,
       0,
       "STRING"
     ],
@@ -1994,7 +2047,7 @@
       12,
       1,
       0,
-      18,
+      16,
       0,
       "STRING"
     ],
@@ -2002,7 +2055,7 @@
       13,
       1,
       0,
-      19,
+      17,
       0,
       "STRING"
     ],
@@ -2010,7 +2063,7 @@
       14,
       1,
       0,
-      20,
+      18,
       0,
       "STRING"
     ],
@@ -2018,15 +2071,15 @@
       15,
       1,
       0,
-      21,
+      19,
       5,
       "STRING"
     ],
     [
       16,
-      5,
+      3,
       0,
-      21,
+      19,
       0,
       "STRING"
     ],
@@ -2034,8 +2087,32 @@
       17,
       1,
       0,
-      23,
+      21,
       0,
+      "STRING"
+    ],
+    [
+      18,
+      1,
+      1,
+      21,
+      1,
+      "STRING"
+    ],
+    [
+      19,
+      1,
+      2,
+      21,
+      2,
+      "STRING"
+    ],
+    [
+      20,
+      1,
+      3,
+      21,
+      3,
       "STRING"
     ]
   ],
@@ -2047,11 +2124,10 @@
       "description": "完整 60-120min 电影, 6 环节 + Phase14 全程 + 迭代",
       "video_type": "电影 (60-120min)",
       "target_output_node": "CinematicStudio",
-      "total_nodes": 23,
-      "total_links": 17,
+      "total_nodes": 21,
+      "total_links": 20,
       "node_types": [
         "ActingSkill",
-        "AestheticJudgmentPro",
         "ArtDirectionPro",
         "AssetRegistry",
         "CinematicStudio",
@@ -2059,7 +2135,7 @@
         "ConceptPitchPro",
         "CostumePropSetPro",
         "DirectorIntentPro",
-        "DirectorSoulNode",
+        "DirectorMasteryNode",
         "DirectorStoryboardPro",
         "EditingPro",
         "IterationPostPro",
@@ -2069,7 +2145,6 @@
         "SilenceMasteryPro",
         "SoundDesignPro",
         "SpatialLayout",
-        "StyleGuidePro",
         "ThemePhilosophyPro",
         "VfxPro",
         "WorldBuildingPro"

@@ -497,11 +497,19 @@ class CinematicStudio:
 
                 "启用反AI": ("BOOLEAN", {"default": True}),
             },
+            "optional": {
+                # === Phase 36.6 v5f: 4 路起点注入 (接收 DirectorMasteryNode 或起点节点的输出) ===
+                "灵魂注入": ("STRING", {"default": "", "multiline": True, "tooltip": "来自 DirectorMasteryNode.output[0] 灵魂注入_整合 (60 情感 + 10 维度)"}),
+                "审美注入": ("STRING", {"default": "", "multiline": True, "tooltip": "来自 AestheticJudgmentPro.output[0] 审美判断 (8 原则)"}),
+                "风格注入": ("STRING", {"default": "", "multiline": True, "tooltip": "来自 StyleGuidePro.output[0] 风格指南 (5 调色)"}),
+                "导演意图": ("STRING", {"default": "", "multiline": True, "tooltip": "来自 DirectorIntentPro.output[0] 意图声明 (4 类意图)"}),
+            },
         }
 
     def build(self, 特效类型, 场景描述, 时长_秒, 语言, 参考图片URL, 服装描述, 角色名, 导演风格,
               摄影指导, 焦段, 光圈, 景别, 构图法则, 主色_60, 辅色_30, 点缀色_10,
-              光源类型, 光影方向, 色温, 比例, 时间, 启用反AI, **kwargs):
+              光源类型, 光影方向, 色温, 比例, 时间, 启用反AI,
+              灵魂注入="", 审美注入="", 风格注入="", 导演意图="", **kwargs):
 
         def _str(v, default=""):
             if v is None:
@@ -853,6 +861,24 @@ Photoreal. NON-IP. 16:9. 12s. SFX only. NO CGI. Cinematic.
                 h3 = inject_anti_ai_pb(h3)
             except Exception:
                 pass
+
+        # ========== Phase 36.6 v5f: 4 路起点注入 集成到 h3_prompt 输出 ==========
+        # 把 DirectorMasteryNode / AestheticJudgmentPro / StyleGuidePro / DirectorIntentPro
+        # 的输出整合到 h3_prompt, 让模型能感知灵魂/审美/风格/意图
+        injection_block = ""
+        if 灵魂注入 or 审美注入 or 风格注入 or 导演意图:
+            injection_block = "\n\n════════════════════════════════════════\n"
+            injection_block += "【Phase 36.6 v5f: 4 路起点注入 整合】\n"
+            injection_block += "════════════════════════════════════════\n\n"
+            if 灵魂注入:
+                injection_block += "【灵魂注入】(60 情感 + 10 维度 + 7 融合模式):\n" + str(灵魂注入) + "\n\n"
+            if 审美注入:
+                injection_block += "【审美判断】(8 原则 + 120 场景):\n" + str(审美注入) + "\n\n"
+            if 风格注入:
+                injection_block += "【风格指南】(5 调色 + 8 摄影指导 + 9 构图):\n" + str(风格注入) + "\n\n"
+            if 导演意图:
+                injection_block += "【导演意图】(4 类意图 + 观众应感到):\n" + str(导演意图) + "\n"
+            h3 = h3 + injection_block
 
         return (effects_overview, visual_lang, color_60, lighting_9d, dp_style, sel_model, avoid, consistency, pipeline, h3)
 

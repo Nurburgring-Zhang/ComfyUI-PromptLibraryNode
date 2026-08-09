@@ -37,11 +37,12 @@ TYPE_COLOR = {
 }
 
 STARTING = [
-    ('n_soul', 'DirectorSoulNode', 100, 100),
-    ('n_aest', 'AestheticJudgmentPro', 100, 250),
-    ('n_style', 'StyleGuidePro', 100, 400),
-    ('n_assets', 'AssetRegistry', 100, 550),
-    ('n_intent', 'DirectorIntentPro', 100, 700),
+    # Phase 36.6 v5f: 1 个总控节点 = 4 个起点节点能力
+    ('n_mastery', 'DirectorMasteryNode', 100, 100),
+    # AssetRegistry 仍保留为独立起点 (CinematicStudio 暂未用资产注入)
+    ('n_assets', 'AssetRegistry', 100, 250),
+    # DirectorIntentPro 也保留 (用于 DirectorStoryboardPro.导演意图_观众应感到)
+    ('n_intent', 'DirectorIntentPro', 100, 400),
 ]
 
 # 4 个 addon (Phase 36.6 真实 slot 名)
@@ -110,12 +111,35 @@ def get_output_info(cls):
 #
 # 起点 → production 真实注入映射 (src_node_type, src_output_index, tgt_field_name)
 STARTING_INJECTIONS = [
-    # 灵魂注入: 5 个起点节点的"灵魂注入"相关 output 都尝试链入 "灵魂注入" slot
-    # 但只有 DirectorSoulNode.output[0] 叫"灵魂注入"
-    ("DirectorSoulNode", 0, "灵魂注入"),
-    # 意图注入: DirectorIntentPro → "导演意图_观众应感到"
+    # 灵魂注入: DirectorMasteryNode.output[0] 灵魂注入_整合 → 下游 "灵魂注入" slot
+    ("DirectorMasteryNode", 0, "灵魂注入"),
+    # 审美判断: DirectorMasteryNode.output[1] 审美判断 → 下游 "审美注入" slot
+    ("DirectorMasteryNode", 1, "审美注入"),
+    # 风格指南: DirectorMasteryNode.output[2] 风格指南 → 下游 "风格注入" slot
+    ("DirectorMasteryNode", 2, "风格注入"),
+    # 导演意图: DirectorMasteryNode.output[3] 导演意图 → 下游 "导演意图" slot
+    ("DirectorMasteryNode", 3, "导演意图"),
+    # 兜底: DirectorIntentPro.output[0] 意图声明 → "导演意图_观众应感到" (DirectorStoryboardPro/ConceptPitchPro)
     ("DirectorIntentPro", 0, "导演意图_观众应感到"),
 ]
+
+
+# Phase 36.6 v5f: 中英对照表 (修复 "UNKNOWN" bug)
+# ComfyUI 加载 LiteGraph 时用 label 字段显示中文 slot 名字
+# 缺失 label → fallback t(name) → fallback "UNKNOWN"
+# 自定义节点的字段名是中文, label = name 即可 (中文 i18n 找不到但显示原始名)
+LABEL_ZH = {
+    "model": "模型", "positive": "正面条件", "negative": "负面条件",
+    "latent_image": "潜空间图像", "clip": "CLIP", "text": "文本",
+    "samples": "潜空间", "vae": "VAE", "images": "图像",
+    "seed": "随机种", "control_after_generate": "生成后控制",
+    "steps": "步数", "cfg": "CFG", "sampler_name": "采样器名称",
+    "scheduler": "调度器", "denoise": "降噪",
+    "unet_name": "UNet 名称", "weight_dtype": "权重类型",
+    "clip_name": "CLIP 名称", "type": "类型", "device": "设备",
+    "vae_name": "VAE 名称", "width": "宽度", "height": "高度", "batch_size": "批量大小",
+    "filename_prefix": "文件名前缀", "mask": "遮罩",
+}
 
 
 def find_input_slot_index(node_def, fname):
@@ -165,8 +189,10 @@ def make_node_def(nid, ntype, x, y, widgets=None, label=None):
                 "name": fname,  # **关键: name 用 INPUT_TYPES 的原始小写英文 (model/positive/negative/latent_image)**
                 "type": tname,
                 "link": None,
+                "label": LABEL_ZH.get(fname, fname),  # ComfyUI 用 label 字段显示中文
                 "color": TYPE_COLOR.get(tname, "#7f9e5a"),
                 "tooltip": opts.get("tooltip", ""),
+                "slot_index": len(inputs),
             })
         else:
             # widget (在 widgets_values 里, 不进 inputs 数组)
@@ -177,6 +203,7 @@ def make_node_def(nid, ntype, x, y, widgets=None, label=None):
         outputs.append({
             "name": oname,
             "type": str(otype).upper(),
+            "label": LABEL_ZH.get(oname, oname),  # ComfyUI 用 label 字段显示中文
             "links": [],
             "color": TYPE_COLOR.get(str(otype).upper(), "#7f9e5a"),
             "slot_index": len(outputs),

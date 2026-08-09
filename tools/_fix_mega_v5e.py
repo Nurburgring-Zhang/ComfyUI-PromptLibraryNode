@@ -38,6 +38,50 @@ from pathlib import Path
 
 ROOT = Path(r"D:\minimax\comfyui-prompt-node-extracted\ComfyUI-PromptLibraryNode\workflows")
 
+# Phase 36.6 v5f: 中英对照表 (来自 AIGODLIKE 汉化插件 + ComfyUI 默认 i18n)
+# 修复 "UNKNOWN" bug: ComfyUI 加载 LiteGraph 时用 label 字段显示中文 slot 名
+# 缺失 label → fallback t(name) → fallback "UNKNOWN"
+LABEL_ZH = {
+    # KSampler
+    "model": "模型", "positive": "正面条件", "negative": "负面条件",
+    "latent_image": "潜空间图像",
+    "seed": "随机种", "control_after_generate": "生成后控制",
+    "steps": "步数", "cfg": "CFG", "sampler_name": "采样器名称",
+    "scheduler": "调度器", "denoise": "降噪",
+    # CLIPTextEncode
+    "clip": "CLIP", "text": "文本",
+    # UNETLoader
+    "unet_name": "UNet 名称", "weight_dtype": "权重类型",
+    # CLIPLoader
+    "clip_name": "CLIP 名称", "type": "类型", "device": "设备",
+    # VAELoader
+    "vae_name": "VAE 名称",
+    # EmptyLatentImage
+    "width": "宽度", "height": "高度", "batch_size": "批量大小",
+    # VAEDecode
+    "samples": "潜空间", "vae": "VAE",
+    # PreviewImage / SaveImage
+    "images": "图像", "filename_prefix": "文件名前缀",
+    # EmptySD3LatentImage (新)
+    "image": "图像",
+    # VideoCombine (VHS)
+    "frame_rate": "帧率", "loop_count": "循环次数", "format": "格式",
+    "pingpong": "乒乓", "save_output": "保存输出", "video": "视频",
+    "audio": "音频", "movie": "视频", "duration": "时长",
+    # 通用
+    "mask": "遮罩", "noise_mask": "噪声遮罩",
+    "strength": "强度", "weight": "权重",
+    "batch_count": "批量数", "noise": "噪声",
+    "start_at_step": "起始步", "end_at_step": "结束步",
+    "return_with_left": "左对齐", "return_with_right": "右对齐",
+    "start_percent": "起始百分比", "end_percent": "结束百分比",
+    "lora_name": "LoRA 名称", "strength_model": "模型强度", "strength_clip": "CLIP 强度",
+    "upscale_method": "放大方法", "scale_by": "缩放系数", "crop": "裁剪",
+    "tile_size": "瓦片大小", "overlap": "重叠", "upscale_model": "放大模型",
+    "image1": "图像 1", "image2": "图像 2",
+}
+
+
 # 节点规范
 NATIVE_SPEC = {
     "KSampler": {
@@ -104,21 +148,26 @@ def fix_node(node):
 
     # 保留 node 的现有 inputs links (target_id+slot 关系)
     old_inputs = node.get("inputs", [])
-    # 修复 inputs: 强制按 spec 顺序, name 用英文小写
+    # 修复 inputs: 强制按 spec 顺序, name 用英文小写, label 用中文
     new_inputs = []
     for i, slot_spec in enumerate(spec["input_slots"]):
+        zh_label = LABEL_ZH.get(slot_spec["name"], slot_spec["name"])
         if i < len(old_inputs):
             old = old_inputs[i]
             new_inputs.append({
                 "name": slot_spec["name"],
                 "type": slot_spec["type"],
-                "link": old.get("link"),  # 保留 link 关系
+                "link": old.get("link"),
+                "label": zh_label,  # ComfyUI 用 label 显示中文
+                "slot_index": i,
             })
         else:
             new_inputs.append({
                 "name": slot_spec["name"],
                 "type": slot_spec["type"],
                 "link": None,
+                "label": zh_label,
+                "slot_index": i,
             })
     node["inputs"] = new_inputs
 
@@ -130,16 +179,20 @@ def fix_node(node):
             new_wvs.append(old_wvs[i])
         else:
             new_wvs.append(default)
-    # 如果 KSampler 漏了 control_after_generate, 强制插入
     if ntype == "KSampler" and len(old_wvs) < 7:
-        # 假设老顺序是 [seed, steps, cfg, sampler_name, scheduler, denoise] (6 个)
-        # 调整为 [seed, control_after_generate, steps, cfg, sampler_name, scheduler, denoise]
         if len(old_wvs) == 6:
             new_wvs = [old_wvs[0], "random", old_wvs[1], old_wvs[2],
                        old_wvs[3], old_wvs[4], old_wvs[5]]
         else:
             new_wvs = list(spec["widget_defaults"])
     node["widgets_values"] = new_wvs
+
+    # 修复 outputs: 加中文 label 字段
+    for i, out in enumerate(node.get("outputs", [])):
+        if "name" in out:
+            out["label"] = LABEL_ZH.get(out["name"], out["name"])
+            if "slot_index" not in out:
+                out["slot_index"] = i
 
 
 def fix_workflow(path):

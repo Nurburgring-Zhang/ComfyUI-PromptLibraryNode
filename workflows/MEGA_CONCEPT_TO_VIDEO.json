@@ -436,7 +436,7 @@
             6
           ],
           "slot_index": 0,
-          "label": "UNet模型"
+          "label": "MODEL"
         }
       ],
       "properties": {
@@ -471,7 +471,7 @@
             7
           ],
           "slot_index": 0,
-          "label": "CLIP模型"
+          "label": "CLIP"
         }
       ],
       "properties": {
@@ -507,7 +507,7 @@
             8
           ],
           "slot_index": 0,
-          "label": "VAE模型"
+          "label": "VAE"
         }
       ],
       "properties": {
@@ -536,7 +536,9 @@
         {
           "name": "clip",
           "type": "CLIP",
-          "link": 7
+          "link": 7,
+          "label": "CLIP",
+          "slot_index": 0
         }
       ],
       "outputs": [
@@ -547,7 +549,7 @@
             9
           ],
           "slot_index": 0,
-          "label": "条件"
+          "label": "CONDITIONING"
         }
       ],
       "properties": {
@@ -581,7 +583,7 @@
             10
           ],
           "slot_index": 0,
-          "label": "潜空间"
+          "label": "LATENT"
         }
       ],
       "properties": {
@@ -612,22 +614,30 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 6
+          "link": 6,
+          "label": "模型",
+          "slot_index": 0
         },
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 9
+          "link": 9,
+          "label": "正面条件",
+          "slot_index": 1
         },
         {
           "name": "negative",
           "type": "CONDITIONING",
-          "link": null
+          "link": null,
+          "label": "负面条件",
+          "slot_index": 2
         },
         {
           "name": "latent_image",
           "type": "LATENT",
-          "link": 10
+          "link": 10,
+          "label": "潜空间图像",
+          "slot_index": 3
         }
       ],
       "outputs": [
@@ -638,7 +648,7 @@
             11
           ],
           "slot_index": 0,
-          "label": "潜空间"
+          "label": "LATENT"
         }
       ],
       "properties": {
@@ -673,12 +683,16 @@
         {
           "name": "samples",
           "type": "LATENT",
-          "link": 11
+          "link": 11,
+          "label": "潜空间",
+          "slot_index": 0
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 8
+          "link": 8,
+          "label": "VAE",
+          "slot_index": 1
         }
       ],
       "outputs": [
@@ -689,7 +703,7 @@
             12
           ],
           "slot_index": 0,
-          "label": "图像"
+          "label": "IMAGE"
         }
       ],
       "properties": {
