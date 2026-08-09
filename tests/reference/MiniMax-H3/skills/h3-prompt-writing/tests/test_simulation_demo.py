@@ -6,7 +6,7 @@
 - 故事前文系统: 真实运行,跨镜头累积连续性
 """
 import os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import director_engine as e
 from engine_story_arc import ShotConstraints, PromptSegmenter

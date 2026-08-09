@@ -95,15 +95,15 @@ else:  # pragma: no cover
     SOUL_FUSION_MODES = ["auto", "F1_单情感主导", "F3_双情感对等融合"]
 
 try:
-    from phase14_master_orchestrator import (
+    from master_orchestrator import (
         L1_INTENT_TEMPLATE, L2_ASSET_TEMPLATE, L3_SPATIAL_TEMPLATE,
         L4_ACTING_TEMPLATE, L5_CAMERA_TEMPLATE, L6_SOUND_TEMPLATE, L7_STYLE_TEMPLATE,
         THREE_WHITESPACE, THREE_CAMERA_LAWS,
     )
-    from phase14_style_prefix import STYLE_PREFIX, FIFTEEN_BLOCKS
-    _HAS_PHASE14 = True
+    from style_prefix_data import STYLE_PREFIX, FIFTEEN_BLOCKS
+    _HAS_INTERNAL_DOCS = True
 except Exception:  # pragma: no cover
-    _HAS_PHASE14 = False
+    _HAS_INTERNAL_DOCS = False
 
 
 # ============================================================
@@ -405,7 +405,7 @@ def _build_l6(sound_design, dialogue_a, dialogue_b, silenced):
 
 
 def _build_l7():
-    if _HAS_PHASE14:
+    if _HAS_INTERNAL_DOCS:
         prefix = STYLE_PREFIX
     else:
         prefix = "Photoreal. 8K IMAX. no 3D render. no game engine."

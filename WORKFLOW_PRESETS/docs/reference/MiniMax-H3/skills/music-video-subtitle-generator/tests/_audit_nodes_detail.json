@@ -1,0 +1,1976 @@
+[
+  {
+    "name": "ScriptArchitecturePro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "题材",
+        "片长分钟",
+        "集数",
+        "主题_可多选",
+        "核心冲突",
+        "哲学内核",
+        "导演风格_63选1",
+        "时代背景",
+        "地域文化",
+        "叙事结构",
+        "反转次数",
+        "多线并行",
+        "隐喻层数",
+        "主角数量",
+        "反派数量",
+        "目标受众",
+        "节奏密度",
+        "留白比例",
+        "余韵强度",
+        "灵魂_主导情感",
+        "灵魂_次要情感",
+        "灵魂_场景权重",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [
+        "额外禁用词",
+        "启用反AI规则",
+        "多轮迭代"
+      ],
+      "required_count": 23,
+      "optional_count": 3,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "story_architecture",
+        "anti_ai_rules",
+        "iteration_chain"
+      ],
+      "function": "build_architecture",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/剧本输出"
+    }
+  },
+  {
+    "name": "ScriptBodyPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "故事架构_来自节点1",
+        "导演风格_63选1",
+        "对白密度",
+        "静默场景比例",
+        "食物出现频率",
+        "物件密度",
+        "时代具体度",
+        "地点具体度",
+        "对白最大字数",
+        "主角身体习惯",
+        "主角口头禅",
+        "场次数量",
+        "最长场次时长秒",
+        "反AI强度",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [
+        "额外禁用词",
+        "生成样例小段"
+      ],
+      "required_count": 18,
+      "optional_count": 2,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "script_body",
+        "anti_ai_sample",
+        "iteration_chain"
+      ],
+      "function": "build_script_body",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/剧本输出"
+    }
+  },
+  {
+    "name": "DirectorStoryboardPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "剧本正文_来自节点2",
+        "导演风格_8选1",
+        "景别偏好",
+        "摄影机运动",
+        "光线风格",
+        "色彩基调",
+        "声音设计",
+        "剪辑节奏",
+        "表演指导",
+        "留白密度",
+        "反转密度",
+        "余韵强度",
+        "长镜头时长秒",
+        "空镜占比",
+        "多线交叉频率",
+        "声音先于画面",
+        "一镜到底",
+        "反AI强度"
+      ],
+      "optional_keys": [
+        "额外禁用词",
+        "关键道具",
+        "潜文本_情感",
+        "情绪基调",
+        "导演意图_观众应感到",
+        "生成样例小段",
+        "灵魂_主导情感",
+        "灵魂_次要情感",
+        "灵魂_场景权重",
+        "灵魂_融合模式",
+        "灵魂_主导权重",
+        "灵魂_创造力",
+        "灵魂_镜头技巧",
+        "灵魂_氛围掌控",
+        "灵魂_灵感指数",
+        "灵魂_疲劳指数",
+        "灵魂_怀疑指数",
+        "灵魂_叛逆指数",
+        "灵魂_故事强度",
+        "灵魂_场景进度"
+      ],
+      "required_count": 18,
+      "optional_count": 20,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "storyboard",
+        "anti_ai_sample",
+        "iteration_chain"
+      ],
+      "function": "build_storyboard",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/剧本输出"
+    }
+  },
+  {
+    "name": "VerticalShortDramaPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "套路_11选1",
+        "爆款公式_8选1",
+        "反转类型",
+        "角色弧_7选1",
+        "余韵强度",
+        "总集数",
+        "单集时长秒",
+        "付费卡点位置_第几集",
+        "爽虐甜比例_532",
+        "钩子强度_1_10",
+        "前3秒冲突类型",
+        "对白最大字数",
+        "主角性别",
+        "画风",
+        "受众",
+        "目标平台",
+        "字幕语言",
+        "启用反AI规则"
+      ],
+      "optional_keys": [
+        "额外禁用词",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式",
+        "剧本片段",
+        "导演风格"
+      ],
+      "required_count": 18,
+      "optional_count": 7,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "short_drama_system",
+        "single_episode_template",
+        "paywall_design"
+      ],
+      "function": "build_short_drama",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/剧本输出"
+    }
+  },
+  {
+    "name": "HookMasterPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "钩子类型_8选1",
+        "钩子时长_秒",
+        "钩子强度_1_10",
+        "套路_11选1",
+        "反转类型_8选1",
+        "主角性别",
+        "画风",
+        "受众",
+        "平台",
+        "实战钩子库_5选1",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [
+        "自定义元素"
+      ],
+      "required_count": 15,
+      "optional_count": 1,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "hook_template",
+        "5_hook_samples",
+        "anti_ai_cleaned_samples"
+      ],
+      "function": "build_hook",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/剧本输出"
+    }
+  },
+  {
+    "name": "DialogueMasterPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "对白类型_8选1",
+        "对白功能_7选1",
+        "对白最大字数",
+        "角色1_性别",
+        "角色1_年龄",
+        "角色1_身份",
+        "角色1_口头禅",
+        "角色1_身体习惯",
+        "角色2_性别",
+        "角色2_年龄",
+        "角色2_身份",
+        "角色2_口头禅",
+        "角色2_身体习惯",
+        "场景",
+        "情绪基调",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [
+        "潜台词方向"
+      ],
+      "required_count": 20,
+      "optional_count": 1,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "dialogue_system",
+        "dialogue_sample",
+        "anti_ai_pairs"
+      ],
+      "function": "build_dialogue",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/剧本输出"
+    }
+  },
+  {
+    "name": "CharacterArcPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "角色姓名",
+        "角色性别",
+        "角色年龄",
+        "角色原型_12选1",
+        "角色弧_7选1",
+        "欲望_Want",
+        "需求_Need",
+        "导演风格_8选1",
+        "生理学",
+        "心理学",
+        "社会学",
+        "身体习惯",
+        "口头禅",
+        "标志性物件",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [
+        "角色背景",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "场景描述"
+      ],
+      "required_count": 19,
+      "optional_count": 5,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "character_bible",
+        "arc_journey",
+        "director_lessons"
+      ],
+      "function": "build_character",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/剧本输出"
+    }
+  },
+  {
+    "name": "DirectorIntentPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "场景类型",
+        "场景描述",
+        "角色A",
+        "角色B",
+        "感受意图_观众应感到",
+        "情感意图_角色应有",
+        "关系意图_此刻是",
+        "主题意图_承载",
+        "留白意图_什么不该说",
+        "实际对白数",
+        "沉默时长分钟",
+        "每句对白前停顿秒数",
+        "灵魂_主导情感",
+        "灵魂_次要情感_1",
+        "灵魂_次要情感_2",
+        "灵魂_次要情感_3",
+        "灵魂_次要情感_4",
+        "灵魂_融合模式",
+        "灵魂_主导权重",
+        "灵魂_创造力",
+        "灵魂_想象力",
+        "灵魂_艺术表达",
+        "灵魂_镜头技巧",
+        "灵魂_氛围掌控",
+        "灵魂_灵感指数",
+        "灵魂_疲劳指数",
+        "灵魂_怀疑指数",
+        "灵魂_叛逆指数",
+        "故事强度",
+        "场景进度",
+        "导演风格",
+        "启用反AI规则"
+      ],
+      "optional_keys": [],
+      "required_count": 32,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "intent_statement",
+        "director_intent_samples",
+        "anti_ai_cleaned"
+      ],
+      "function": "build_intent",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/Phase17 灵魂意图"
+    }
+  },
+  {
+    "name": "ArtDirectionPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "灵魂主导情感",
+        "灵魂次要情感_1",
+        "灵魂次要情感_2",
+        "灵魂次要情感_3",
+        "灵魂次要情感_4",
+        "灵魂融合模式",
+        "灵魂主导权重",
+        "灵魂创造力",
+        "灵魂想象力",
+        "灵魂艺术表达",
+        "灵魂镜头技巧",
+        "灵魂氛围掌控",
+        "灵魂灵感指数",
+        "灵魂疲劳指数",
+        "灵魂怀疑指数",
+        "灵魂叛逆指数",
+        "灵魂精神状态",
+        "导演",
+        "故事强度",
+        "场景进度",
+        "场景描述",
+        "主材质",
+        "材质细节",
+        "光影预设",
+        "光影细节",
+        "颜色基调",
+        "颜色细节",
+        "空间类型",
+        "空间细节",
+        "时代",
+        "摄影指导",
+        "启用反AI规则"
+      ],
+      "optional_keys": [
+        "视觉风格",
+        "材质重点",
+        "光影",
+        "颜色",
+        "空间布局",
+        "导演风格"
+      ],
+      "required_count": 32,
+      "optional_count": 6,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 8,
+      "return_names": [
+        "art_direction_bible",
+        "visual_language_params",
+        "color_60_30_10_script",
+        "lighting_9d_design",
+        "dp_8_masters_style",
+        "soul_injection_payload",
+        "h3_three_fields_addon",
+        "cinematic_signature_addon"
+      ],
+      "function": "build_art_direction",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/导演级/灵魂驱动"
+    }
+  },
+  {
+    "name": "SpatialConsistencyPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "空间类型",
+        "空间细节",
+        "空间尺寸",
+        "角色数量",
+        "角色1_位置",
+        "角色2_位置",
+        "关键道具",
+        "镜头停留秒数",
+        "连续运动",
+        "换角度次数",
+        "连续运动强度_1_10",
+        "空间稳定强度_1_10",
+        "镜头停留强度_1_10",
+        "位置可信强度_1_10",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 19,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "spatial_design",
+        "5_rules_application",
+        "director_samples"
+      ],
+      "function": "build_spatial",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/导演级"
+    }
+  },
+  {
+    "name": "SilenceMasteryPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "场景类型",
+        "场景描述",
+        "实际对白数",
+        "沉默总时长秒",
+        "每句对白前停顿秒",
+        "对白前停顿占比",
+        "对白间沉默占比",
+        "动作后停顿占比",
+        "眼神对视占比",
+        "空镜留白占比",
+        "导演风格",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 16,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "silence_design",
+        "silence_formula",
+        "director_samples"
+      ],
+      "function": "build_silence",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/导演级"
+    }
+  },
+  {
+    "name": "ConceptPitchPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂融合情感",
+        "灵魂融合权重",
+        "灵魂融合模式",
+        "灵魂维度JSON",
+        "灵魂状态JSON",
+        "灵魂导演"
+      ],
+      "optional_keys": [],
+      "required_count": 16,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "conceptpitchpro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_concept",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "WorldBuildingPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "摄影指导",
+        "焦段",
+        "光圈",
+        "景别",
+        "构图法则",
+        "主色_60",
+        "辅色_30",
+        "点缀色_10",
+        "光源类型",
+        "光影方向",
+        "光影强度",
+        "色温",
+        "软硬",
+        "比例",
+        "阴影",
+        "特殊光影",
+        "时间",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 31,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 6,
+      "return_names": [
+        "worldbuildingpro_h3_prompt",
+        "lighting_9d_design",
+        "visual_language_params",
+        "color_60_30_10_script",
+        "dp_8_masters_style",
+        "experience_matrix"
+      ],
+      "function": "build_world",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "ThemePhilosophyPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "主题句_一句话",
+        "道德困境",
+        "主题类型",
+        "潜文本_情感",
+        "情绪基调",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 17,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "themephilosophypro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_theme",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "SoundDesignPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 14,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "sounddesignpro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_sound",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "MusicScorePro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 14,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "musicscorepro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_music",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "PerformanceDirectionPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 14,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "performancedirectionpro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_performance",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "CostumePropSetPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 14,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "costumepropsetpro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_costume",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "EditingPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪节奏",
+        "切点策略",
+        "长镜占比",
+        "跳切场景",
+        "蒙太奇",
+        "静音切",
+        "灵魂_主导情感",
+        "灵魂_次要情感_1",
+        "灵魂_次要情感_2",
+        "灵魂_次要情感_3",
+        "灵魂_次要情感_4",
+        "灵魂_融合模式",
+        "灵魂_主导权重",
+        "灵魂_创造力",
+        "灵魂_想象力",
+        "灵魂_艺术表达",
+        "灵魂_镜头技巧",
+        "灵魂_氛围掌控",
+        "灵魂_灵感指数",
+        "灵魂_疲劳指数",
+        "灵魂_怀疑指数",
+        "灵魂_叛逆指数",
+        "灵魂_故事强度",
+        "灵魂_场景进度",
+        "启用反AI规则"
+      ],
+      "optional_keys": [
+        "导演意图_观众应感到",
+        "潜文本_情感",
+        "情绪基调",
+        "关键道具",
+        "关键参考片"
+      ],
+      "required_count": 29,
+      "optional_count": 5,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "editingpro_soul_prompt",
+        "rhythm_experience_matrix",
+        "ai_deep_soul_processing"
+      ],
+      "function": "build_edit",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/Phase17 灵魂剪辑"
+    }
+  },
+  {
+    "name": "ColorGradingPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "色彩风格",
+        "焦段",
+        "光圈",
+        "景别",
+        "构图法则",
+        "主色_60",
+        "辅色_30",
+        "点缀色_10",
+        "一级调色",
+        "二级调色",
+        "创意调色",
+        "光源类型",
+        "光影方向",
+        "色温",
+        "比例",
+        "时间",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 30,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 6,
+      "return_names": [
+        "colorgradingpro_h3_prompt",
+        "color_60_30_10_script",
+        "color_8_masters_style",
+        "color_grading_3stage",
+        "lighting_9d_design",
+        "experience_matrix"
+      ],
+      "function": "build_color",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "VfxPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 14,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "vfxpro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_vfx",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "MvPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 14,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "mvpro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_mv",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "PictureBookPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 14,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "picturebookpro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_book",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "InteractiveDramaPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 14,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "interactivedramapro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_interactive",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "QualityAssurancePro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "场景描述",
+        "导演风格",
+        "情绪基调",
+        "潜文本_情感",
+        "导演意图_观众应感到",
+        "关键道具",
+        "关键参考片",
+        "启用反AI规则",
+        "灵魂_主导情感",
+        "灵魂_场景权重",
+        "灵魂_次要情感",
+        "灵魂_融合模式"
+      ],
+      "optional_keys": [],
+      "required_count": 14,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "qualityassurancepro_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_qa",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "Phase14AssetRegistry",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "资产名",
+        "状态版本",
+        "是否压力测试",
+        "是否锁定"
+      ],
+      "optional_keys": [],
+      "required_count": 4,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 6,
+      "return_names": [
+        "descriptor",
+        "state_descriptor",
+        "voice_signature",
+        "behavior_signature",
+        "full_prompt_block",
+        "lock_and_test_report"
+      ],
+      "function": "run",
+      "fn_params": [
+        "资产名",
+        "状态版本",
+        "是否压力测试",
+        "是否锁定"
+      ],
+      "category": "PromptLibrary/Phase14 资产层"
+    }
+  },
+  {
+    "name": "Phase14SpatialLayout",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "场景",
+        "镜头上下文",
+        "初始化时长_秒",
+        "启用反AI规则"
+      ],
+      "optional_keys": [],
+      "required_count": 4,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 4,
+      "return_names": [
+        "spatial_prompt",
+        "geo_block",
+        "init_shot",
+        "continuity"
+      ],
+      "function": "build",
+      "fn_params": [
+        "场景",
+        "镜头上下文",
+        "初始化时长_秒",
+        "启用反AI规则"
+      ],
+      "category": "PromptLibrary/Phase14 空间"
+    }
+  },
+  {
+    "name": "Phase14ActingSkill",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "示例选择",
+        "WHAT_目标",
+        "OBSTACLE_障碍",
+        "COST_代价",
+        "STRATEGY_策略",
+        "TURN_新信息",
+        "角色名",
+        "角色描述符",
+        "主情绪",
+        "镜头时长_秒",
+        "眨眼模式",
+        "微生命间隔_秒",
+        "手在忙什么",
+        "强重音_手停_秒",
+        "反应类型",
+        "静止张力"
+      ],
+      "optional_keys": [
+        "上一句尾音",
+        "对手角色"
+      ],
+      "required_count": 16,
+      "optional_count": 2,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "character_acting_block",
+        "five_pillars_dict",
+        "five_elements_driver"
+      ],
+      "function": "build",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级/Phase14"
+    }
+  },
+  {
+    "name": "Phase14SoundSkill",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "场景描述",
+        "说话角色名",
+        "情绪基调",
+        "台词",
+        "身体动作",
+        "面部反应",
+        "沉默角色名",
+        "空气层",
+        "脚步层",
+        "环境动作层",
+        "远景层",
+        "镜头时长秒",
+        "画幅",
+        "启用反AI规则"
+      ],
+      "optional_keys": [
+        "上一镜_最后一句",
+        "上一镜_最后呼吸",
+        "上一镜_最后颤抖",
+        "上一镜_环境延音",
+        "上一镜_情绪余韵"
+      ],
+      "required_count": 14,
+      "optional_count": 5,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "phase14_sound_audio_prompt",
+        "sound_experience_matrix",
+        "sound_ai_deep_processing"
+      ],
+      "function": "build_sound",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/Phase14 集群"
+    }
+  },
+  {
+    "name": "IterationPostPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "任务类型",
+        "类型",
+        "镜头描述",
+        "导演风格",
+        "失败次数",
+        "当前版本",
+        "压力测试状态",
+        "镜头类型",
+        "启用反AI规则"
+      ],
+      "optional_keys": [],
+      "required_count": 9,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "iterationpost_h3_prompt",
+        "experience_matrix",
+        "ai_deep_processing"
+      ],
+      "function": "build_iter",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/L5 导演级"
+    }
+  },
+  {
+    "name": "Phase14_30sSixAct",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "概念",
+        "类型",
+        "导演",
+        "人物",
+        "场景",
+        "情绪",
+        "关键道具",
+        "内心独白",
+        "任务类型",
+        "启用反AI"
+      ],
+      "optional_keys": [],
+      "required_count": 10,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 8,
+      "return_names": [
+        "six_act_overview",
+        "act_1_establish",
+        "act_2_introduce",
+        "act_3_interact",
+        "act_4_conflict",
+        "act_5_climax",
+        "act_6_hook",
+        "h3_three_fields_prompt"
+      ],
+      "function": "build",
+      "fn_params": [
+        "概念",
+        "类型",
+        "导演",
+        "人物",
+        "场景",
+        "情绪",
+        "关键道具",
+        "内心独白",
+        "任务类型",
+        "启用反AI"
+      ],
+      "category": "PromptLibrary/Phase14 6段"
+    }
+  },
+  {
+    "name": "Phase14_CinematicStudio",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "特效类型",
+        "场景描述",
+        "时长_秒",
+        "语言",
+        "参考图片URL",
+        "服装描述",
+        "角色名",
+        "导演风格",
+        "摄影指导",
+        "焦段",
+        "光圈",
+        "景别",
+        "构图法则",
+        "主色_60",
+        "辅色_30",
+        "点缀色_10",
+        "光源类型",
+        "光影方向",
+        "色温",
+        "比例",
+        "时间",
+        "启用反AI"
+      ],
+      "optional_keys": [],
+      "required_count": 22,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 10,
+      "return_names": [
+        "effects_23_overview",
+        "visual_language_params",
+        "color_60_30_10_script",
+        "lighting_9d_design",
+        "dp_8_masters_style",
+        "selected_model",
+        "model_weakness_avoidance",
+        "character_consistency_workflow",
+        "11_stage_pipeline",
+        "h3_prompt"
+      ],
+      "function": "build",
+      "fn_params": [
+        "特效类型",
+        "场景描述",
+        "时长_秒",
+        "语言",
+        "参考图片URL",
+        "服装描述",
+        "角色名",
+        "导演风格",
+        "摄影指导",
+        "焦段",
+        "光圈",
+        "景别",
+        "构图法则",
+        "主色_60",
+        "辅色_30",
+        "点缀色_10",
+        "光源类型",
+        "光影方向",
+        "色温",
+        "比例",
+        "时间",
+        "启用反AI"
+      ],
+      "category": "PromptLibrary/Phase14 电影"
+    }
+  },
+  {
+    "name": "DirectorSoulNode",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "主导情感",
+        "次要情感_1",
+        "次要情感_2",
+        "次要情感_3",
+        "次要情感_4",
+        "融合模式",
+        "主导权重",
+        "创造力",
+        "想象力",
+        "艺术表达",
+        "镜头技巧",
+        "氛围掌控",
+        "灵感指数",
+        "疲劳指数",
+        "怀疑指数",
+        "叛逆指数",
+        "导演",
+        "场景描述",
+        "故事强度",
+        "场景进度"
+      ],
+      "optional_keys": [],
+      "required_count": 20,
+      "optional_count": 0,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 8,
+      "return_names": [
+        "soul_injection",
+        "fused_emotion",
+        "emotion_dimensions",
+        "soul_dimensions",
+        "soul_state",
+        "director_signature",
+        "scene_prompt_addon",
+        "h3_alignment_addon"
+      ],
+      "function": "build_soul",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/Phase17 灵魂"
+    }
+  },
+  {
+    "name": "ShotSelectionPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "候选1",
+        "候选2",
+        "候选3",
+        "导演风格",
+        "目标情感",
+        "决策权重_1_叙事",
+        "决策权重_2_情感",
+        "决策权重_3_节奏",
+        "决策权重_4_视觉",
+        "决策权重_5_表演",
+        "决策权重_6_空间",
+        "决策权重_7_审美",
+        "决策权重_8_反AI"
+      ],
+      "optional_keys": [
+        "候选4",
+        "候选5"
+      ],
+      "required_count": 13,
+      "optional_count": 2,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "shot_selection_decision",
+        "scoring_matrix",
+        "director_rationale"
+      ],
+      "function": "select_shot",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "PromptLibrary/Phase27 选片决策"
+    }
+  },
+  {
+    "name": "AestheticJudgmentPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "输入描述",
+        "导演风格",
+        "场景类型"
+      ],
+      "optional_keys": [
+        "目标情感",
+        "8原则权重",
+        "自动启用8原则",
+        "灵魂_主导情感",
+        "灵魂_次要情感",
+        "灵魂_场景权重",
+        "灵魂_融合模式"
+      ],
+      "required_count": 3,
+      "optional_count": 7,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 6,
+      "return_names": [
+        "审美判断",
+        "8原则评分",
+        "色彩体系",
+        "场景匹配",
+        "摄影指导",
+        "色彩心理学"
+      ],
+      "function": "judge",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "Director/Aesthetic"
+    }
+  },
+  {
+    "name": "VersionControlPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "项目名",
+        "操作"
+      ],
+      "optional_keys": [
+        "版本名",
+        "版本内容",
+        "元数据JSON",
+        "评分JSON",
+        "备注",
+        "目标版本",
+        "标签名",
+        "分支名",
+        "评分维度",
+        "TopN"
+      ],
+      "required_count": 2,
+      "optional_count": 10,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "操作结果",
+        "版本历史",
+        "项目状态"
+      ],
+      "function": "control",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "Director/VersionControl"
+    }
+  },
+  {
+    "name": "StyleGuidePro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "调色风格",
+        "配色方案",
+        "导演体系"
+      ],
+      "optional_keys": [
+        "包含调色口诀",
+        "包含调色盘"
+      ],
+      "required_count": 3,
+      "optional_count": 2,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 4,
+      "return_names": [
+        "风格指南",
+        "完整 Prompt",
+        "调色盘",
+        "调色口诀"
+      ],
+      "function": "guide",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "Director/StyleGuide"
+    }
+  },
+  {
+    "name": "MarketAudiencePro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "类型",
+        "档期",
+        "市场定位"
+      ],
+      "optional_keys": [
+        "导演知名度",
+        "演员阵容",
+        "营销预算",
+        "质量评分"
+      ],
+      "required_count": 3,
+      "optional_count": 4,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 4,
+      "return_names": [
+        "市场分析",
+        "受众画像",
+        "档期策略",
+        "票房预测"
+      ],
+      "function": "analyze",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "Director/Market"
+    }
+  },
+  {
+    "name": "CleanupPassPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "输入文本"
+      ],
+      "optional_keys": [
+        "移除反AI词",
+        "移除重复句",
+        "移除模板表达",
+        "标准化空白",
+        "移除空行"
+      ],
+      "required_count": 1,
+      "optional_count": 5,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "清理后文本",
+        "清理统计",
+        "报告"
+      ],
+      "function": "cleanup",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "Director/Engineering"
+    }
+  },
+  {
+    "name": "FormatOutputPro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "输入文本",
+        "格式"
+      ],
+      "optional_keys": [
+        "标题"
+      ],
+      "required_count": 2,
+      "optional_count": 1,
+      "return_types": [
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 2,
+      "return_names": [
+        "格式化输出",
+        "元信息"
+      ],
+      "function": "format",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "Director/Engineering"
+    }
+  },
+  {
+    "name": "ProjectArchivePro",
+    "ok": true,
+    "errors": [],
+    "info": {
+      "required_keys": [
+        "项目名",
+        "格式"
+      ],
+      "optional_keys": [
+        "内容1",
+        "内容2",
+        "内容3",
+        "元数据JSON"
+      ],
+      "required_count": 2,
+      "optional_count": 4,
+      "return_types": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "return_count": 3,
+      "return_names": [
+        "归档内容",
+        "归档ID",
+        "元信息"
+      ],
+      "function": "archive",
+      "fn_params": [
+        "kwargs"
+      ],
+      "category": "Director/Engineering"
+    }
+  }
+]

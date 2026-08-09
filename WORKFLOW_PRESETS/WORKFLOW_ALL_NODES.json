@@ -405,7 +405,7 @@
     },
     {
       "id": 29,
-      "type": "Phase14AssetRegistry",
+      "type": "AssetRegistry",
       "pos": [2920, 620],
       "size": [320, 240],
       "properties": {},
@@ -417,7 +417,7 @@
     },
     {
       "id": 30,
-      "type": "Phase14SpatialLayout",
+      "type": "SpatialLayout",
       "pos": [2920, 880],
       "size": [320, 240],
       "properties": {},
@@ -429,7 +429,7 @@
     },
     {
       "id": 31,
-      "type": "Phase14ActingSkill",
+      "type": "ActingSkill",
       "pos": [3280, 100],
       "size": [320, 240],
       "properties": {},
@@ -441,7 +441,7 @@
     },
     {
       "id": 32,
-      "type": "Phase14SoundSkill",
+      "type": "SoundSkill",
       "pos": [3280, 360],
       "size": [320, 240],
       "properties": {},
@@ -453,7 +453,7 @@
     },
     {
       "id": 33,
-      "type": "Phase14_30sSixAct",
+      "type": "ThirtySecSixAct",
       "pos": [3280, 620],
       "size": [320, 240],
       "properties": {},
@@ -465,7 +465,7 @@
     },
     {
       "id": 34,
-      "type": "Phase14_CinematicStudio",
+      "type": "CinematicStudio",
       "pos": [3280, 880],
       "size": [320, 240],
       "properties": {},

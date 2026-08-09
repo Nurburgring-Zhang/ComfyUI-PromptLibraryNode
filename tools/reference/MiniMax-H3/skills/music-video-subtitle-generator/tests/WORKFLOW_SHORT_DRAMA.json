@@ -1,0 +1,167 @@
+{
+  "last_node_id": 6,
+  "last_link_id": 5,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "DirectorSoulNode",
+      "pos": [80, 80],
+      "size": [280, 240],
+      "properties": {},
+      "widgets_values": [
+        "fear",
+        ["anger"],
+        0.85,
+        "auto",
+        "F5_矛盾情感爆炸",
+        "诺兰",
+        "女主被陷害入狱, 越狱反击, 30 分钟短剧",
+        0.7
+      ]
+    },
+    {
+      "id": 2,
+      "type": "VerticalShortDramaPro",
+      "pos": [440, 80],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "女主被陷害入狱, 越狱反击",
+        "诺兰",
+        1800.0,
+        30,
+        "fear",
+        0.85,
+        "anger",
+        "F5_矛盾情感爆炸"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "HookMasterPro",
+      "pos": [820, 80],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "身份揭秘",
+        "3",
+        10,
+        "真假千金",
+        "identity_reveal",
+        "女",
+        "现代都市",
+        "女频",
+        "ReelShort",
+        "身份揭秘",
+        true,
+        "fear",
+        0.95,
+        "anger",
+        "F5_矛盾情感爆炸"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "DialogueMasterPro",
+      "pos": [1200, 80],
+      "size": [320, 360],
+      "properties": {},
+      "widgets_values": [
+        "冲突型",
+        "6_制造冲突",
+        12,
+        "女", 25, "豪门失散千金", "我不信。", "摸下巴, 咬嘴唇",
+        "男", 32, "霸道总裁", "我说过的话, 从来不收回。", "敲桌子, 抬头看人",
+        "办公室, 雨天, 黄昏",
+        "紧张",
+        "他们表面谈公事, 实际在试探底牌",
+        true,
+        "fear",
+        0.85,
+        "anger",
+        "F5_矛盾情感爆炸"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "CharacterArcPro",
+      "pos": [440, 440],
+      "size": [320, 320],
+      "properties": {},
+      "widgets_values": [
+        "林小满",
+        "女",
+        25,
+        "Hero",
+        "positive_arc",
+        "找回失去的记忆",
+        "与失散的家人和解",
+        "诺兰",
+        "身高 165, 短发, 脸上有颗痣",
+        "倔强, 不善表达, 童年创伤",
+        "孤儿, 送外卖",
+        "摸下巴, 眨眼多",
+        "我不信。",
+        "一只破旧口琴",
+        true,
+        "fear",
+        0.85,
+        "anger",
+        "F5_矛盾情感爆炸"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "EditingPro",
+      "pos": [820, 440],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "fear",
+        0.95,
+        "诺兰",
+        30.0,
+        "anger",
+        "F5_矛盾情感爆炸"
+      ]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "STRING"],
+    [2, 2, 0, 3, 0, "STRING"],
+    [3, 3, 0, 4, 0, "STRING"],
+    [4, 1, 0, 5, 0, "STRING"],
+    [5, 5, 0, 6, 0, "STRING"]
+  ],
+  "groups": [
+    {
+      "title": "Phase 17 灵魂",
+      "bounding": [50, 40, 340, 320],
+      "color": "#3f789e"
+    },
+    {
+      "title": "Phase 11 短剧核心 3 节点",
+      "bounding": [400, 40, 1180, 440],
+      "color": "#c62828"
+    },
+    {
+      "title": "Phase 11+13 角色+剪辑",
+      "bounding": [400, 400, 760, 400],
+      "color": "#2e7d32"
+    }
+  ],
+  "config": {},
+  "extra": {
+    "workflow_info": {
+      "name": "短剧流水线 6 节点",
+      "version": "v3.1",
+      "date": "2026-08-09",
+      "description": "短剧完整流水线 - 灵魂 + 短剧 + 钩子 + 对白 + 角色 + 剪辑",
+      "scenario": "女主被陷害入狱, 越狱反击, 30 分钟短剧, 诺兰风格, fear+anger 矛盾情感",
+      "soul_injection": "fear + anger F5 矛盾情感爆炸, intensity 0.85, 诺兰节奏",
+      "phase": "25",
+      "total_nodes": 6
+    }
+  },
+  "version": 0.4
+}

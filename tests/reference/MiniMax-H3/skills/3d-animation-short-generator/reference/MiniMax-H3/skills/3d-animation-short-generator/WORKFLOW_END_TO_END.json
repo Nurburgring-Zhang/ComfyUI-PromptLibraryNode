@@ -1,0 +1,256 @@
+{
+  "last_node_id": 9,
+  "last_link_id": 8,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "DirectorSoulNode",
+      "pos": [80, 80],
+      "size": [280, 240],
+      "properties": {},
+      "widgets_values": [
+        "loneliness",
+        ["longing"],
+        0.7,
+        "auto",
+        "F3_双情感对等融合",
+        "王家卫",
+        "走廊, 1962 年香港, 周慕云与苏丽珍深夜偶遇, 旗袍, 慢镜头, 老歌",
+        0.5
+      ]
+    },
+    {
+      "id": 2,
+      "type": "ScriptArchitecturePro",
+      "pos": [440, 80],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "父女疏离与和解, 跨越 20 年",
+        "王家卫",
+        0.5,
+        "auto",
+        0.5,
+        "auto",
+        "父女在厨房, 雨夜, 1998 年哈尔滨",
+        "让观众感到复杂, 难说清",
+        "想说对不起但拉不下脸, 想靠近又怕伤害",
+        "压抑中见希望, 说不清但有重量",
+        "一封没寄出的信 / 半瓶白酒 / 老式收音机 / 缝纫机",
+        "《花样年华》色调 / 《一一》节奏 / 《步履不停》家庭",
+        "loneliness",
+        0.7,
+        "longing",
+        "F3_双情感对等融合"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "ScriptBodyPro",
+      "pos": [820, 80],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "父女疏离与和解, 跨越 20 年, 三幕剧",
+        "王家卫",
+        0.5,
+        "auto",
+        "压抑中见希望",
+        8,
+        0.5,
+        "loneliness",
+        0.7,
+        "longing",
+        "F3_双情感对等融合"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "DirectorStoryboardPro",
+      "pos": [1200, 80],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "父女在厨房雨夜 30 秒场景, 6 段分镜",
+        "王家卫",
+        30.0,
+        0.5,
+        "auto",
+        "loneliness",
+        0.7,
+        "longing",
+        "F3_双情感对等融合"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "ConceptPitchPro",
+      "pos": [440, 440],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "电影",
+        "父女在厨房, 雨夜, 1998 年哈尔滨",
+        "王家卫",
+        "压抑中见希望",
+        "让观众感到复杂",
+        "想说对不起但拉不下脸",
+        "一封没寄出的信",
+        "《花样年华》",
+        true,
+        "loneliness",
+        0.7,
+        "longing",
+        "F3_双情感对等融合"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ArtDirectionPro",
+      "pos": [820, 440],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "电影",
+        "父女在厨房, 雨夜, 1998 年哈尔滨",
+        "王家卫",
+        "罗杰·迪金斯_Roger_Deakins",
+        "35mm_cinematic",
+        "T2.8_cinematic",
+        "MS",
+        "rule_of_thirds",
+        "暖橙黄 #D4A24C",
+        "老红 #8B2E1F",
+        "老白绿 #8E9F7E",
+        "自然光 (太阳)",
+        "侧光",
+        "中光",
+        "warm_3200K",
+        "软光",
+        "中间调_4_1",
+        "长阴影",
+        "轮廓光",
+        "黄昏",
+        "压抑中见希望",
+        "想说对不起但拉不下脸",
+        "让观众感到复杂",
+        "缝纫机",
+        "《花样年华》",
+        true,
+        "loneliness",
+        0.7,
+        "longing",
+        "F3_双情感对等融合"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "EditingPro",
+      "pos": [1200, 440],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "loneliness",
+        0.7,
+        "王家卫",
+        30.0,
+        "longing",
+        "F3_双情感对等融合"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "DirectorIntentPro",
+      "pos": [440, 800],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "电影",
+        "父女在厨房, 雨夜, 1998 年哈尔滨",
+        "王家卫",
+        "让观众感到复杂, 难说清",
+        "想说对不起但拉不下脸",
+        "压抑中见希望",
+        "一封没寄出的信",
+        "《花样年华》",
+        true,
+        "loneliness",
+        0.7,
+        "longing",
+        "F3_双情感对等融合"
+      ]
+    },
+    {
+      "id": 9,
+      "type": "QualityAssurancePro",
+      "pos": [820, 800],
+      "size": [320, 200],
+      "properties": {},
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "电影",
+        "父女在厨房, 雨夜, 1998 年哈尔滨",
+        "王家卫",
+        "压抑中见希望",
+        "想说对不起",
+        "让观众感到复杂",
+        "缝纫机",
+        "《花样年华》",
+        true,
+        "loneliness",
+        0.7,
+        "longing",
+        "F3_双情感对等融合"
+      ]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "STRING"],
+    [2, 2, 0, 3, 0, "STRING"],
+    [3, 3, 0, 4, 0, "STRING"],
+    [4, 1, 0, 5, 0, "STRING"],
+    [5, 5, 0, 6, 0, "STRING"],
+    [6, 6, 0, 7, 0, "STRING"],
+    [7, 5, 0, 8, 0, "STRING"],
+    [8, 7, 0, 9, 0, "STRING"]
+  ],
+  "groups": [
+    {
+      "title": "Phase 17 灵魂节点 - 单点接入",
+      "bounding": [50, 40, 340, 320],
+      "color": "#3f789e"
+    },
+    {
+      "title": "Phase 9 剧本 3 节点流水线",
+      "bounding": [400, 40, 1180, 320],
+      "color": "#2e7d32"
+    },
+    {
+      "title": "Phase 12+13 L5 导演级 3 节点",
+      "bounding": [400, 400, 1180, 320],
+      "color": "#c62828"
+    },
+    {
+      "title": "Phase 13 附件核心 2 节点",
+      "bounding": [400, 760, 760, 320],
+      "color": "#6a1b9a"
+    }
+  ],
+  "config": {},
+  "extra": {
+    "workflow_info": {
+      "name": "端到端灵魂驱动工作流 (Phase 17)",
+      "version": "v3.1",
+      "date": "2026-08-09",
+      "phase": "25",
+      "description": "完整 9 节点端到端工作流 - 灵魂节点 + 剧本三件套 + 导演三件套 + 意图/质检",
+      "soul_injection": "所有节点通过 DirectorSoulNode 注入灵魂",
+      "scenarios": "父女在厨房, 雨夜, 1998 年哈尔滨, 王家卫风格, loneliness + longing",
+      "total_nodes": 9
+    }
+  },
+  "version": 0.4
+}

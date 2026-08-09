@@ -87,15 +87,15 @@ except Exception as e:  # pragma: no cover
     _AI_DEPS_ERROR = str(e)
 
 try:
-    from phase14_master_orchestrator import (
+    from master_orchestrator import (
         L1_INTENT_TEMPLATE, L2_ASSET_TEMPLATE, L3_SPATIAL_TEMPLATE,
         L4_ACTING_TEMPLATE, L5_CAMERA_TEMPLATE, L6_SOUND_TEMPLATE, L7_STYLE_TEMPLATE,
         THREE_WHITESPACE, THREE_CAMERA_LAWS,
     )
-    from phase14_style_prefix import STYLE_PREFIX, FIFTEEN_BLOCKS
-    _HAS_PHASE14 = True
+    from style_prefix_data import STYLE_PREFIX, FIFTEEN_BLOCKS
+    _HAS_INTERNAL_DOCS = True
 except Exception:  # pragma: no cover
-    _HAS_PHASE14 = False
+    _HAS_INTERNAL_DOCS = False
 
 
 # ============================================================
@@ -405,7 +405,7 @@ def _build_l6(character_name, signature_habit, quote, silenced, signature_obj):
 
 
 def _build_l7():
-    if _HAS_PHASE14:
+    if _HAS_INTERNAL_DOCS:
         prefix = STYLE_PREFIX
     else:
         prefix = "Photoreal. 8K IMAX. no 3D render. no game engine."

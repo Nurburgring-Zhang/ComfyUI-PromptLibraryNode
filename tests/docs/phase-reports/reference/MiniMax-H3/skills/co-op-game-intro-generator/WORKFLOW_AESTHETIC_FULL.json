@@ -1,0 +1,156 @@
+{
+  "last_node_id": 8,
+  "last_link_id": 7,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "AestheticJudgmentPro",
+      "pos": [80, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "王家卫 重庆森林 1994 霓虹街道 雨夜 孤独 抽帧 0.8x",
+        "auto",
+        "auto",
+        "auto",
+        "",
+        "ON",
+        "loneliness",
+        "longing",
+        0.7,
+        "auto"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "DirectorSoulNode",
+      "pos": [440, 100],
+      "size": [280, 240],
+      "properties": {},
+      "widgets_values": [
+        "loneliness",
+        ["longing"],
+        0.7,
+        "auto",
+        "F3_双情感对等融合",
+        "王家卫",
+        "霓虹街道, 雨夜, 663 与阿菲擦肩, 罐头, 慢镜头, 抽帧",
+        0.5
+      ]
+    },
+    {
+      "id": 3,
+      "type": "StyleGuidePro",
+      "pos": [800, 60],
+      "size": [320, 240],
+      "properties": {},
+      "widgets_values": [
+        "流行",
+        "互补色",
+        "王家卫",
+        "ON",
+        "ON"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "SpatialConsistencyPro",
+      "pos": [800, 340],
+      "size": [320, 240],
+      "properties": {},
+      "widgets_values": [
+        "重庆大厦霓虹走廊, 庙街夜市, 中环扶梯, 兰桂坊酒吧, 重庆站钟表行",
+        "王家卫",
+        0.7,
+        "1994",
+        0.7
+      ]
+    },
+    {
+      "id": 5,
+      "type": "ColorGradingPro",
+      "pos": [1160, 60],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "高饱和霓虹, 冷蓝阴影 + 暖红高光, 抽帧 80% 速度, 高反差",
+        "王家卫",
+        "loneliness",
+        0.5,
+        0.7,
+        "霓虹",
+        "auto"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ArtDirectionPro",
+      "pos": [1160, 380],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "霓虹招牌, 老式钟表, 雨夜, 凤梨罐头, 慢镜, 香港 1994, 重庆大厦, 庙街, 中环, 兰桂坊",
+        "王家卫",
+        "高饱和色彩 + 霓虹光 + 冷暖对比 + 运动模糊",
+        "loneliness",
+        0.5,
+        "auto",
+        "ON"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "ShotSelectionPro",
+      "pos": [1520, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "候选 1: 663 戴墨镜, 凤梨罐头, 抽帧 80%, 霓虹反射\n候选 2: 阿菲混入 663 房间, 慢镜, 凤梨罐头对比, 蓝紫调\n候选 3: 663 跑步机吃罐头, 阳台抽烟, 远景城市霓虹, 高饱和高反差",
+        "王家卫",
+        "loneliness,longing",
+        "{\"1_叙事架构\": 0.15, \"2_情感调度\": 0.20, \"3_节奏控制\": 0.20, \"4_视觉语言\": 0.15, \"5_表演指导\": 0.10, \"6_场面调度\": 0.10, \"7_审美判断\": 0.05, \"8_反AI味\": 0.05}"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "QualityAssurancePro",
+      "pos": [1880, 200],
+      "size": [320, 240],
+      "properties": {},
+      "widgets_values": [
+        "整体包装输出, 反 AI 检查, 评分",
+        "ON",
+        "ON"
+      ]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "STRING"],
+    [2, 2, 0, 3, 1, "STRING"],
+    [3, 2, 0, 4, 0, "STRING"],
+    [4, 1, 0, 5, 0, "STRING"],
+    [5, 3, 0, 5, 1, "STRING"],
+    [6, 1, 3, 6, 0, "STRING"],
+    [7, 2, 0, 7, 0, "STRING"]
+  ],
+  "groups": [
+    {
+      "title": "🎨 完整审美工作流 (Phase 28)",
+      "bounding": [40, 40, 2200, 660],
+      "color": "#3f789e"
+    }
+  ],
+  "config": {},
+  "extra": {
+    "workflow_info": {
+      "name": "完整审美工作流",
+      "phase": "28 P0 + P1",
+      "description": "8 节点完整审美流程: 审美判断 → 灵魂注入 → 风格指南 → 空间一致性 → 调色 → 美术 → 选片 → 质量保证",
+      "use_case": "王家卫/侯孝贤/陈凯歌/诺兰 等强烈视觉风格作品, 需要 8 原则 + 6 导演 + 120 场景全维度审美判断",
+      "total_nodes": 8,
+      "complexity": "高",
+      "estimated_time": "30-60 分钟"
+    }
+  },
+  "version": 1
+}

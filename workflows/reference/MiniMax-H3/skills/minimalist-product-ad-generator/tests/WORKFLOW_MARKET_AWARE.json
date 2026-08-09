@@ -1,0 +1,132 @@
+{
+  "last_node_id": 6,
+  "last_link_id": 5,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarketAudiencePro",
+      "pos": [80, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "悬疑",
+        "暑期档",
+        "腰部",
+        0.6,
+        0.7,
+        0.6,
+        0.85
+      ]
+    },
+    {
+      "id": 2,
+      "type": "ConceptPitchPro",
+      "pos": [440, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "雨夜中的密室杀人案, 一个 24 小时便利店, 4 个嫌疑人, 每个人都有自己的秘密",
+        "诺兰",
+        0.6,
+        "烧脑, 反转, 心理博弈",
+        "24 小时便利店, 雨夜, 监控, 4 个嫌疑人 (店员/顾客/外卖员/警察)",
+        "auto",
+        "auto"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "DirectorStoryboardPro",
+      "pos": [800, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "40 个分镜, 5 个主要场景, 平均 2.25 分钟, 紧凑节奏",
+        "诺兰",
+        "auto",
+        0.7,
+        "auto"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "AestheticJudgmentPro",
+      "pos": [1160, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "诺兰 24小时便利店 雨夜 高对比 冷色调 心理博弈",
+        "诺兰",
+        "URBAN_INTERIOR",
+        "anticipation,fear",
+        "",
+        "ON",
+        "anticipation",
+        "fear",
+        0.7,
+        "auto"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "HookMasterPro",
+      "pos": [1520, 100],
+      "size": [320, 240],
+      "properties": {},
+      "widgets_values": [
+        "开始: 雨夜便利店, 顾客倒在地上, 监控画面定格 3 秒 - 悬念钩子, 立刻让人想知道凶手",
+        "诺兰",
+        "auto",
+        "30s 短视频开头, 必须在 3 秒抓住观众"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "VersionControlPro",
+      "pos": [1880, 100],
+      "size": [320, 240],
+      "properties": {},
+      "widgets_values": [
+        "convenience_store_mystery",
+        "commit",
+        "v1.0_concept_storyboard",
+        "完整故事梗概 + 40 个分镜",
+        "{\"director\": \"诺兰\", \"genre\": \"悬疑\", \"release_period\": \"暑期档\", \"position\": \"腰部\"}",
+        "{\"score\": 0.78, \"box_office_yi\": 2.5, \"risk\": \"中\"}",
+        "基于市场分析 (悬疑+暑期档+腰部) 的概念+分镜",
+        "",
+        "",
+        "",
+        "total",
+        5
+      ]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 1, "STRING"],
+    [2, 2, 0, 3, 0, "STRING"],
+    [3, 3, 0, 4, 0, "STRING"],
+    [4, 1, 0, 5, 1, "STRING"],
+    [5, 5, 0, 6, 0, "STRING"]
+  ],
+  "groups": [
+    {
+      "title": "📊 市场感知工作流 (Phase 28 P1)",
+      "bounding": [40, 40, 2200, 420],
+      "color": "#a04040"
+    }
+  ],
+  "config": {},
+  "extra": {
+    "workflow_info": {
+      "name": "市场感知工作流",
+      "phase": "28 P1",
+      "description": "6 节点市场驱动生产: 市场分析→概念→分镜→审美→钩子→版本控制",
+      "use_case": "从市场分析出发, 制作 5-30 亿腰部中成本悬疑/犯罪/科幻片",
+      "total_nodes": 6,
+      "complexity": "中",
+      "estimated_time": "1-2 小时"
+    }
+  },
+  "version": 1
+}

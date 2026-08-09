@@ -1,0 +1,4480 @@
+{
+  "last_node_id": 11,
+  "last_link_id": 34,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "DirectorSoulNode",
+      "pos": [
+        100,
+        100
+      ],
+      "size": [
+        260,
+        110
+      ],
+      "inputs": [
+        {
+          "name": "主导情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "主导情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "次要情感_1",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "次要情感_1",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "次要情感_2",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "次要情感_2",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "次要情感_3",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "次要情感_3",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "次要情感_4",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "次要情感_4",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "融合模式",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "融合模式",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "主导权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "主导权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "创造力",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "创造力",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "想象力",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "想象力",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "艺术表达",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "艺术表达",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "镜头技巧",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "镜头技巧",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "氛围掌控",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "氛围掌控",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵感指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵感指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "疲劳指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "疲劳指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "怀疑指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "怀疑指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "叛逆指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "叛逆指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "导演",
+            "type": "COMBO",
+            "value": "王家卫"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "场景描述",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "场景描述",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "故事强度",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "故事强度",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "场景进度",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "场景进度",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "soul_injection",
+          "type": "STRING",
+          "links": [
+            1,
+            7,
+            13,
+            19,
+            25
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorSoulNode: soul_injection"
+        },
+        {
+          "name": "fused_emotion",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorSoulNode: fused_emotion"
+        },
+        {
+          "name": "emotion_dimensions",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorSoulNode: emotion_dimensions"
+        },
+        {
+          "name": "soul_dimensions",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorSoulNode: soul_dimensions"
+        },
+        {
+          "name": "soul_state",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorSoulNode: soul_state"
+        },
+        {
+          "name": "director_signature",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorSoulNode: director_signature"
+        },
+        {
+          "name": "scene_prompt_addon",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorSoulNode: scene_prompt_addon"
+        },
+        {
+          "name": "h3_alignment_addon",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorSoulNode: h3_alignment_addon"
+        }
+      ],
+      "widgets_values": [
+        "auto",
+        "none",
+        "none",
+        "none",
+        "none",
+        "auto",
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        "王家卫",
+        "",
+        0.5,
+        0.5
+      ],
+      "properties": {}
+    },
+    {
+      "id": 2,
+      "type": "AestheticJudgmentPro",
+      "pos": [
+        100,
+        300
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "输入描述",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "输入描述",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演风格",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "导演风格",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "场景类型",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "场景类型",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "目标情感",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "目标情感",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "8原则权重",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "8原则权重",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "自动启用8原则",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "自动启用8原则",
+            "type": "COMBO",
+            "value": "ON"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导情感",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导情感",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_场景权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_场景权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_融合模式",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_融合模式",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "审美判断",
+          "type": "STRING",
+          "links": [
+            2,
+            8,
+            14,
+            20,
+            26
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "AestheticJudgmentPro: 审美判断"
+        },
+        {
+          "name": "8原则评分",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "AestheticJudgmentPro: 8原则评分"
+        },
+        {
+          "name": "色彩体系",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "AestheticJudgmentPro: 色彩体系"
+        },
+        {
+          "name": "场景匹配",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "AestheticJudgmentPro: 场景匹配"
+        },
+        {
+          "name": "摄影指导",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "AestheticJudgmentPro: 摄影指导"
+        },
+        {
+          "name": "色彩心理学",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "AestheticJudgmentPro: 色彩心理学"
+        }
+      ],
+      "widgets_values": [
+        "",
+        "auto",
+        "auto",
+        "",
+        "",
+        "ON",
+        "",
+        "",
+        0.5,
+        "auto"
+      ],
+      "properties": {}
+    },
+    {
+      "id": 3,
+      "type": "StyleGuidePro",
+      "pos": [
+        100,
+        500
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "调色风格",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "调色风格",
+            "type": "COMBO",
+            "value": "梦幻"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "配色方案",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "配色方案",
+            "type": "COMBO",
+            "value": "单色"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演体系",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "导演体系",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "包含调色口诀",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "包含调色口诀",
+            "type": "COMBO",
+            "value": "ON"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "包含调色盘",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "包含调色盘",
+            "type": "COMBO",
+            "value": "ON"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "风格指南",
+          "type": "STRING",
+          "links": [
+            3,
+            9,
+            15,
+            21,
+            27
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "StyleGuidePro: 风格指南"
+        },
+        {
+          "name": "完整 Prompt",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "StyleGuidePro: 完整 Prompt"
+        },
+        {
+          "name": "调色盘",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "StyleGuidePro: 调色盘"
+        },
+        {
+          "name": "调色口诀",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "StyleGuidePro: 调色口诀"
+        }
+      ],
+      "widgets_values": [
+        "梦幻",
+        "单色",
+        "auto",
+        "ON",
+        "ON"
+      ],
+      "properties": {}
+    },
+    {
+      "id": 4,
+      "type": "EditingPro",
+      "pos": [
+        100,
+        700
+      ],
+      "size": [
+        260,
+        190
+      ],
+      "inputs": [
+        {
+          "name": "任务类型",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "任务类型",
+            "type": "COMBO",
+            "value": "T2VA (文生视频, 无参考图)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "类型",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "类型",
+            "type": "COMBO",
+            "value": "自动"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "场景描述",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "场景描述",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演风格",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "导演风格",
+            "type": "COMBO",
+            "value": "塔可夫斯基"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "情绪节奏",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "情绪节奏",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "切点策略",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "切点策略",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "长镜占比",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "长镜占比",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "跳切场景",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "跳切场景",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "蒙太奇",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "蒙太奇",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "静音切",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "静音切",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感_1",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感_1",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感_2",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感_2",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感_3",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感_3",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感_4",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感_4",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_融合模式",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_融合模式",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_创造力",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_创造力",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_想象力",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_想象力",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_艺术表达",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_艺术表达",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_镜头技巧",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_镜头技巧",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_氛围掌控",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_氛围掌控",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_灵感指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_灵感指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_疲劳指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_疲劳指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_怀疑指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_怀疑指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_叛逆指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_叛逆指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_故事强度",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_故事强度",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_场景进度",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_场景进度",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "启用反AI规则",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "启用反AI规则",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演意图_观众应感到",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "导演意图_观众应感到",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "潜文本_情感",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "潜文本_情感",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "情绪基调",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "情绪基调",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键道具",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "关键道具",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键参考片",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "关键参考片",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "灵魂addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorSoulNode 的灵魂注入输出 (8 维情感/状态/导演签名)\n起点节点: DirectorSoulNode (无上游,纯 widget 即可启动)"
+        },
+        {
+          "name": "审美addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "审美addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】AestheticJudgmentPro 的审美判断输出 (8原则+6导演+120场景)\n起点节点: AestheticJudgmentPro"
+        },
+        {
+          "name": "风格addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "风格addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】StyleGuidePro 的风格指南输出 (5调色+5配色+6导演+20口诀)\n起点节点: StyleGuidePro"
+        },
+        {
+          "name": "经验addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "经验addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+        },
+        {
+          "name": "控制addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "控制addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorIntentPro 的导演意图输出 (4 类意图)\n起点节点: DirectorIntentPro"
+        },
+        {
+          "name": "节奏addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "节奏addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】EditingPro 的剪辑节奏输出 (情绪节奏+切点策略+长镜+跳切+蒙太奇)\n起点节点: EditingPro"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "editingpro_soul_prompt",
+          "type": "STRING",
+          "links": [
+            6,
+            12,
+            18,
+            24,
+            30
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "EditingPro: editingpro_soul_prompt"
+        },
+        {
+          "name": "rhythm_experience_matrix",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "EditingPro: rhythm_experience_matrix"
+        },
+        {
+          "name": "ai_deep_soul_processing",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "EditingPro: ai_deep_soul_processing"
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "",
+        "",
+        1,
+        "",
+        "",
+        "",
+        "auto",
+        "none",
+        "none",
+        "none",
+        "none",
+        "auto",
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        true,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "properties": {}
+    },
+    {
+      "id": 5,
+      "type": "DirectorIntentPro",
+      "pos": [
+        100,
+        900
+      ],
+      "size": [
+        260,
+        182
+      ],
+      "inputs": [
+        {
+          "name": "场景类型",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "场景类型",
+            "type": "COMBO",
+            "value": "对话"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "场景描述",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "场景描述",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "角色A",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "角色A",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "角色B",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "角色B",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "感受意图_观众应感到",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "感受意图_观众应感到",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "情感意图_角色应有",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "情感意图_角色应有",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关系意图_此刻是",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "关系意图_此刻是",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "主题意图_承载",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "主题意图_承载",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "留白意图_什么不该说",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "留白意图_什么不该说",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "实际对白数",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "实际对白数",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "沉默时长分钟",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "沉默时长分钟",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "每句对白前停顿秒数",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "每句对白前停顿秒数",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感_1",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感_1",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感_2",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感_2",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感_3",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感_3",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感_4",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感_4",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_融合模式",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_融合模式",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_创造力",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_创造力",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_想象力",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_想象力",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_艺术表达",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_艺术表达",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_镜头技巧",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_镜头技巧",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_氛围掌控",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_氛围掌控",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_灵感指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_灵感指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_疲劳指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_疲劳指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_怀疑指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_怀疑指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_叛逆指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_叛逆指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "故事强度",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "故事强度",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "场景进度",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "场景进度",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演风格",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "导演风格",
+            "type": "COMBO",
+            "value": "王家卫"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "启用反AI规则",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "启用反AI规则",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "灵魂addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorSoulNode 的灵魂注入输出 (8 维情感/状态/导演签名)\n起点节点: DirectorSoulNode (无上游,纯 widget 即可启动)"
+        },
+        {
+          "name": "审美addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "审美addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】AestheticJudgmentPro 的审美判断输出 (8原则+6导演+120场景)\n起点节点: AestheticJudgmentPro"
+        },
+        {
+          "name": "风格addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "风格addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】StyleGuidePro 的风格指南输出 (5调色+5配色+6导演+20口诀)\n起点节点: StyleGuidePro"
+        },
+        {
+          "name": "经验addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "经验addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+        },
+        {
+          "name": "控制addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "控制addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorIntentPro 的导演意图输出 (4 类意图)\n起点节点: DirectorIntentPro"
+        },
+        {
+          "name": "节奏addon",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "节奏addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】EditingPro 的剪辑节奏输出 (情绪节奏+切点策略+长镜+跳切+蒙太奇)\n起点节点: EditingPro"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "intent_statement",
+          "type": "STRING",
+          "links": [
+            5,
+            11,
+            17,
+            23,
+            29
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorIntentPro: intent_statement"
+        },
+        {
+          "name": "director_intent_samples",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorIntentPro: director_intent_samples"
+        },
+        {
+          "name": "anti_ai_cleaned",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorIntentPro: anti_ai_cleaned"
+        }
+      ],
+      "widgets_values": [
+        "对话",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        1,
+        1,
+        1,
+        "auto",
+        "none",
+        "none",
+        "none",
+        "none",
+        "auto",
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        "王家卫",
+        true,
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "properties": {}
+    },
+    {
+      "id": 6,
+      "type": "Phase14AssetRegistry",
+      "pos": [
+        100,
+        1100
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "资产名",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "资产名",
+            "type": "COMBO",
+            "value": "@crystal_sword"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "状态版本",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "状态版本",
+            "type": "COMBO",
+            "value": "(默认)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "是否压力测试",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "是否压力测试",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "是否锁定",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "是否锁定",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "descriptor",
+          "type": "STRING",
+          "links": [
+            4,
+            10,
+            16,
+            22,
+            28
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "Phase14AssetRegistry: descriptor"
+        },
+        {
+          "name": "state_descriptor",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "Phase14AssetRegistry: state_descriptor"
+        },
+        {
+          "name": "voice_signature",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "Phase14AssetRegistry: voice_signature"
+        },
+        {
+          "name": "behavior_signature",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "Phase14AssetRegistry: behavior_signature"
+        },
+        {
+          "name": "full_prompt_block",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "Phase14AssetRegistry: full_prompt_block"
+        },
+        {
+          "name": "lock_and_test_report",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "Phase14AssetRegistry: lock_and_test_report"
+        }
+      ],
+      "widgets_values": [
+        "@crystal_sword",
+        "(默认)",
+        true,
+        true
+      ],
+      "properties": {}
+    },
+    {
+      "id": 7,
+      "type": "ScriptArchitecturePro",
+      "pos": [
+        500,
+        100
+      ],
+      "size": [
+        260,
+        158
+      ],
+      "inputs": [
+        {
+          "name": "题材",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "题材",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "片长分钟",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "片长分钟",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "集数",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "集数",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "主题_可多选",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "主题_可多选",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "核心冲突",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "核心冲突",
+            "type": "COMBO",
+            "value": "人与人"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "哲学内核",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "哲学内核",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演风格_63选1",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "导演风格_63选1",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "时代背景",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "时代背景",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "地域文化",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "地域文化",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "叙事结构",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "叙事结构",
+            "type": "COMBO",
+            "value": "经典三幕剧"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "反转次数",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "反转次数",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "多线并行",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "多线并行",
+            "type": "COMBO",
+            "value": "无"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "隐喻层数",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "隐喻层数",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "主角数量",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "主角数量",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "反派数量",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "反派数量",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "目标受众",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "目标受众",
+            "type": "COMBO",
+            "value": "大众"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "节奏密度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "节奏密度",
+            "type": "COMBO",
+            "value": "疏 (留白多)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "留白比例",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "留白比例",
+            "type": "COMBO",
+            "value": "10%以下"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "余韵强度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "余韵强度",
+            "type": "COMBO",
+            "value": "淡"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_场景权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_场景权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_融合模式",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_融合模式",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "额外禁用词",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "额外禁用词",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "启用反AI规则",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "启用反AI规则",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "多轮迭代",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "多轮迭代",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂addon",
+          "type": "STRING",
+          "link": 1,
+          "widget": {
+            "name": "灵魂addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorSoulNode 的灵魂注入输出 (8 维情感/状态/导演签名)\n起点节点: DirectorSoulNode (无上游,纯 widget 即可启动)"
+        },
+        {
+          "name": "审美addon",
+          "type": "STRING",
+          "link": 2,
+          "widget": {
+            "name": "审美addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】AestheticJudgmentPro 的审美判断输出 (8原则+6导演+120场景)\n起点节点: AestheticJudgmentPro"
+        },
+        {
+          "name": "风格addon",
+          "type": "STRING",
+          "link": 3,
+          "widget": {
+            "name": "风格addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】StyleGuidePro 的风格指南输出 (5调色+5配色+6导演+20口诀)\n起点节点: StyleGuidePro"
+        },
+        {
+          "name": "经验addon",
+          "type": "STRING",
+          "link": 4,
+          "widget": {
+            "name": "经验addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+        },
+        {
+          "name": "控制addon",
+          "type": "STRING",
+          "link": 5,
+          "widget": {
+            "name": "控制addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorIntentPro 的导演意图输出 (4 类意图)\n起点节点: DirectorIntentPro"
+        },
+        {
+          "name": "节奏addon",
+          "type": "STRING",
+          "link": 6,
+          "widget": {
+            "name": "节奏addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】EditingPro 的剪辑节奏输出 (情绪节奏+切点策略+长镜+跳切+蒙太奇)\n起点节点: EditingPro"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "story_architecture",
+          "type": "STRING",
+          "links": [
+            31
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "ScriptArchitecturePro: story_architecture"
+        },
+        {
+          "name": "anti_ai_rules",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "ScriptArchitecturePro: anti_ai_rules"
+        },
+        {
+          "name": "iteration_chain",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "ScriptArchitecturePro: iteration_chain"
+        }
+      ],
+      "widgets_values": [
+        "",
+        1,
+        1,
+        "",
+        "人与人",
+        "",
+        "",
+        "",
+        "",
+        "经典三幕剧",
+        1,
+        "无",
+        1,
+        1,
+        1,
+        "大众",
+        "疏 (留白多)",
+        "10%以下",
+        "淡",
+        "auto",
+        "auto",
+        0.5,
+        "auto",
+        "",
+        true,
+        true,
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "properties": {}
+    },
+    {
+      "id": 8,
+      "type": "ScriptBodyPro",
+      "pos": [
+        500,
+        300
+      ],
+      "size": [
+        260,
+        134
+      ],
+      "inputs": [
+        {
+          "name": "故事架构_来自节点1",
+          "type": "STRING",
+          "link": 31,
+          "widget": {
+            "name": "故事架构_来自节点1",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演风格_63选1",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "导演风格_63选1",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "对白密度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "对白密度",
+            "type": "COMBO",
+            "value": "极少 (10%以下)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "静默场景比例",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "静默场景比例",
+            "type": "COMBO",
+            "value": "几乎不 (5%)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "食物出现频率",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "食物出现频率",
+            "type": "COMBO",
+            "value": "无"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "物件密度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "物件密度",
+            "type": "COMBO",
+            "value": "少"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "时代具体度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "时代具体度",
+            "type": "COMBO",
+            "value": "模糊 (一天)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "地点具体度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "地点具体度",
+            "type": "COMBO",
+            "value": "模糊"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "对白最大字数",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "对白最大字数",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "主角身体习惯",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "主角身体习惯",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "主角口头禅",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "主角口头禅",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "场次数量",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "场次数量",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "最长场次时长秒",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "最长场次时长秒",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "反AI强度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "反AI强度",
+            "type": "COMBO",
+            "value": "关"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_场景权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_场景权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_融合模式",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_融合模式",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "额外禁用词",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "额外禁用词",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "生成样例小段",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "生成样例小段",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂addon",
+          "type": "STRING",
+          "link": 7,
+          "widget": {
+            "name": "灵魂addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorSoulNode 的灵魂注入输出 (8 维情感/状态/导演签名)\n起点节点: DirectorSoulNode (无上游,纯 widget 即可启动)"
+        },
+        {
+          "name": "审美addon",
+          "type": "STRING",
+          "link": 8,
+          "widget": {
+            "name": "审美addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】AestheticJudgmentPro 的审美判断输出 (8原则+6导演+120场景)\n起点节点: AestheticJudgmentPro"
+        },
+        {
+          "name": "风格addon",
+          "type": "STRING",
+          "link": 9,
+          "widget": {
+            "name": "风格addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】StyleGuidePro 的风格指南输出 (5调色+5配色+6导演+20口诀)\n起点节点: StyleGuidePro"
+        },
+        {
+          "name": "经验addon",
+          "type": "STRING",
+          "link": 10,
+          "widget": {
+            "name": "经验addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+        },
+        {
+          "name": "控制addon",
+          "type": "STRING",
+          "link": 11,
+          "widget": {
+            "name": "控制addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorIntentPro 的导演意图输出 (4 类意图)\n起点节点: DirectorIntentPro"
+        },
+        {
+          "name": "节奏addon",
+          "type": "STRING",
+          "link": 12,
+          "widget": {
+            "name": "节奏addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】EditingPro 的剪辑节奏输出 (情绪节奏+切点策略+长镜+跳切+蒙太奇)\n起点节点: EditingPro"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "script_body",
+          "type": "STRING",
+          "links": [
+            32
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "ScriptBodyPro: script_body"
+        },
+        {
+          "name": "anti_ai_sample",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "ScriptBodyPro: anti_ai_sample"
+        },
+        {
+          "name": "iteration_chain",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "ScriptBodyPro: iteration_chain"
+        }
+      ],
+      "widgets_values": [
+        "",
+        "",
+        "极少 (10%以下)",
+        "几乎不 (5%)",
+        "无",
+        "少",
+        "模糊 (一天)",
+        "模糊",
+        1,
+        "",
+        "",
+        1,
+        1,
+        "关",
+        "auto",
+        0.5,
+        "auto",
+        "auto",
+        "",
+        true,
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "properties": {}
+    },
+    {
+      "id": 9,
+      "type": "DirectorStoryboardPro",
+      "pos": [
+        500,
+        500
+      ],
+      "size": [
+        260,
+        206
+      ],
+      "inputs": [
+        {
+          "name": "剧本正文_来自节点2",
+          "type": "STRING",
+          "link": 32,
+          "widget": {
+            "name": "剧本正文_来自节点2",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演风格_8选1",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "导演风格_8选1",
+            "type": "COMBO",
+            "value": "Paul Thomas Anderson (PTA)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "景别偏好",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "景别偏好",
+            "type": "COMBO",
+            "value": "大量特写"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "摄影机运动",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "摄影机运动",
+            "type": "COMBO",
+            "value": "固定"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "光线风格",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "光线风格",
+            "type": "COMBO",
+            "value": "自然光 (侯孝贤/是枝裕和)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "色彩基调",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "色彩基调",
+            "type": "COMBO",
+            "value": "高饱和 (王家卫/李安早期)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "声音设计",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "声音设计",
+            "type": "COMBO",
+            "value": "无声 + 环境声 (侯孝贤/蔡明亮)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "剪辑节奏",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "剪辑节奏",
+            "type": "COMBO",
+            "value": "极慢 (30 秒/镜)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "表演指导",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "表演指导",
+            "type": "COMBO",
+            "value": "克制 (无表情)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "留白密度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "留白密度",
+            "type": "COMBO",
+            "value": "几乎不留"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "反转密度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "反转密度",
+            "type": "COMBO",
+            "value": "无"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "余韵强度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "余韵强度",
+            "type": "COMBO",
+            "value": "淡"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "长镜头时长秒",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "长镜头时长秒",
+            "type": "INT",
+            "value": 1
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "空镜占比",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "空镜占比",
+            "type": "COMBO",
+            "value": "10%以下"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "多线交叉频率",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "多线交叉频率",
+            "type": "COMBO",
+            "value": "每场"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "声音先于画面",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "声音先于画面",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "一镜到底",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "一镜到底",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "反AI强度",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "反AI强度",
+            "type": "COMBO",
+            "value": "关"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "额外禁用词",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "额外禁用词",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键道具",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "关键道具",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "潜文本_情感",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "潜文本_情感",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "情绪基调",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "情绪基调",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演意图_观众应感到",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "导演意图_观众应感到",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "生成样例小段",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "生成样例小段",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_场景权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_场景权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_融合模式",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_融合模式",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_创造力",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_创造力",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_镜头技巧",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_镜头技巧",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_氛围掌控",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_氛围掌控",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_灵感指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_灵感指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_疲劳指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_疲劳指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_怀疑指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_怀疑指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_叛逆指数",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_叛逆指数",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_故事强度",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_故事强度",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_场景进度",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_场景进度",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂addon",
+          "type": "STRING",
+          "link": 13,
+          "widget": {
+            "name": "灵魂addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorSoulNode 的灵魂注入输出 (8 维情感/状态/导演签名)\n起点节点: DirectorSoulNode (无上游,纯 widget 即可启动)"
+        },
+        {
+          "name": "审美addon",
+          "type": "STRING",
+          "link": 14,
+          "widget": {
+            "name": "审美addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】AestheticJudgmentPro 的审美判断输出 (8原则+6导演+120场景)\n起点节点: AestheticJudgmentPro"
+        },
+        {
+          "name": "风格addon",
+          "type": "STRING",
+          "link": 15,
+          "widget": {
+            "name": "风格addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】StyleGuidePro 的风格指南输出 (5调色+5配色+6导演+20口诀)\n起点节点: StyleGuidePro"
+        },
+        {
+          "name": "经验addon",
+          "type": "STRING",
+          "link": 16,
+          "widget": {
+            "name": "经验addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+        },
+        {
+          "name": "控制addon",
+          "type": "STRING",
+          "link": 17,
+          "widget": {
+            "name": "控制addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorIntentPro 的导演意图输出 (4 类意图)\n起点节点: DirectorIntentPro"
+        },
+        {
+          "name": "节奏addon",
+          "type": "STRING",
+          "link": 18,
+          "widget": {
+            "name": "节奏addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】EditingPro 的剪辑节奏输出 (情绪节奏+切点策略+长镜+跳切+蒙太奇)\n起点节点: EditingPro"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "storyboard",
+          "type": "STRING",
+          "links": [
+            33
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorStoryboardPro: storyboard"
+        },
+        {
+          "name": "anti_ai_sample",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorStoryboardPro: anti_ai_sample"
+        },
+        {
+          "name": "iteration_chain",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "DirectorStoryboardPro: iteration_chain"
+        }
+      ],
+      "widgets_values": [
+        "",
+        "Paul Thomas Anderson (PTA)",
+        "大量特写",
+        "固定",
+        "自然光 (侯孝贤/是枝裕和)",
+        "高饱和 (王家卫/李安早期)",
+        "无声 + 环境声 (侯孝贤/蔡明亮)",
+        "极慢 (30 秒/镜)",
+        "克制 (无表情)",
+        "几乎不留",
+        "无",
+        "淡",
+        1,
+        "10%以下",
+        "每场",
+        true,
+        true,
+        "关",
+        "",
+        "",
+        "",
+        "",
+        "",
+        true,
+        "auto",
+        "auto",
+        0.5,
+        "auto",
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "properties": {}
+    },
+    {
+      "id": 10,
+      "type": "ColorGradingPro",
+      "pos": [
+        500,
+        700
+      ],
+      "size": [
+        260,
+        174
+      ],
+      "inputs": [
+        {
+          "name": "任务类型",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "任务类型",
+            "type": "COMBO",
+            "value": "T2VA (文生视频, 无参考图)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "类型",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "类型",
+            "type": "COMBO",
+            "value": "自动"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "场景描述",
+          "type": "STRING",
+          "link": 33,
+          "widget": {
+            "name": "场景描述",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演风格",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "导演风格",
+            "type": "COMBO",
+            "value": "塔可夫斯基"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "色彩风格",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "色彩风格",
+            "type": "COMBO",
+            "value": "罗杰·迪金斯_Roger_Deakins"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "焦段",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "焦段",
+            "type": "COMBO",
+            "value": "14mm_ultra_wide"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "光圈",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "光圈",
+            "type": "COMBO",
+            "value": "T1.4_T2_extreme"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "景别",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "景别",
+            "type": "COMBO",
+            "value": "ELS"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "构图法则",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "构图法则",
+            "type": "COMBO",
+            "value": "rule_of_thirds"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "主色_60",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "主色_60",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "辅色_30",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "辅色_30",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "点缀色_10",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "点缀色_10",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "一级调色",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "一级调色",
+            "type": "COMBO",
+            "value": "统一色温/对比度/曝光"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "二级调色",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "二级调色",
+            "type": "COMBO",
+            "value": "肤色优先"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "创意调色",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "创意调色",
+            "type": "COMBO",
+            "value": "强化点缀色 10%"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "光源类型",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "光源类型",
+            "type": "COMBO",
+            "value": "自然光 (太阳)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "光影方向",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "光影方向",
+            "type": "COMBO",
+            "value": "顺光"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "色温",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "色温",
+            "type": "COMBO",
+            "value": "warm_3200K"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "比例",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "比例",
+            "type": "COMBO",
+            "value": "高调_2_1"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "时间",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "时间",
+            "type": "COMBO",
+            "value": "正午"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "情绪基调",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "情绪基调",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "潜文本_情感",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "潜文本_情感",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演意图_观众应感到",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "导演意图_观众应感到",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键道具",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "关键道具",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键参考片",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "关键参考片",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "启用反AI规则",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "启用反AI规则",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_场景权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_场景权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_融合模式",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_融合模式",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂addon",
+          "type": "STRING",
+          "link": 19,
+          "widget": {
+            "name": "灵魂addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorSoulNode 的灵魂注入输出 (8 维情感/状态/导演签名)\n起点节点: DirectorSoulNode (无上游,纯 widget 即可启动)"
+        },
+        {
+          "name": "审美addon",
+          "type": "STRING",
+          "link": 20,
+          "widget": {
+            "name": "审美addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】AestheticJudgmentPro 的审美判断输出 (8原则+6导演+120场景)\n起点节点: AestheticJudgmentPro"
+        },
+        {
+          "name": "风格addon",
+          "type": "STRING",
+          "link": 21,
+          "widget": {
+            "name": "风格addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】StyleGuidePro 的风格指南输出 (5调色+5配色+6导演+20口诀)\n起点节点: StyleGuidePro"
+        },
+        {
+          "name": "经验addon",
+          "type": "STRING",
+          "link": 22,
+          "widget": {
+            "name": "经验addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+        },
+        {
+          "name": "控制addon",
+          "type": "STRING",
+          "link": 23,
+          "widget": {
+            "name": "控制addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorIntentPro 的导演意图输出 (4 类意图)\n起点节点: DirectorIntentPro"
+        },
+        {
+          "name": "节奏addon",
+          "type": "STRING",
+          "link": 24,
+          "widget": {
+            "name": "节奏addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】EditingPro 的剪辑节奏输出 (情绪节奏+切点策略+长镜+跳切+蒙太奇)\n起点节点: EditingPro"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "colorgradingpro_h3_prompt",
+          "type": "STRING",
+          "links": [
+            34
+          ],
+          "color": "#7f9e5a",
+          "tooltip": "ColorGradingPro: colorgradingpro_h3_prompt"
+        },
+        {
+          "name": "color_60_30_10_script",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "ColorGradingPro: color_60_30_10_script"
+        },
+        {
+          "name": "color_8_masters_style",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "ColorGradingPro: color_8_masters_style"
+        },
+        {
+          "name": "color_grading_3stage",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "ColorGradingPro: color_grading_3stage"
+        },
+        {
+          "name": "lighting_9d_design",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "ColorGradingPro: lighting_9d_design"
+        },
+        {
+          "name": "experience_matrix",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "ColorGradingPro: experience_matrix"
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "罗杰·迪金斯_Roger_Deakins",
+        "14mm_ultra_wide",
+        "T1.4_T2_extreme",
+        "ELS",
+        "rule_of_thirds",
+        "",
+        "",
+        "",
+        "统一色温/对比度/曝光",
+        "肤色优先",
+        "强化点缀色 10%",
+        "自然光 (太阳)",
+        "顺光",
+        "warm_3200K",
+        "高调_2_1",
+        "正午",
+        "",
+        "",
+        "",
+        "",
+        "",
+        true,
+        "auto",
+        0.5,
+        "none",
+        "auto",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "properties": {}
+    },
+    {
+      "id": 11,
+      "type": "QualityAssurancePro",
+      "pos": [
+        500,
+        900
+      ],
+      "size": [
+        260,
+        110
+      ],
+      "inputs": [
+        {
+          "name": "任务类型",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "任务类型",
+            "type": "COMBO",
+            "value": "T2VA (文生视频, 无参考图)"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "类型",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "类型",
+            "type": "COMBO",
+            "value": "自动"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "场景描述",
+          "type": "STRING",
+          "link": 34,
+          "widget": {
+            "name": "场景描述",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演风格",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "导演风格",
+            "type": "COMBO",
+            "value": "塔可夫斯基"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "情绪基调",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "情绪基调",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "潜文本_情感",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "潜文本_情感",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演意图_观众应感到",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "导演意图_观众应感到",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键道具",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "关键道具",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键参考片",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "关键参考片",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "启用反AI规则",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "启用反AI规则",
+            "type": "BOOLEAN",
+            "value": true
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_主导情感",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_场景权重",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "灵魂_场景权重",
+            "type": "FLOAT",
+            "value": 0.5
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_次要情感",
+            "type": "COMBO",
+            "value": "none"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_融合模式",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "灵魂_融合模式",
+            "type": "COMBO",
+            "value": "auto"
+          },
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂addon",
+          "type": "STRING",
+          "link": 25,
+          "widget": {
+            "name": "灵魂addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorSoulNode 的灵魂注入输出 (8 维情感/状态/导演签名)\n起点节点: DirectorSoulNode (无上游,纯 widget 即可启动)"
+        },
+        {
+          "name": "审美addon",
+          "type": "STRING",
+          "link": 26,
+          "widget": {
+            "name": "审美addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】AestheticJudgmentPro 的审美判断输出 (8原则+6导演+120场景)\n起点节点: AestheticJudgmentPro"
+        },
+        {
+          "name": "风格addon",
+          "type": "STRING",
+          "link": 27,
+          "widget": {
+            "name": "风格addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】StyleGuidePro 的风格指南输出 (5调色+5配色+6导演+20口诀)\n起点节点: StyleGuidePro"
+        },
+        {
+          "name": "经验addon",
+          "type": "STRING",
+          "link": 28,
+          "widget": {
+            "name": "经验addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+        },
+        {
+          "name": "控制addon",
+          "type": "STRING",
+          "link": 29,
+          "widget": {
+            "name": "控制addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】DirectorIntentPro 的导演意图输出 (4 类意图)\n起点节点: DirectorIntentPro"
+        },
+        {
+          "name": "节奏addon",
+          "type": "STRING",
+          "link": 30,
+          "widget": {
+            "name": "节奏addon",
+            "type": "STRING",
+            "value": ""
+          },
+          "color": "#7f9e5a",
+          "tooltip": "【接入上游】EditingPro 的剪辑节奏输出 (情绪节奏+切点策略+长镜+跳切+蒙太奇)\n起点节点: EditingPro"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "qualityassurancepro_h3_prompt",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "QualityAssurancePro: qualityassurancepro_h3_prompt"
+        },
+        {
+          "name": "experience_matrix",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "QualityAssurancePro: experience_matrix"
+        },
+        {
+          "name": "ai_deep_processing",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "tooltip": "QualityAssurancePro: ai_deep_processing"
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "",
+        "",
+        "",
+        "",
+        "",
+        true,
+        "auto",
+        0.5,
+        "none",
+        "auto",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "properties": {}
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      7,
+      26,
+      "STRING"
+    ],
+    [
+      2,
+      2,
+      0,
+      7,
+      27,
+      "STRING"
+    ],
+    [
+      3,
+      3,
+      0,
+      7,
+      28,
+      "STRING"
+    ],
+    [
+      4,
+      6,
+      0,
+      7,
+      29,
+      "STRING"
+    ],
+    [
+      5,
+      5,
+      0,
+      7,
+      30,
+      "STRING"
+    ],
+    [
+      6,
+      4,
+      0,
+      7,
+      31,
+      "STRING"
+    ],
+    [
+      7,
+      1,
+      0,
+      8,
+      20,
+      "STRING"
+    ],
+    [
+      8,
+      2,
+      0,
+      8,
+      21,
+      "STRING"
+    ],
+    [
+      9,
+      3,
+      0,
+      8,
+      22,
+      "STRING"
+    ],
+    [
+      10,
+      6,
+      0,
+      8,
+      23,
+      "STRING"
+    ],
+    [
+      11,
+      5,
+      0,
+      8,
+      24,
+      "STRING"
+    ],
+    [
+      12,
+      4,
+      0,
+      8,
+      25,
+      "STRING"
+    ],
+    [
+      13,
+      1,
+      0,
+      9,
+      38,
+      "STRING"
+    ],
+    [
+      14,
+      2,
+      0,
+      9,
+      39,
+      "STRING"
+    ],
+    [
+      15,
+      3,
+      0,
+      9,
+      40,
+      "STRING"
+    ],
+    [
+      16,
+      6,
+      0,
+      9,
+      41,
+      "STRING"
+    ],
+    [
+      17,
+      5,
+      0,
+      9,
+      42,
+      "STRING"
+    ],
+    [
+      18,
+      4,
+      0,
+      9,
+      43,
+      "STRING"
+    ],
+    [
+      19,
+      1,
+      0,
+      10,
+      30,
+      "STRING"
+    ],
+    [
+      20,
+      2,
+      0,
+      10,
+      31,
+      "STRING"
+    ],
+    [
+      21,
+      3,
+      0,
+      10,
+      32,
+      "STRING"
+    ],
+    [
+      22,
+      6,
+      0,
+      10,
+      33,
+      "STRING"
+    ],
+    [
+      23,
+      5,
+      0,
+      10,
+      34,
+      "STRING"
+    ],
+    [
+      24,
+      4,
+      0,
+      10,
+      35,
+      "STRING"
+    ],
+    [
+      25,
+      1,
+      0,
+      11,
+      14,
+      "STRING"
+    ],
+    [
+      26,
+      2,
+      0,
+      11,
+      15,
+      "STRING"
+    ],
+    [
+      27,
+      3,
+      0,
+      11,
+      16,
+      "STRING"
+    ],
+    [
+      28,
+      6,
+      0,
+      11,
+      17,
+      "STRING"
+    ],
+    [
+      29,
+      5,
+      0,
+      11,
+      18,
+      "STRING"
+    ],
+    [
+      30,
+      4,
+      0,
+      11,
+      19,
+      "STRING"
+    ],
+    [
+      31,
+      7,
+      0,
+      8,
+      0,
+      "STRING"
+    ],
+    [
+      32,
+      8,
+      0,
+      9,
+      0,
+      "STRING"
+    ],
+    [
+      33,
+      9,
+      0,
+      10,
+      2,
+      "STRING"
+    ],
+    [
+      34,
+      10,
+      0,
+      11,
+      2,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "workflow_info": {
+      "name": "端到端工作流 v2",
+      "phase": "Phase 28 改造 - 真实 input/output 接口",
+      "total_nodes": 11,
+      "total_links": 34,
+      "node_types": [
+        "AestheticJudgmentPro",
+        "ColorGradingPro",
+        "DirectorIntentPro",
+        "DirectorSoulNode",
+        "DirectorStoryboardPro",
+        "EditingPro",
+        "Phase14AssetRegistry",
+        "QualityAssurancePro",
+        "ScriptArchitecturePro",
+        "ScriptBodyPro",
+        "StyleGuidePro"
+      ],
+      "input_addons": [
+        "灵魂addon",
+        "审美addon",
+        "风格addon",
+        "经验addon",
+        "控制addon",
+        "节奏addon"
+      ],
+      "output_types": [
+        "STRING"
+      ],
+      "real_workflow": true
+    }
+  },
+  "version": 0.4
+}

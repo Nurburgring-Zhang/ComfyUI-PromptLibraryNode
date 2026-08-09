@@ -1,0 +1,57 @@
+# -*- coding: utf-8 -*-
+"""Phase 15 visual language node test"""
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import art_direction_pro as m
+
+node = m.ArtDirectionPro
+res = node().build_art_direction(
+    **{}
+)
+# Empty kwargs - test default
+print("=" * 60)
+print("Test 1: Default empty")
+print("=" * 60)
+for name, content in zip(node.RETURN_NAMES, res):
+    print(f"  [{name}] {len(content)} chars")
+    # Print first 200 chars
+    preview = content[:200].replace('\n', ' / ')
+    print(f"    preview: {preview}...")
+
+print()
+res = node().build_art_direction(
+    主材质="木质",
+    材质细节="原木桌, 有水渍",
+    光影预设="3_自然光_黄昏",
+    光影细节="夕阳60度侧光",
+    颜色基调="11_60_30_10_经典",
+    颜色细节="主橙黄 辅红 点缀老白绿",
+    空间类型="2_室内_开放",
+    空间细节="厨房 8 平米",
+    焦段="35mm_cinematic",
+    光圈="T2.8_cinematic_shallow",
+    景别="MS_medium",
+    构图法则="rule_of_thirds",
+    主色_60="暖橙黄 #D4A24C",
+    辅色_30="老红 #8B2E1F",
+    点缀色_10="老白绿 #8E9F7E",
+    光源类型="自然光 (太阳)",
+    方向="侧光",
+    强度="中光",
+    色温="warm_3200K",
+    软硬="软光",
+    比例="中间调_4_1",
+    阴影="长阴影",
+    特殊光影="轮廓光",
+    时间="黄昏",
+    时代="1998 年, 中国东北",
+    摄影指导="罗杰·迪金斯_Roger_Deakins",
+    启用反AI规则=True,
+)
+print("=" * 60)
+print("Test 2: Full kwargs (Deakins)")
+print("=" * 60)
+for name, content in zip(node.RETURN_NAMES, res):
+    print(f"  [{name}] {len(content)} chars")
+print()
+print("All chars total:", sum(len(c) for c in res))

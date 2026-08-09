@@ -64,6 +64,8 @@ from market_audience_pro import MarketAudiencePro
 from cleanup_pass_pro import CleanupPassPro
 from format_output_pro import FormatOutputPro
 from project_archive_pro import ProjectArchivePro
+from h3_context_ir_node import H3ContextIRNode
+from universal_director_prompt_node import UniversalDirectorPromptNode
 
 # ===== Phase 28 改造: 注入 6 个 STRING input slot 到 Production 节点 =====
 from _addon_injector import inject_addon_inputs, PRODUCTION_NODES, STARTING_NODES
@@ -110,6 +112,8 @@ _ALL_NODE_CLASSES = {
     "CleanupPassPro": CleanupPassPro,
     "FormatOutputPro": FormatOutputPro,
     "ProjectArchivePro": ProjectArchivePro,
+    "H3ContextIRNode": H3ContextIRNode,
+    "UniversalDirectorPromptNode": UniversalDirectorPromptNode,
 }
 
 # 给所有 Production 节点注入 6 个 input slot
@@ -171,6 +175,10 @@ _CATEGORY_UNIFIED = {
     "CleanupPassPro": "PromptLibrary/Phase28/清理",
     "FormatOutputPro": "PromptLibrary/Phase28/格式化",
     "ProjectArchivePro": "PromptLibrary/Phase28/归档",
+    # Phase 36.2: H3 Context IR
+    "H3ContextIRNode": "PromptLibrary/H3/ContextIR",
+    # Phase 36.3: 通用导演 Prompt (H3/Seedance/Wan/Sora/Veo/短剧 6 模型路由)
+    "UniversalDirectorPromptNode": "PromptLibrary/起点/通用",
 }
 
 _RETURN_NAMES_UNIFIED = {
@@ -185,6 +193,10 @@ _RETURN_NAMES_UNIFIED = {
     "HookMasterPro": ("hook_template", "hook_5_samples", "anti_ai_cleaned_samples"),
     "SpatialConsistencyPro": ("spatial_design", "rules_5_application", "director_samples"),
     "Phase14_CinematicStudio": ("effects_23_overview", "visual_language_params", "color_60_30_10_script", "lighting_9d_design", "dp_8_masters_style", "selected_model", "model_weakness_avoidance", "character_consistency_workflow", "stage_11_pipeline", "h3_prompt"),
+    # Phase 36.2: H3ContextIRNode
+    "H3ContextIRNode": ("h3_mode", "h3_instruction", "integrated_multimodal_description", "overall_soundscape", "non_diegetic_music", "h3_full_prompt", "h3_validation_report", "h3_summary_card"),
+    # Phase 36.3: UniversalDirectorPromptNode
+    "UniversalDirectorPromptNode": ("target_model", "model_specific_prompt", "h3_mode", "h3_full_prompt", "universal_5_section", "director_style_anchor", "shot_plan_with_timestamps", "dialogue_block", "audio_block", "story_arc_anchor", "validation_report", "anti_ai_clean_guarantee"),
 }
 
 # 应用 CATEGORY 统一覆盖
@@ -241,4 +253,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "CleanupPassPro": "🧹 清理通道 (P2) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
     "FormatOutputPro": "📐 格式化输出 (P2) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
     "ProjectArchivePro": "📦 项目归档 (P2) [终态·可接所有上游]",
+    "H3ContextIRNode": "🎬 H3 Context IR (MiniMax-H3 框架转换 5 模式) [起点·纯 widget]",
+    "UniversalDirectorPromptNode": "🎬 通用导演 Prompt (H3/Seedance/Wan/Sora/Veo/短剧 6 模型路由) [起点·纯 widget]",
 }
