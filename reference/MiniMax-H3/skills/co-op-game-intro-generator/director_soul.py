@@ -41,6 +41,25 @@ _WEB_QUOTES = []
 _WEB_FACTS = []
 _WEB_SIX_DIM = {}
 
+# Phase 36.2: MiniMax-H3 prompt 框架 (5 模式 + camera 3D + Ref2VA 6 段)
+_H3_FRAMEWORK_LOADED = False
+try:
+    from knowledge_base.h3_prompt_framework import (
+        H3_MODES,
+        H3_REF2VA_SECTIONS,
+        CAMERA_MOTION_TYPES,
+        RETENTION_MARKERS_VISIBLE,
+        RETENTION_MARKERS_AUDIO,
+        H3_REFERENCE_LABELS,
+        H3_ADDON_INJECTION_PLAN,
+        H3_OFFICIAL_SKILLS_SUMMARY,
+        render_camera_motion as _h3_render_camera,
+        select_h3_mode as _h3_select_mode,
+    )
+    _H3_FRAMEWORK_LOADED = True
+except Exception:
+    pass
+
 try:
     from knowledge_base.web_research_director_db import (
         DIRECTOR_PROFILES as _WEB_DIRECTOR_PROFILES,
@@ -2659,8 +2678,64 @@ def _build_soul_addons(
 ===END_QA_ADDON===
 """
 
-    out += "\n" + "═" * 40 + "\n【14 addon 段结束】\n" + "═" * 40 + "\n"
+    # 15. H3_ADDON (Phase 36.2: MiniMax-H3 框架整合到 DirectorSoulNode)
+    # 把 H3 5 模式 + camera 3D + Ref2VA 6 段 + 13 导演映射注入到 14 段下游
+    h3_camera_phrase = ""
+    if _H3_FRAMEWORK_LOADED:
+        h3_camera_phrase = _h3_render_camera(director)
+
+    out += f"""
+===H3_ADDON===
+供 H3ContextIRNode 解析 (MiniMax-H3 prompt framework)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name} (强度 {emo_intensity:.2f}, {emo_polarity})
+- H3 模式选择 (基于用户输入): T2VA / I2VA / FL2VA / L2VA / Ref2VA
+  - 默认 T2VA (纯文本) - 由 H3ContextIRNode.user_intent 决定
+  - 有首帧图: I2VA
+  - 有首尾帧图: FL2VA
+  - 有尾帧图: L2VA
+  - 有完整 reference (图片+视频+音频): Ref2VA
+- H3 导演镜头调度 (3D 拆解): {h3_camera_phrase if h3_camera_phrase else 'Push in with small amplitude at slow speed'}
+  - 来源: {director} 标志性 8 维 → H3 camera 13 motion types × 3 amplitudes × 3 speeds
+  - 真实 3 维: motion type (e.g. Truck Right) + amplitude (with small/large) + speed (at slow/fast)
+- H3 visual style 7 选 1: Cinematic / live-action / 2D-animated / 3D CG / claymation / watercolor / vintage film
+  - 基于 {director} 默认: Cinematic (主流), 3D CG (宫崎骏/皮克斯), live-action (王家卫/诺兰)
+- H3 reference labels 4 选: <Subject N> / <Picture N> / <Video N> / <Audio N>
+  - {director} 角色: <Subject 1> = 主角, <Subject 2+> = 配角/物件/环境
+- H3 dialogue 格式: <d>[Language] ...</d>
+  - {target_language_hint(director)} 对白格式
+- H3 shot cut 5 措辞: "the camera cuts to" / "the shot cuts to" / "the shot transitions to" / "the shot changes to" / "the shot switches to"
+- H3 cut timestamp: [Shot 2] At 00:03.500, the camera cuts to ... (MM:SS.mmm 严格递增)
+- H3 voiceover 规则: "S1 says in an off-screen voiceover: <d>...</d> while his lips remain completely closed"
+- H3 cross-cut dialogue: <scenetrans> 标记 + "continues seamlessly across the cut"
+- H3 truncated: <cutoff> 标记 + "ends with the dialogue being cut off"
+- H3 on-screen text: 双引号包裹, 保留原文 (例: red neon sign reading "营业中" glows above the doorway)
+- H3 overall_soundscape 1-4 句: 环境音 + 物理动作音 + 非语言人声, 排除对白/歌声/剧情音乐
+- H3 non_diegetic_music 1-3 句: 乐器 + 速度 + 节奏 + 动态变化, 排除抽象情绪词
+- H3 Ref2VA 6 段顺序: subject_definitions / summary / retention_analysis / detailed_description / overall_soundscape / non_diegetic_music
+- H3 retention markers (visible): fully_preserved / partially_preserved / attribute_transfer / weak_reference
+- H3 retention markers (audio): fully_copy / partially_copy / reference / weak_reference
+- H3 5 模式示例完整 Prompt 输出 (Base / I2VA / FL2VA / L2VA / Ref2VA 5 cases 全部按 H3 框架)
+- H3 9 官方 SKILL 可参考: {H3_OFFICIAL_SKILLS_SUMMARY.get('h3-prompt-writing', '') if _H3_FRAMEWORK_LOADED else 'h3-prompt-writing'}
+- H3 skill 工作流: project brief → story outline → character cards → scene cards → shot table → storyboard → video-model choice → single-shot clips → assembly → BGM → QC
+- H3 quality 标准: 11 种语言稳定支持 (Arabic/Chinese/English/French/German/Italian/Japanese/Korean/Portuguese/Russian/Spanish)
+- H3 限制: 输出 4-15s, 短边 768px, 24 FPS, 32kHz stereo
+- 灵魂状态映射: 灵感 {inspiration:.2f} → 镜头流动感, 疲劳 {fatigue:.2f} → 长镜头比例, 怀疑 {doubt:.2f} → 留白比例, 叛逆 {rebellious:.2f} → 跳切频率
+- 反 AI: 不许"按 H3 框架生成", 要"H3 mode = T2VA, Camera motion = Push in with small amplitude at slow speed, <d>[English] ...</d> 在 Shot 1 末, overall_soundscape 描述雨 + footsteps, non_diegetic_music = Sparse piano at slow tempo"
+- 导演签名: {director_sig}
+===END_H3_ADDON===
+"""
+
+    out += "\n" + "═" * 40 + "\n【14+1 addon 段结束 — 含 H3 整合】\n" + "═" * 40 + "\n"
     return out
+
+
+def target_language_hint(director: str) -> str:
+    """导演 → H3 对白语言提示"""
+    cn_directors = ["王家卫", "张艺谋", "姜文", "侯孝贤", "杜琪峰", "陈凯歌", "贾樟柯", "蔡明亮", "毕赣", "李安", "是枝裕和", "宫崎骏", "北野武", "朴赞郁", "黑泽明", "小津安二郎"]
+    if director in cn_directors:
+        return "Chinese (Mandarin/Cantonese 视导演)"
+    return "English (国际通用)"
 
 
 class DirectorSoulNode:
