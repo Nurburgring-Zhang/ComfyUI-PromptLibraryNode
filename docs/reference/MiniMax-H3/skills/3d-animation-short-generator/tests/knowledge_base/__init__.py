@@ -1,0 +1,13 @@
+# Knowledge Base - 世界级导演知识库
+# 包含从IMDB Top 250、热门短剧、爆款短视频中提取的专业影视制作知识
+
+from knowledge_base.master_cinematography import MASTER_CINEMATOGRAPHY
+from knowledge_base.narrative_structures import NARRATIVE_STRUCTURES
+from knowledge_base.genre_profiles import GENRE_PROFILES
+from knowledge_base.performance_system import PERFORMANCE_SYSTEM
+from knowledge_base.shot_vocabulary import SHOT_VOCABULARY
+from knowledge_base.transition_grammar import TRANSITION_GRAMMAR
+from knowledge_base.short_drama_patterns import SHORT_DRAMA_PATTERNS
+from knowledge_base.viral_video_techniques import VIRAL_VIDEO_TECHNIQUES
+from knowledge_base.director_styles import DIRECTOR_STYLES
+from knowledge_base.emotion_rendering import EMOTION_RENDERING

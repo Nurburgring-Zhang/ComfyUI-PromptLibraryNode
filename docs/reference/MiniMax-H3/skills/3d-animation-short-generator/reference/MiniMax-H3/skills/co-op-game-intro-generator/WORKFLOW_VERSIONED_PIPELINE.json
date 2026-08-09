@@ -1,0 +1,188 @@
+{
+  "last_node_id": 10,
+  "last_link_id": 9,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "ConceptPitchPro",
+      "pos": [80, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "父子在拉萨布达拉宫门前重逢, 父亲即将离世, 儿子带着妻子和小孩",
+        "侯孝贤",
+        0.6,
+        "温暖但有遗憾",
+        "藏式建筑 + 高原蓝天 + 转经筒 + 阳光",
+        "auto",
+        "auto"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "ScriptBodyPro",
+      "pos": [440, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "完整剧本, 90 分钟, 三幕剧, 父子重逢 1 周时间线",
+        "侯孝贤",
+        "藏式家庭亲情剧, 含喜剧",
+        "auto",
+        "auto"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "DirectorStoryboardPro",
+      "pos": [800, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "60 个分镜, 平均 1.5 分钟一个镜头, 长镜头为主, 远景对话",
+        "侯孝贤",
+        "auto",
+        0.7,
+        "auto"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "AestheticJudgmentPro",
+      "pos": [1160, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "侯孝贤 父子重逢 藏式建筑 长镜头 自然光 暖橙",
+        "auto",
+        "auto",
+        "auto",
+        "",
+        "ON",
+        "warm_regret",
+        "tenderness",
+        0.7,
+        "auto"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "StyleGuidePro",
+      "pos": [1160, 420],
+      "size": [320, 240],
+      "properties": {},
+      "widgets_values": [
+        "日韩",
+        "相似色",
+        "auto",
+        "ON",
+        "ON"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "DirectorIntentPro",
+      "pos": [1520, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "侯孝贤式的'距离美学', 远观不打扰, 让时间自然流动, 父子关系用空白表达",
+        "侯孝贤",
+        "auto",
+        "ON"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "ShotSelectionPro",
+      "pos": [1880, 100],
+      "size": [320, 280],
+      "properties": {},
+      "widgets_values": [
+        "60 个分镜候选评分, 选最佳 30 个进入后期",
+        "侯孝贤",
+        "warm_regret,tenderness",
+        "{\"1_叙事架构\": 0.15, \"2_情感调度\": 0.20, \"3_节奏控制\": 0.25, \"4_视觉语言\": 0.10, \"5_表演指导\": 0.10, \"6_场面调度\": 0.10, \"7_审美判断\": 0.05, \"8_反AI味\": 0.05}"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VersionControlPro",
+      "pos": [2240, 100],
+      "size": [320, 240],
+      "properties": {},
+      "widgets_values": [
+        "lassa_father_son",
+        "commit",
+        "v1.0_storyboard",
+        "完整分镜表 60 个, 含场号/景别/对话/时长",
+        "{\"director\": \"侯孝贤\", \"genre\": \"亲情\", \"duration_min\": 90}",
+        "{\"1_叙事架构\": 0.85, \"2_情感调度\": 0.78, \"3_节奏控制\": 0.90, \"4_视觉语言\": 0.75, \"5_表演指导\": 0.70, \"6_场面调度\": 0.72, \"7_审美判断\": 0.80, \"8_反AI味\": 0.88}",
+        "第一版分镜, 60 个, 平均时长 1.5 分钟",
+        "",
+        "",
+        "",
+        "total",
+        5
+      ]
+    },
+    {
+      "id": 9,
+      "type": "ProjectArchivePro",
+      "pos": [2600, 100],
+      "size": [320, 240],
+      "properties": {},
+      "widgets_values": [
+        "lassa_father_son",
+        "json",
+        "60 个分镜完整内容",
+        "导演/类型/情感/分镜/评分/版本信息",
+        "市场分析 + 档期策略 + 票房预测",
+        "{\"director\": \"侯孝贤\", \"genre\": \"亲情\", \"target_audience\": \"全龄\", \"release_period\": \"贺岁档\", \"position\": \"腰部\", \"total_score\": 0.81}"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "QualityAssurancePro",
+      "pos": [2960, 100],
+      "size": [320, 240],
+      "properties": {},
+      "widgets_values": [
+        "整体质量保证, 反 AI 检查, 归档标记",
+        "ON",
+        "ON"
+      ]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "STRING"],
+    [2, 2, 0, 3, 0, "STRING"],
+    [3, 3, 0, 4, 0, "STRING"],
+    [4, 4, 0, 5, 1, "STRING"],
+    [5, 4, 0, 6, 0, "STRING"],
+    [6, 3, 0, 7, 0, "STRING"],
+    [7, 7, 0, 8, 0, "STRING"],
+    [8, 8, 0, 9, 0, "STRING"],
+    [9, 9, 0, 10, 0, "STRING"]
+  ],
+  "groups": [
+    {
+      "title": "🔀 版本化全流程工作流 (Phase 28 P1)",
+      "bounding": [40, 40, 3300, 700],
+      "color": "#5b3279"
+    }
+  ],
+  "config": {},
+  "extra": {
+    "workflow_info": {
+      "name": "版本化全流程工作流",
+      "phase": "28 P1",
+      "description": "10 节点版本化生产: 概念→剧本→分镜→审美→风格→导演意图→选片→版本控制→项目归档→质量保证",
+      "use_case": "中等规模电影/剧集生产, 需要版本管理 (commit/tag/branch/rollback) + 项目归档",
+      "total_nodes": 10,
+      "complexity": "高",
+      "estimated_time": "2-4 小时"
+    }
+  },
+  "version": 1
+}
