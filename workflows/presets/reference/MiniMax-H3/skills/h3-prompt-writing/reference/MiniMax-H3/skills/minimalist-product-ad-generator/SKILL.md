@@ -1,1 +1,0 @@
-PLACEHOLDER - minimalist product ad

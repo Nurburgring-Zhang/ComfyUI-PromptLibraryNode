@@ -1,1 +1,0 @@
-PLACEHOLDER - 3D animation short generator

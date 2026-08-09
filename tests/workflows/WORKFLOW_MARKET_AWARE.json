@@ -900,7 +900,7 @@
             "value": ""
           },
           "color": "#7f9e5a",
-          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: AssetRegistry / SpatialLayout / ActingSkill / SoundSkill"
         },
         {
           "name": "控制addon",
@@ -1492,7 +1492,7 @@
             "value": ""
           },
           "color": "#7f9e5a",
-          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: AssetRegistry / SpatialLayout / ActingSkill / SoundSkill"
         },
         {
           "name": "控制addon",
@@ -1732,7 +1732,7 @@
             "value": ""
           },
           "color": "#7f9e5a",
-          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: Phase14AssetRegistry / Phase14SpatialLayout / Phase14ActingSkill / Phase14SoundSkill"
+          "tooltip": "【接入上游】Phase14 系列 (资产/空间/表演/声音/迭代) 的经验矩阵输出\n起点节点: AssetRegistry / SpatialLayout / ActingSkill / SoundSkill"
         },
         {
           "name": "控制addon",

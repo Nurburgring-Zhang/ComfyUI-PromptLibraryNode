@@ -579,9 +579,9 @@ def test_27_nodes():
                  "SoundDesignPro", "MusicScorePro", "PerformanceDirectionPro", "CostumePropSetPro",
                  "EditingPro", "ColorGradingPro", "VfxPro", "MvPro", "PictureBookPro",
                  "InteractiveDramaPro", "QualityAssurancePro",
-                 "Phase14AssetRegistry", "Phase14SpatialLayout", "Phase14ActingSkill",
-                 "Phase14SoundSkill", "IterationPostPro",
-                 "Phase14_30sSixAct", "Phase14_CinematicStudio"]:
+                 "AssetRegistry", "SpatialLayout", "ActingSkill",
+                 "SoundSkill", "IterationPostPro",
+                 "ThirtySecSixAct", "CinematicStudio"]:
         check(f"节点 '{name}' 已注册", name in init.NODE_CLASS_MAPPINGS)
 
 test_27_nodes()
@@ -591,11 +591,11 @@ test_27_nodes()
 # ============================================================
 # W. Phase 14 升级 - 30s 6 段 + Cinematic Studio (新增 2 节点)
 # ============================================================
-def test_phase14_30s_six_act():
-    check("30s 6 段模块存在", 'phase14_30s_six_act' in sys.modules or True)
-    from phase14_30s_six_act import Phase14_30sSixAct, SIX_ACT_30S, build_six_act_30s
-    n = Phase14_30sSixAct()
-    check("30s 6 段节点 CATEGORY", "Phase14" in n.CATEGORY)
+def test_thirty_sec_six_act():
+    check("30s 6 段模块存在", 'thirty_sec_six_act' in sys.modules or True)
+    from thirty_sec_six_act import ThirtySecSixAct, SIX_ACT_30S, build_six_act_30s
+    n = ThirtySecSixAct()
+    check("30s 6 段节点 CATEGORY", "节点" in n.CATEGORY)
     check("30s 6 段节点 6 阶段", len(SIX_ACT_30S) == 6)
     check("30s 6 段阶段名: 建置/引入/互动/冲突/高潮/钩子",
           all(stage in [s['stage'] for s in SIX_ACT_30S] for stage in
@@ -613,15 +613,15 @@ def test_phase14_30s_six_act():
     # 8 个返回值
     check("30s 节点 8 个 RETURN_NAMES", len(n.RETURN_NAMES) == 8)
 
-test_phase14_30s_six_act()
+test_thirty_sec_six_act()
 
 
-def test_phase14_cinematic_studio():
-    from phase14_cinematic_studio import (
-        Phase14_CinematicStudio, CINEMATIC_EFFECTS_23, MODEL_REGISTRY, route_model,
+def test_cinematic_studio():
+    from cinematic_studio import (
+        CinematicStudio, CINEMATIC_EFFECTS_23, MODEL_REGISTRY, route_model,
     )
-    n = Phase14_CinematicStudio()
-    check("Cinematic Studio 节点 CATEGORY", "Phase14" in n.CATEGORY)
+    n = CinematicStudio()
+    check("Cinematic Studio 节点 CATEGORY", "节点" in n.CATEGORY)
     check("Cinematic Studio 23 电影特效", len(CINEMATIC_EFFECTS_23) == 23)
     check("Cinematic Studio 10 模型", len(MODEL_REGISTRY) == 10)
     # 关键特效
@@ -638,14 +638,14 @@ def test_phase14_cinematic_studio():
     # 7 个返回值
     check("Cinematic Studio 7 个 RETURN_NAMES", len(n.RETURN_NAMES) >= 7)
 
-test_phase14_cinematic_studio()
+test_cinematic_studio()
 
 
 # ============================================================
 # X. Higgsfield Hell Grind 6 份文件 + 15 块骨架 + 5 铁律
 # ============================================================
 def test_hell_grind_assets():
-    from phase14_six_documents import (
+    from asset_registry_data import (
         ASSET_REGISTRY, SCENE_MAP, ACTING_STATE, SHOTLIST_TEMPLATE,
         VERSION_LOG_TEMPLATE, POST_ISSUE_LIST_TEMPLATE,
     )
@@ -669,7 +669,7 @@ test_hell_grind_assets()
 
 
 def test_hell_grind_style_prefix():
-    from phase14_style_prefix import STYLE_PREFIX, FIFTEEN_BLOCKS
+    from style_prefix_data import STYLE_PREFIX, FIFTEEN_BLOCKS
     check("Style Prefix 含 Style: 8K IMAX", "Style: 8K IMAX" in STYLE_PREFIX)
     check("Style Prefix 含 Photorealistic", "Photorealistic" in STYLE_PREFIX)
     check("Style Prefix 含 contre-jour backlight", "contre-jour" in STYLE_PREFIX)
@@ -687,7 +687,7 @@ test_hell_grind_style_prefix()
 
 
 def test_master_orchestrator_6_layers():
-    from phase14_master_orchestrator import (
+    from master_orchestrator import (
         inject_layer_1_asset, inject_layer_2_spatial, inject_layer_3_acting,
         inject_layer_4_sound, inject_layer_5_iteration, inject_layer_6_post,
         inject_all_6_layers, build_hell_grind_prompt, get_hell_grind_overview,

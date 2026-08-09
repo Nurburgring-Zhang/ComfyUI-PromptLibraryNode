@@ -1,0 +1,13 @@
+[project]
+name = "ComfyUI-PromptLibraryNode"
+description = "世界级导演引擎分镜节点 — 63位导演风格库 + 22类型视觉语言 + 张弛节奏系统 + 故事前文连续性"
+version = "4.0.0"
+license = {text = "MIT"}
+
+[project.urls]
+Repository = "https://github.com/Nurburgring-Zhang/ComfyUI-PromptLibraryNode"
+
+[tool.comfy]
+PublisherId = "nurburgring-zhang-prompt-library-node"
+DisplayName = "PromptLibraryNode Pro V4.0 (世界级导演引擎)"
+Category = "提示词工具"

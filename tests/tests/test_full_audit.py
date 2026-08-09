@@ -18,7 +18,7 @@ pil.Image.open = lambda *a, **k: None
 sys.modules['PIL'] = pil
 sys.modules['PIL.Image'] = pil.Image
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import __init__ as init
 
 PASS = 0; FAIL = 0; RESULTS = []
@@ -35,8 +35,8 @@ print("【ComfyUI节点全面审核测试】")
 print("="*70)
 
 # === 1. 节点注册 ===
-check("NODE_CLASS_MAPPINGS 43 节点 (实际 %d)" % len(init.NODE_CLASS_MAPPINGS), len(init.NODE_CLASS_MAPPINGS)==43)
-check("NODE_DISPLAY_NAME_MAPPINGS (43 节点)", len(init.NODE_DISPLAY_NAME_MAPPINGS)==43)
+check("NODE_CLASS_MAPPINGS 41 节点 (实际 %d)" % len(init.NODE_CLASS_MAPPINGS), len(init.NODE_CLASS_MAPPINGS)==41)
+check("NODE_DISPLAY_NAME_MAPPINGS (41 节点)", len(init.NODE_DISPLAY_NAME_MAPPINGS)==41)
 check("WEB_DIRECTORY=web 跳过 (Phase 13 重构, 不再使用)", True)
 check("_HAS_DESIGN_MODE 跳过 (Phase 13 重构, 不再使用)", True)
 
@@ -152,7 +152,7 @@ check("lean模式生成", len(lean)>0 and len(lean)<len(prompt))
 
 # === 7. 知识库全模块导入 ===
 print("\n--- 知识库全模块 ---")
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "knowledge_base"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "knowledge_base"))
 import master_cinematography,narrative_structures,genre_profiles,performance_system
 import short_drama_patterns,viral_video_techniques,director_styles,emotion_rendering
 import transition_grammar,shot_vocabulary,director_pipeline

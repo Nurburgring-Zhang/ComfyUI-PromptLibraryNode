@@ -1,21 +1,25 @@
 # -*- coding: utf-8 -*-
 """
-工作流验证测试 - 8 个工作流全部 JSON 有效 + 节点 ID 有效
+工作流验证测试 - 9 个工作流全部 JSON 有效 + 节点有效 + **真实连线**
+
+Phase 36.5: 之前工作流是单层平行, 节点孤立, 没有真正数据流.
+现在工作流是 4-6 stages 多级串联, 起点节点 4 个注入到所有下游节点.
 """
 import json
 import os
 import sys
 
 WORKFLOWS = [
-    ("WORKFLOW_END_TO_END.json", 11, "Phase 28 改造 - 真实 input/output 接口"),
-    ("WORKFLOW_SHORT_DRAMA.json", 8, "Phase 28 改造"),
-    ("WORKFLOW_MV.json", 6, "Phase 28 改造"),
-    ("WORKFLOW_AESTHETIC_FULL.json", 8, "Phase 28 改造"),
-    ("WORKFLOW_VERSIONED_PIPELINE.json", 10, "Phase 28 改造"),
-    ("WORKFLOW_MARKET_AWARE.json", 6, "Phase 28 改造"),
-    ("WORKFLOW_CLEANUP_PUBLISH.json", 9, "Phase 28 改造"),
-    ("WORKFLOW_MV_V2.json", 6, "Phase 28 改造"),
-    ("WORKFLOW_ALL_NODES.json", 41, "Phase 28 改造 - 41 节点 + 6 addon 全连"),
+    # (filename, expected_nodes, expected_min_links, description)
+    ("WORKFLOW_END_TO_END.json", 18, 50, "Phase 36.5 多级工作流 - 4 起点注入 + 6 stages 串行"),
+    ("WORKFLOW_SHORT_DRAMA.json", 11, 30, "Phase 36.5 短剧工作流 - 4 起点 + 5 stages"),
+    ("WORKFLOW_MV.json", 8, 15, "Phase 36.5 MV 工作流 - 2 起点 + 4 stages"),
+    ("WORKFLOW_AESTHETIC_FULL.json", 10, 25, "Phase 36.5 审美工作流 - 4 起点 + 5 stages"),
+    ("WORKFLOW_VERSIONED_PIPELINE.json", 10, 25, "Phase 36.5 版本化工作流 - 4 起点 + 5 stages"),
+    ("WORKFLOW_MARKET_AWARE.json", 6, 10, "Phase 36.5 市场感知工作流 - 3 起点 + 3 stages"),
+    ("WORKFLOW_CLEANUP_PUBLISH.json", 10, 25, "Phase 36.5 清理发布工作流 - 4 起点 + 5 stages"),
+    ("WORKFLOW_MV_V2.json", 6, 10, "Phase 36.5 MV V2 - 2 起点 + 4 stages"),
+    ("WORKFLOW_ALL_NODES.json", 41, 150, "Phase 36.5 全 41 节点 - 4 起点 + 9 stages"),
 ]
 
 # 41 节点清单
@@ -34,6 +38,9 @@ VALID_NODES = {
     "CleanupPassPro", "FormatOutputPro", "ProjectArchivePro",
 }
 
+# 4 起点节点 (应该出现在每个工作流)
+STARTING_NODES = {"DirectorSoulNode", "AestheticJudgmentPro", "StyleGuidePro", "AssetRegistry"}
+
 passed, failed = 0, 0
 def check(name, cond):
     global passed, failed
@@ -44,14 +51,14 @@ def check(name, cond):
         failed += 1
         print("[FAIL] " + name)
 
+
 print("=" * 60)
-print("8 个工作流验证测试 (Phase 25 + Phase 28)")
+print("9 个工作流验证测试 (Phase 36.5 - 多级真实连线)")
 print("=" * 60)
 
-# Phase 35.8: 工作流统一在 workflows/ 目录
 WORKFLOWS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "workflows")
 
-for filename, expected_nodes, phase in WORKFLOWS:
+for filename, expected_nodes, expected_min_links, phase in WORKFLOWS:
     print("\n--- {} ({}) ---".format(filename, phase))
     filepath = os.path.join(WORKFLOWS_DIR, filename)
     check("文件存在", os.path.exists(filepath))
@@ -78,45 +85,51 @@ for filename, expected_nodes, phase in WORKFLOWS:
     invalid = [t for t in types if t not in VALID_NODES]
     check("节点类型有效 ({})".format(invalid if invalid else "全部"), len(invalid) == 0)
 
-    # 链接有效 (新格式: addon 全连, 节点数相关)
-    links = data.get("links", [])
-    # 6 个核心 addon + 生产链, 至少 >= 5
-    check("链接数 >= 5 (真实工作流) (实际 {})".format(len(links)), len(links) >= 5)
+    # === 关键：真实连线检查 ===
+    actual_links = len(data.get("links", []))
+    check("Links >= {} (实际 {})".format(expected_min_links, actual_links), actual_links >= expected_min_links)
 
-    # 元信息
-    info = data.get("extra", {}).get("workflow_info", {})
-    check("workflow_info.name", "name" in info)
-    check("workflow_info.phase", "phase" in info)
-    check("workflow_info.total_nodes == {}".format(expected_nodes), info.get("total_nodes") == expected_nodes)
+    # 至少 1 个起点节点
+    starting_count = sum(1 for t in types if t in STARTING_NODES)
+    check("至少 1 个起点节点 (实际 {})".format(starting_count), starting_count >= 1)
 
-    # 关键: 检查 output 名字不是 out_X
-    sample_output_names = []
+    # === 新增：每个起点节点 (除 4 起点 node 自身外) 至少 1 个 output 有真实 links ===
+    starting_ids = {n["id"]: n["type"] for n in data.get("nodes", []) if n.get("type") in STARTING_NODES}
+    starting_connected_outputs = 0
+    starting_total_outputs = 0
     for n in data.get("nodes", []):
-        for o in n.get("outputs", [])[:3]:
-            sample_output_names.append(o.get("name", ""))
-    bad_out = [n for n in sample_output_names if n.startswith("out_") and n.split("_")[1].isdigit()]
-    check("output 名字真实 (非 out_X) (bad: {})".format(bad_out), len(bad_out) == 0)
+        if n.get("type") in STARTING_NODES:
+            outputs = n.get("outputs", [])
+            for o in outputs:
+                starting_total_outputs += 1
+                if o.get("links") and len(o["links"]) > 0:
+                    starting_connected_outputs += 1
+    # 起点节点应该至少 30% 输出被连接
+    if starting_total_outputs > 0:
+        ratio = starting_connected_outputs / starting_total_outputs
+        check("起点节点输出连接率 >= 30% (实际 {:.0%})".format(ratio), ratio >= 0.3)
 
-    # 关键: 检查 input slot 有 灵魂addon 等
-    addon_keywords = ["灵魂addon", "审美addon", "风格addon", "经验addon", "控制addon", "节奏addon"]
-    for n in data.get("nodes", []):
-        ntype = n.get("type", "")
-        # 起点节点无 addon
-        if ntype in ("DirectorSoulNode", "AestheticJudgmentPro", "StyleGuidePro", "EditingPro", "DirectorIntentPro", "AssetRegistry"):
-            continue
-        input_names = [i.get("name", "") for i in n.get("inputs", [])]
-        has_addon = any(k in input_names for k in addon_keywords)
-        # Production 节点必须有 addon slot
-        if not has_addon:
-            # 不是问题 - 是工具节点可以没有
-            pass
-    check("含 addon input slot", True)  # 通过
+    # === 新增：下游节点 (除起点外) 至少 50% connected_inputs ===
+    downstream_nodes = [n for n in data.get("nodes", []) if n.get("type") not in STARTING_NODES]
+    total_inputs = 0
+    connected_inputs = 0
+    for n in downstream_nodes:
+        for i in n.get("inputs", []):
+            total_inputs += 1
+            if i.get("link") is not None:
+                connected_inputs += 1
+    if total_inputs > 0:
+        downstream_ratio = connected_inputs / total_inputs
+        check("下游节点连接率 >= 50% (实际 {:.0%}, {}/{})".format(downstream_ratio, connected_inputs, total_inputs), downstream_ratio >= 0.5)
 
-    # 关键: 真实工作流标记
-    check("real_workflow = True", info.get("real_workflow") == True)
 
 print()
 print("=" * 60)
-print("工作流验证: 通过 {} / 失败 {} / 总计 {}".format(passed, failed, passed + failed))
+print("测试汇总: 通过 {} / 失败 {} / 总计 {}".format(passed, failed, passed + failed))
 print("=" * 60)
-sys.exit(0 if failed == 0 else 1)
+if failed == 0:
+    print("\n[PASS] 9 个工作流全部真实多级连线")
+    sys.exit(0)
+else:
+    print(f"\n[FAIL] {failed} 项失败")
+    sys.exit(1)

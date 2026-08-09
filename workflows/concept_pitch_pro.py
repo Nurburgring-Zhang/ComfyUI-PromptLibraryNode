@@ -97,15 +97,15 @@ except Exception as e:  # pragma: no cover
     _AI_DEPS_ERROR = str(e)
 
 try:
-    from phase14_master_orchestrator import (
+    from master_orchestrator import (
         L1_INTENT_TEMPLATE, L2_ASSET_TEMPLATE, L3_SPATIAL_TEMPLATE,
         L4_ACTING_TEMPLATE, L5_CAMERA_TEMPLATE, L6_SOUND_TEMPLATE, L7_STYLE_TEMPLATE,
         THREE_WHITESPACE, THREE_CAMERA_LAWS,
     )
-    from phase14_style_prefix import STYLE_PREFIX, FIFTEEN_BLOCKS
-    _HAS_PHASE14 = True
+    from style_prefix_data import STYLE_PREFIX, FIFTEEN_BLOCKS
+    _HAS_INTERNAL_DOCS = True
 except Exception:  # pragma: no cover
-    _HAS_PHASE14 = False
+    _HAS_INTERNAL_DOCS = False
 
 # ============================================================
 # 灵魂注入 — Phase 17 核心
@@ -841,7 +841,7 @@ def _build_l7_style_with_soul(soul_fused, soul_dims, soul_state):
     """L7 - 风格约束 — 灵魂驱动
     12 层 Style Prefix 逐字粘贴 + 灵魂 color_palette + music_tempo
     """
-    if _HAS_PHASE14:
+    if _HAS_INTERNAL_DOCS:
         prefix = STYLE_PREFIX
     else:
         prefix = "Photoreal. 8K IMAX. no 3D render. no game engine."
