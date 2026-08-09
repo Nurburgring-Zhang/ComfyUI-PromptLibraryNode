@@ -78,35 +78,72 @@ ACTING_AI_KILL = [
 
 # 0.2 5 支柱字段 → 行为翻译规则 (经验矩阵)
 # 每个支柱都对应一类"可观察行为", 让模型知道怎么把它画出来
+# Phase 35.9: 扩展为 5+ 中文 + 5+ 英文可观察行为, 不再是单一 fail_pattern
 PILLAR_BEHAVIOR_RULES = {
     "WHAT": {
         "definition": "角色想从对方/情境那里得到什么 (Want/Goal)",
+        "observable_zh": [
+            "注意力方向: 视锁目标, 重心前倾 5°",
+            "主动姿态: 主动姿态 (前倾/侧身/手势)",
+            "视线模式: 视线在该目标上, 身体朝向角度 < 10°",
+            "呼吸暗示: 一次短吸气 + 胸腔微抬, 表达想要",
+            "手指预备: 手指尖在物体上停 0.2 秒, 然后才开始动作",
+        ],
         "observable": "注意力方向 + 主动姿态 (前倾/侧身/手势)",
         "fail_pattern": "把 What 写成内心独白, 看不到眼睛/身体的指向",
     },
     "OBSTACLE": {
         "definition": "什么在挡着他 (对方沉默/自己失控/物理限制/时间不够)",
+        "observable_zh": [
+            "肌肉持续紧张 + 呼吸变浅 + 视线被卡住",
+            "该部位持续轻微颤抖, 视线被卡在该部位 0.3 秒",
+            "呼吸变浅, 节奏紧, 肩线上提",
+            "对抗阻力, 肌肉持续紧, 但不显形",
+            "重心后移 0.3 米, 重心前移 0.2 米, 摇摆不定",
+        ],
         "observable": "肌肉持续紧张 + 呼吸变浅 + 视线被卡住",
         "fail_pattern": "只写障碍存在, 不写角色在'对抗'这个障碍",
     },
     "COST": {
         "definition": "失败的代价 (被识破/失去位置/失去某人/失去自己)",
+        "observable_zh": [
+            "嘴角肌肉紧绷 + 手指小动作 + 视线闪避",
+            "嘴角肌肉抽一次, 视线闪避, 手指摸固定物",
+            "下颌锁, 一次用力闭眼 reset",
+            "呼吸停一拍, 手指无意识动作",
+            "瞳孔微缩 0.2mm + 眨眼频率翻倍",
+        ],
         "observable": "嘴角肌肉紧绷 + 手指小动作 + 视线闪避",
         "fail_pattern": "把 Cost 写成旁白, 实际上它驱动每一个 micro-decision",
     },
     "STRATEGY": {
         "definition": "他正在用什么方法争取 (装轻松/边走边说/慢节奏/假话)",
+        "observable_zh": [
+            "这是行为的主体, 必须秒级可拆解",
+            "假动作节奏均匀, 但胸腔呼吸仍重",
+            "步伐节奏固定, 眼睛扫描环境",
+            "每个动作首尾各加 0.3s, 中间肌肉保持张力",
+            "按描述执行, 不加情绪形容词",
+        ],
         "observable": "这是行为的主体, 必须秒级可拆解",
         "fail_pattern": "把 Strategy 写成形容词 ('他很聪明地'), 必须写成动作",
     },
     "TURN": {
         "definition": "什么新信息让他改变策略 (听到一句话/看到某物/自己意识到)",
+        "observable_zh": [
+            "STRATEGY 的中断 + 一次微事件 + 视线重置",
+            "STRATEGY 暂时中断, 一次微事件, 视线重置",
+            "手在肚子上不动了 0.6 秒, 然后才继续拍",
+            "一次用力闭眼 reset, 然后眼睛重新睁开时已改变",
+            "重心突然前移 0.3 米, 肩线锁死",
+        ],
         "observable": "STRATEGY 的中断 + 一次微事件 + 视线重置",
         "fail_pattern": "Turn 出现得太早或太晚, 必须发生在 STRATEGY 中段",
     },
 }
 
 # 0.3 微生命事件池 (每 1-2 秒一个, 抽签式组合)
+# Phase 35.9: 扩展为 5+ 中文 + 5 英文 (原 3-5 词)
 MICRO_LIFE_POOL = {
     "breath": [
         "chest rises and falls with a slow recovery rhythm",
@@ -114,28 +151,52 @@ MICRO_LIFE_POOL = {
         "a held breath, then a controlled exhale",
         "shallow chest pumps after exertion",
         "breath audibly catches for half a beat",
+        # 中文版
+        "胸腔起伏, 慢节奏恢复",
+        "鼻孔一次深吸气",
+        "屏住呼吸, 然后受控呼气",
+        "短促浅呼吸, 胸腔短抽",
+        "吸气卡顿半拍",
     ],
     "nose": [
         "the nostril flares once and settles",
         "a micro-flare, then the upper lip tightens",
         "the nostril twitch reads as restraint, not disgust",
+        # 中文
+        "鼻翼微张一次, 然后稳定",
+        "鼻翼微动, 然后上唇紧绷",
+        "鼻翼抽动表达克制, 不是厌恶",
     ],
     "brow": [
         "the inner brow knits once, then releases",
         "one brow lifts a fraction higher than the other",
         "the brow stays low and heavy, jaw does the work instead",
+        # 中文
+        "内眉微皱一次, 然后松开",
+        "一侧眉毛比另一侧微提",
+        "眉头压低沉重, 下颌代偿工作",
     ],
     "eye_dart": [
         "the eye lingers on a fixed point, then releases",
         "a single lateral dart, then re-centers on the target",
         "eyes blink-rate slows down to once every 3-4 seconds",
         "eyes blink-rate doubles for two beats then resets",
+        # 中文
+        "视线在固定点停留, 然后释放",
+        "单次横向扫视, 然后重新对焦",
+        "眨眼频率降到 3-4 秒一次",
+        "眨眼频率翻倍持续两拍, 然后复位",
     ],
     "mouth": [
         "the tongue presses against the inside of the lower lip",
         "the corner of the mouth tightens without rising",
         "the jaw sets, holds, then releases in a controlled drop",
         "a single lip press, then the lips part slightly",
+        # 中文
+        "舌头压在下唇内侧",
+        "嘴角肌肉收紧但不上扬",
+        "下颌锁紧, 停住, 然后受控下放",
+        "单次唇压, 然后嘴唇微张",
     ],
     "hand": [
         "the fingers tap a fixed object twice, then stop",
@@ -143,15 +204,26 @@ MICRO_LIFE_POOL = {
         "the hand stills on a tool, then resumes",
         "the wrist rotates once, then anchors back to the work",
         "fingers tighten around a held object, then loosen by a fraction",
+        # 中文
+        "手指在固定物上敲两次, 然后停",
+        "拇指在食指指节上滚动",
+        "手在工具上静止, 然后继续",
+        "手腕转一次, 然后回到工作",
+        "手指在握物上收紧, 然后微松",
     ],
     "weight": [
         "weight shifts from one foot to the other, half a beat",
         "the planted foot presses harder, knees never lock",
         "a micro-settle of the center of gravity, then holds",
+        # 中文
+        "重心从一脚移到另一脚, 半拍",
+        "主力脚压地更紧, 膝盖不锁",
+        "重心微沉, 然后稳定",
     ],
 }
 
 # 0.4 眨眼 3 段式
+# Phase 35.9: 加中文版, 不只英文
 BLINK_PATTERNS = {
     "lazy_single": "one lazy blink — eyelids close at half speed, hold a fraction, then release",
     "double_quick": "a quick DOUBLE-BLINK — two close-set blinks within 0.4s, like punctuation",
@@ -159,6 +231,13 @@ BLINK_PATTERNS = {
     "slow_three": "three slow blinks in sequence, each a beat apart, the rhythm of a decision",
     "stutter": "one half-blink that fails to close, then a real blink — the eyes lose the timing",
     "deny": "the eyes squeeze shut for 0.3s, head shakes once on the vertical axis, then eyes open",
+    # Phase 35.9 中文版 (双语, 优先用)
+    "lazy_single_zh": "一次慢眨眼 — 眼睑半速闭上, 停 0.1 秒, 然后松开",
+    "double_quick_zh": "一次快速双眨 — 0.4 秒内两次紧邻眨眼, 像标点",
+    "hard_reset_zh": "一次用力闭眼 reset — 眼睛用力闭, 脸重置, 然后睁开",
+    "slow_three_zh": "三次慢眨, 每次一拍间隔, 像在数拍子做决定",
+    "stutter_zh": "一次半眨失败, 然后才真眨 — 眼睛失去节奏",
+    "deny_zh": "眼睛用力闭 0.3 秒, 头在垂直轴上摇一次, 然后睁眼",
 }
 
 # 0.5 反应类型 (Higgsfield "反应先于台词" + 卡兹克 30 秒场景)

@@ -47,10 +47,18 @@ except Exception as e:
 
 # Phase 17.6: 灵魂注入
 try:
-    from director_soul import soul_inject_simple, EMOTION_MATRIX_60
+    from director_soul import (
+        soul_inject_simple, EMOTION_MATRIX_60,
+        _WEB_DIRECTOR_PROFILES, _WEB_SCENE_DATABASE, _WEB_DB_LOADED,
+        _extract_5d_specifics,
+    )
     _HAS_SOUL = True
 except Exception:
     _HAS_SOUL = False
+    _WEB_DIRECTOR_PROFILES = {}
+    _WEB_SCENE_DATABASE = []
+    _WEB_DB_LOADED = False
+    _extract_5d_specifics = None
 
 
 GENRE_TYPES = ["电影", "电视剧", "AIGC 短剧", "短视频", "AIGC 短视频", "MV", "故事绘本", "互动剧", "AIGC 实时互动剧"]
@@ -291,6 +299,9 @@ class WorldBuildingPro:
                 "灵魂_融合模式": (["auto", "F1_单情感主导", "F2_双情感主次融合", "F3_双情感对等融合",
                                   "F4_三情感递进融合", "F5_矛盾情感爆炸", "F6_复合情绪三角", "F7_情感转化"],
                                  {"default": "auto"}),
+
+                # === Phase 35.9: 灵魂 addon 段 (DirectorSoulNode 输出) ===
+                "灵魂addon": ("STRING", {"default": "", "multiline": True}),
             },
         }
 
@@ -325,6 +336,42 @@ class WorldBuildingPro:
         director = _str(kwargs.get("导演风格"), "是枝裕和")
         dp = _str(kwargs.get("摄影指导"), "罗杰·迪金斯_Roger_Deakins")
         focal = _str(kwargs.get("焦段"), "35mm_cinematic")
+
+        # === Phase 35.9: 解析 ===WORLDBUILDING_ADDON=== 段 ===
+        import re as _re_wb
+        _addon_raw = _str(kwargs.get("灵魂addon"), "")
+        _addon_match = _re_wb.search(
+            r"===WORLDBUILDING_ADDON===\s*\n(.*?)===END_WORLDBUILDING_ADDON===",
+            _addon_raw, _re_wb.DOTALL,
+        )
+        _addon_segment = _addon_match.group(1).strip() if _addon_match else ""
+
+        # === Phase 35.9: 100 场景库 lookup ===
+        _matched_scene = None
+        if _WEB_DB_LOADED and _WEB_SCENE_DATABASE and scene:
+            for _s in _WEB_SCENE_DATABASE:
+                _sname = _s.get("name", "")
+                if _sname and _sname in scene:
+                    _matched_scene = _s
+                    break
+            if not _matched_scene and _WEB_SCENE_DATABASE:
+                _matched_scene = _WEB_SCENE_DATABASE[0]
+        _scene_atmos = _matched_scene.get("atmosphere", "") if _matched_scene else ""
+        _scene_details = _matched_scene.get("details", []) if _matched_scene else []
+        _scene_ref = _matched_scene.get("reference", "") if _matched_scene else ""
+        _scene_name_matched = _matched_scene.get("name", "") if _matched_scene else "未匹配"
+
+        # === Phase 35.9: 35 导演联网档案 ===
+        _dir_profile = _WEB_DIRECTOR_PROFILES.get(director, {}) if _WEB_DB_LOADED else {}
+        _dir_core = _dir_profile.get("core_style", "") if _dir_profile else ""
+        _dir_tech = _dir_profile.get("techniques", []) if _dir_profile else []
+        _dir_anti_ai = _dir_profile.get("anti_ai_warning", "") if _dir_profile else ""
+
+        # === Phase 35.9: 5 维具体化 (从 scene 解析) ===
+        if _extract_5d_specifics is not None:
+            _specs5d = _extract_5d_specifics(scene, director)
+        else:
+            _specs5d = {"era": [], "location": [], "brand": [], "numbers": [], "objects": [], "raw_5d_summary": ""}
         aperture = _str(kwargs.get("光圈"), "T2.8_cinematic")
         shot_size = _str(kwargs.get("景别"), "MS")
         composition = _str(kwargs.get("构图法则"), "rule_of_thirds")
@@ -395,22 +442,93 @@ class WorldBuildingPro:
         shot_info = SHOT_SIZE_VL.get(shot_size, "")
         comp_info = COMPOSITION_RULES.get(composition, "")
 
-        shot_1 = "a medium-wide shot establishes the scene - " + scene + ". The " + director_motion_pref + " reveals the texture of materials and the quality of light. L5 摄影与剪辑层: " + focal_info.get("cn", focal) + " lens, " + aperture_info.get("cn", aperture) + " aperture, " + shot_info + ", " + comp_info + " composition. The director intends: " + intent_feel + ". The " + props + " sit on the table, waiting to be picked up. 9 维光影: " + light_source + " from " + light_dir + ", " + light_intensity + " at " + light_temp + ", " + light_soft + " light, " + light_ratio + " key-to-fill ratio, " + light_shadow + ", " + light_special + " effect, " + light_time + ". 60:30:10 色彩: dominant " + main_color + " (60%), secondary " + sec_color + " (30%), accent " + acc_color + " (10%)."
-
         # Shots
         first_prop = props.split(" / ")[0] if " / " in props else props
         last_prop = props.split(" / ")[-1] if " / " in props else props
 
+        # === Phase 35.9: 跨导演/跨场景差异化 shots + soundscape ===
+        # 导演专属镜头语汇 (来自 35 导演联网 8 维)
+        _director_shot_motion = {
+            "王家卫": "Step-Printing (1/8 speed) on " + first_prop + " + 手持微晃",
+            "诺兰": "IMAX 长焦跟拍 + 倒计时字幕",
+            "奉俊昊": "固定机位对称构图 + 群戏调度",
+            "塔可夫斯基": "超长镜头 5-7 分钟 + 微移",
+            "是枝裕和": "Static Shot 静观 + 慢推",
+            "侯孝贤": "Static Shot 远景长镜 + 留白",
+            "黑泽明": "多机位同拍 + 极端天气",
+            "PTA": "长焦 85mm 慢推 + 浅景深",
+            "毕赣": "Arc Shot 环绕 + 长镜头",
+            "李沧东": "Push In 微推 + 慢节奏",
+        }
+        _shot_motion = _director_shot_motion.get(director, director_motion_pref)
+
+        # 跨场景对话差异化 (用 _matched_scene 100 库 + 5 维具体化)
+        _scene_atmos_short = (_scene_atmos or mood or "场景氛围")[:60]
+        if not _scene_atmos_short.strip():
+            _scene_atmos_short = "场景氛围默认"
+        _detail_first = (_scene_details[0] if _scene_details else "时间沉默")[:40]
+
+        # 5 维具体化字符串 (注入 prompt)
+        _specs_inline = " | ".join([
+            f"时代{','.join(_specs5d.get('era', [])) or '未指定'}",
+            f"地点{','.join(_specs5d.get('location', [])) or '未指定'}",
+            f"品牌{','.join(_specs5d.get('brand', [])) or '未指定'}",
+            f"数字{','.join(_specs5d.get('numbers', [])) or '未指定'}",
+            f"物件{','.join(_specs5d.get('objects', [])) or '未指定'}",
+        ])
+
+        shot_1 = (
+            "a medium-wide shot establishes the scene - " + scene + ". "
+            + _shot_motion + " reveals the texture of materials and the quality of light. "
+            + "L5 摄影与剪辑层: " + focal_info.get("cn", focal) + " lens, "
+            + aperture_info.get("cn", aperture) + " aperture, " + shot_info + ", "
+            + comp_info + " composition. The director intends: " + intent_feel + ". "
+            + "The " + props + " sit on the table. "
+            + "9 维光影: " + light_source + " from " + light_dir + ", "
+            + light_intensity + " at " + light_temp + ", " + light_soft + " light, "
+            + light_ratio + " key-to-fill ratio, " + light_shadow + ", "
+            + light_special + " effect, " + light_time + ". "
+            + "60:30:10 色彩: dominant " + main_color + " (60%), secondary "
+            + sec_color + " (30%), accent " + acc_color + " (10%). "
+            + "100 场景库锚定: " + _scene_name_matched + " (参考: " + (_scene_ref or "无") + "). "
+            + "场景氛围: " + _scene_atmos_short + ". "
+            + "35 导演核心风格 (" + director + "): " + (_dir_core[:80] or "未命中联网数据") + ". "
+            + "5 维具体化: " + _specs_inline + "."
+        )
+
         shots = [
-            "[Shot 2] At 00:03.500, the camera cuts to a medium close-up of the main character's face. " + format_shot_motion("Push In", "small", "slow") + " on the eyes, revealing a " + subtext + ". The lighting is consistent with the previous shot.",
-            "[Shot 3] At 00:08.000, the camera cuts to a close-up of the character's hands holding the " + first_prop + ". The camera holds a static shot as the hands tremble slightly. (S1) speaks with a " + mood + " voice: <d>[Chinese] 吃饭吧。</d>",
-            "[Shot 4] At 00:15.000, the camera cuts to an over-the-shoulder shot. " + format_shot_motion("Push In", "small", "slow") + " toward the other character. The silence between them is heavy with " + subtext + ".",
-            "[Shot 5] At 00:22.000, the camera holds a static shot on the wider frame. Both characters remain silent for 5-10 seconds. The director's intent: " + intent_feel + ". Per the silence formula: one short line, 3 seconds of silence, a subtle micro-expression shift, an action that changes the relationship, 5 seconds of breathing room.",
-            "[Shot 6] At 00:27.000, the camera holds for 3 seconds, allowing the audience to process. The " + last_prop + " catches the light. End of shot.",
+            "[Shot 2] At 00:03.500, the camera cuts to a medium close-up of the main character's face. " + _shot_motion + ". Lighting " + light_dir + " reveals " + subtext + ". 100 场景锚定: " + _scene_name_matched + " (" + _scene_atmos_short + ").",
+            "[Shot 3] At 00:08.000, the camera cuts to a close-up of the character's hands holding the " + first_prop + ". " + _shot_motion + " holds. (S1) speaks with a " + mood + " voice: <d>[Chinese] 吃饭吧。</d>",
+            "[Shot 4] At 00:15.000, the camera cuts to an over-the-shoulder shot. " + format_shot_motion("Push In", "small", "slow") + " toward the other character. The silence between them is heavy with " + subtext + ". 5 维: " + _specs_inline + ".",
+            "[Shot 5] At 00:22.000, " + _shot_motion + ". Both characters remain silent for 5-10 seconds. " + intent_feel + ". 联网反 AI 警告: " + (_dir_anti_ai[:60] if _dir_anti_ai else "AI 平稳对称镜头是死路"),
+            "[Shot 6] At 00:27.000, the camera holds for 3 seconds. The " + last_prop + " catches the light. 参考: " + _scene_ref + ". End of shot.",
         ]
 
-        soundscape = "Steady rain taps against the kitchen window. The knife on the cutting board has a dull rhythm. The old radio plays a 1990s Chinese song at low volume. The clock ticks. The father's breath is audible. Subtle sounds of fabric moving when the " + props + " shifts position."
-        music = "Sparse piano notes at a slow tempo, joined by sustained low strings that gradually increase in volume before fading out."
+        # 真正差异化 soundscape — 不用"Steady rain"硬编码, 用 _matched_scene.details
+        if _scene_details:
+            _ds = _scene_details[:3]
+            soundscape = (
+                _ds[0] + ". " +
+                (_ds[1] if len(_ds) > 1 else "远处空间感") + ". " +
+                (_ds[2] if len(_ds) > 2 else "环境底噪") + ". " +
+                "5 维物件细节: " + ",".join(_specs5d.get("objects", [])) + "."
+            )
+        else:
+            soundscape = (
+                _scene_atmos_short + ". 环境底噪围绕" + props + ". " +
+                "5 维具体化: " + _specs_inline + "."
+            )
+
+        # 跨导演差异化 music
+        _director_music = {
+            "王家卫": "探戈+环境音>台词, 慢节奏 60s 重复 2 次 (Yumeji's Theme 风格)",
+            "诺兰": "Hans Zimmer 低频心跳+钟表, 倒计时结构 (Time 风格)",
+            "奉俊昊": "类型音乐+精准爆点+反差静默 (Parasite 风格)",
+            "塔可夫斯基": "水滴+风+钟+钢琴, 超长留白 (Borisov 风格)",
+            "是枝裕和": "极简钢琴+环境音>配乐 (步履不停 风格)",
+            "PTA": "70s 时代金曲+环境音 (Phantom Thread 风格)",
+        }
+        music = _director_music.get(director, "Sparse piano notes at slow tempo, joined by sustained low strings that gradually increase in volume before fading out.")
 
         h3_prompt = build_h3_three_fields(
             style=style, shot_1_content=shot_1, shots_content=shots,
@@ -422,12 +540,37 @@ class WorldBuildingPro:
         if alignment:
             h3_prompt = alignment + "\n\n" + h3_prompt
 
-        # 5 要素
-        data_summary = "1161 部 director_view 14 维 + 63 导演 12 维 + 20 导演集群 + 191 反 AI 词表 + 12 套理论 + 14 部真实短剧 + 4 类创作者实战 + H3 三大字段 + 4 任务类型 + 13 镜头运动 + 11 规则 + 11 维导演控制 + 8 大摄影指导 + 9 维光影 + 60:30:10"
-        context_brief = "类型=" + genre + ", 导演=" + director + ", DP=" + dp + ", 任务类型=" + task_type + ", 场景=" + scene[:50] + "..., 情绪=" + mood
-        skill_harness = "12 理论 + 20 导演实战 + 191 反 AI + 13 镜头运动 + 11 规则 + 5 沉默 + 5 空间 + 5 维意图 + 4 维美术 + 9 维光照 + 8 摄影指导 + 60:30:10"
-        experience_matrix = "14 部真实 AI 短剧实战 + 4 类创作者 + 3 附件核心 (导演意图/美术/空间/沉默) + 卡兹克 2.5 SFT 重定义"
-        ai_deep = "反 AI 词表 + 10 铁律 + 4 轮迭代 + 沉默 4 步公式 + 留白 + 导演意图 5 维 + 11 维导演控制 + 30 秒场景单元 6 段式 + 视觉语言参数化 + 9 维光影 + 60:30:10"
+        # 5 要素 (Phase 35.9 真正用 5 维具体化 + 35 导演 + 100 场景)
+        data_summary = (
+            f"1161 部 director_view 14 维 + 63 导演 12 维 + 20 导演集群 + 191 反 AI 词表 + 12 套理论 + "
+            f"14 部真实短剧 + H3 三大字段 + 4 任务类型 + 13 镜头运动 + 11 规则 + 11 维导演控制 + "
+            f"8 大摄影指导 + 9 维光影 + 60:30:10 + "
+            f"35 导演联网档案 (当前命中 {director} = {_dir_core[:50] or '未命中'}) + "
+            f"100 场景库 (当前匹配 {_scene_name_matched} = {_scene_ref or '无参考片'})"
+        )
+        context_brief = (
+            f"类型={genre}, 导演={director}, DP={dp}, 任务类型={task_type}, "
+            f"场景={scene[:50] if scene else '未指定'}, 情绪={mood}, "
+            f"5 维具体化={_specs5d.get('raw_5d_summary', '')}"
+        )
+        skill_harness = (
+            f"12 理论 + 20 导演实战 + 191 反 AI + 13 镜头运动 + 11 规则 + 5 沉默 + 5 空间 + "
+            f"5 维意图 + 4 维美术 + 9 维光照 + 8 摄影指导 + 60:30:10 + "
+            f"5 维具体化 (时代/地点/品牌/数字/物件) + "
+            f"35 导演核心风格 ({director}: {(_dir_core[:60] if _dir_core else '未指定')})"
+        )
+        experience_matrix = (
+            f"14 部真实 AI 短剧实战 + 4 类创作者 + 3 附件核心 (导演意图/美术/空间/沉默) + "
+            f"卡兹克 2.5 SFT 重定义 + "
+            f"100 场景库 {len(_WEB_SCENE_DATABASE) if _WEB_DB_LOADED else 0} 个 + "
+            f"35 导演联网 {len(_WEB_DIRECTOR_PROFILES) if _WEB_DB_LOADED else 0} 位 + "
+            f"5 维具体化命中 (时代:{','.join(_specs5d.get('era', []))} / 地点:{','.join(_specs5d.get('location', []))} / 品牌:{','.join(_specs5d.get('brand', []))} / 数字:{','.join(_specs5d.get('numbers', []))} / 物件:{','.join(_specs5d.get('objects', []))})"
+        )
+        ai_deep = (
+            f"反 AI 词表 + 10 铁律 + 4 轮迭代 + 沉默 4 步公式 + 留白 + 导演意图 5 维 + "
+            f"11 维导演控制 + 30 秒场景单元 6 段式 + 视觉语言参数化 + 9 维光影 + 60:30:10 + "
+            f"导演反 AI 警告 ({director}): {(_dir_anti_ai[:80] if _dir_anti_ai else '无')}"
+        )
 
         elements_block = inject_5_elements(data_summary, context_brief, skill_harness, experience_matrix, ai_deep)
 
@@ -722,10 +865,35 @@ class WorldBuildingPro:
             except Exception:
                 pass
 
-        # 第二个输出: 经验矩阵
-        experience = "【20 导演集群实战经验】\n\n"
-        for d in DIRECTORS_20:
-            experience += "  - " + d + "\n"
+        # 第二个输出: 经验矩阵 (Phase 35.9 真正跨导演差异化)
+        experience = "【当前导演深度档案 — " + director + "】\n"
+        if _dir_profile:
+            experience += "  核心风格: " + (_dir_core or "(未命中联网数据)") + "\n"
+            experience += "  联网技法:\n"
+            for _t in (_dir_tech or [])[:4]:
+                experience += "    - " + str(_t) + "\n"
+            if _dir_anti_ai:
+                experience += "  反 AI 警告: " + _dir_anti_ai[:120] + "\n"
+            experience += "  来源: " + str(_dir_profile.get("source", ""))[:80] + "\n"
+        else:
+            experience += "  (35 导演联网未命中, 退回默认)\n"
+        experience += "\n【当前场景深度档案 — " + _scene_name_matched + "】\n"
+        if _matched_scene:
+            experience += "  氛围: " + (_scene_atmos or "(空)")[:100] + "\n"
+            experience += "  联网细节:\n"
+            for _d in _scene_details[:4]:
+                experience += "    - " + str(_d) + "\n"
+            if _scene_ref:
+                experience += "  参考片: " + _scene_ref + "\n"
+        else:
+            experience += "  (100 场景库未匹配)\n"
+        experience += "\n【5 维具体化命中 — " + director + "】\n"
+        experience += "  时代: " + ",".join(_specs5d.get("era", [])) + "\n"
+        experience += "  地点: " + ",".join(_specs5d.get("location", [])) + "\n"
+        experience += "  品牌: " + ",".join(_specs5d.get("brand", [])) + "\n"
+        experience += "  数字: " + ",".join(_specs5d.get("numbers", [])) + "\n"
+        experience += "  物件: " + ",".join(_specs5d.get("objects", [])) + "\n"
+        experience += "  raw: " + _specs5d.get("raw_5d_summary", "") + "\n"
         experience += "\n【9 大影视类型 + 5 要素处理】\n"
         experience += inject_genre_9_types() + "\n"
         experience += "【11 维导演控制能力 (人类顶级导演)】\n"
@@ -733,6 +901,9 @@ class WorldBuildingPro:
         experience += "【10 条强制具体细节铁律 (反 AI 味)】\n"
         for r in SPECIFIC_DETAIL_RULES_10:
             experience += "  - " + str(r) + "\n"
+        if _addon_segment:
+            experience += "\n【灵魂 addon 段消费 — WorldBuildingPro】\n"
+            experience += _addon_segment[:300] + "\n"
 
         return (main_output, lighting_9d, visual_lang, color_60, dp_style, experience)
 

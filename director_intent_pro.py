@@ -470,12 +470,6 @@ def _build_feeling_intent(soul_fused, scene, char_a, char_b, director):
 不是让观众「知道」这个感受, 而是让观众「感到」这个感受。
 唤醒度: {arousal} → {arousal_note}
 
-应该避免:
-  ✗ {wrong}
-  ✗ {wrong_specific}
-  ✗ 撕心裂肺的喊叫 / 瞳孔地震 / 五味杂陈
-  ✗ 让观众"被按头"感动
-
 应该做到:
   ✓ {right}
   ✓ 用一个具体细节 (例如 {specific_detail}) 代替"感人"二字
@@ -589,12 +583,6 @@ def _build_emotion_intent(soul_fused, char_a, char_b, director):
   - 内心独白: {inner_short}
 
 {director_view}
-
-应该避免:
-  ✗ 写"陷入深深的沉思"
-  ✗ 写"心中暗道"
-  ✗ 写"撕心裂肺地喊"
-  ✗ 用对白说出情感 (嘴角应该下撇, 而不是嘴说"我很痛苦")
 
 应该做到:
   ✓ 用可观察行为代替情绪 (PTA 原则)
@@ -729,12 +717,6 @@ def _build_relationship_intent(soul_fused, char_a, char_b, scene, director):
 
   他们{relation_implication}。
 
-应该避免:
-  ✗ 用对白说出关系 ("我们再也回不去了")
-  ✗ 用旁白解释关系 ("他们是父女")
-  ✗ 强行让他们拥抱/说爱/说恨
-  ✗ 物理距离和心理距离对不上 (嘴上说爱, 身体却在 5 米外)
-
 应该做到:
   ✓ 用物理距离说心理距离
   ✓ 用目光次数说权力动态
@@ -852,12 +834,6 @@ def _build_theme_intent(soul_fused, scene, theme_hint, director):
   - 物件: {symbolic_element}
   - 空间: {horizon}
   - 时间: {time_logic}
-
-应该避免:
-  ✗ 用对白说主题 ("你知道什么是爱吗?")
-  ✗ 强行用旁白点题
-  ✗ 主题太直白, 观众一看就懂 (这是反高潮)
-  ✗ 主题太隐晦, 观众完全看不到 (这是失败)
 
 应该做到:
   ✓ 用 {symbolic_element} 承担主题的呈现
@@ -978,12 +954,6 @@ def _build_silence_intent(soul_fused, n_lines, silence_min, pause_sec, char_a, c
   - {micro_silence_event_3}
 
 {director_silence_note}
-
-应该避免:
-  ✗ 用台词说出情感 ("我爱你" / "我想你" / "对不起")
-  ✗ 用旁白解释沉默
-  ✗ 用 BGM 填补沉默 (沉默不需要背景音乐)
-  ✗ 让沉默变成"尴尬"而不是"情感"
 
 应该做到:
   ✓ 沉默即台词, 沉默即情感, 沉默即关系
@@ -1159,7 +1129,7 @@ def _build_5_elements_section(soul_fused, scene, char_a, char_b, theme_hint, rel
   - 库布里克: 对称
 
 【5. AI 深度处理 (AI Deep Processing)】
-  - 反 AI 词表 191 条禁用 (瞳孔地震/撕心裂肺/陷入沉思/心中暗道/缓缓/绝美/五味杂陈)
+  - 反 AI 词表 191 条已内部应用 (不输出具体词表)
   - 10 铁律强制应用 (SPECIFIC_DETAIL_RULES)
   - 沉默/留白 5 规则强制应用 (SILENCE_MASTERY_5)
   - 灵魂深度处理: emotional_polarity → 感受基调; visual_signs → 情感表现; fusion_mode → 留白节奏
@@ -1378,7 +1348,7 @@ def _build_soul_deep_processing_section(soul_fused, soul_dims, soul_state, direc
   - 用房子代替代际 (提尔原则)
   - 用阶层代替气味 (奉俊昊原则)
   - 用动物代替乡愁 (库斯杜力卡原则)
-  - 反 AI 词表 191 条禁用 (瞳孔地震/撕心裂肺/陷入沉思/心中暗道/缓缓/绝美/五味杂陈)
+  - 反 AI 词表 191 条已内部应用 (不输出具体词表)
   - 10 铁律强制应用 (具体细节优先)
   - 沉默/留白 5 规则强制应用 (附件核心)
 """.format(

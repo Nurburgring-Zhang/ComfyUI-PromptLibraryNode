@@ -258,7 +258,7 @@ class HookMasterPro:
 【对白要求】
 - 不超过 15 字
 - 用短句制造速度感
-- 不用"瞳孔地震"等 AI 套路
+- 用具体动作 (手/眼/呼吸) 不用情绪形容词
 
 【自定义】
 {custom if custom else "无"}

@@ -14,7 +14,13 @@ Phase 27: ShotSelectionPro 选片决策节点 (环节 30)
 Phase 28 P0: AestheticJudgmentPro 审美判断节点 (环节 7) + 120 场景库
 Phase 28 P1: VersionControlPro / StyleGuidePro / MarketAudiencePro
 Phase 28 P2: CleanupPassPro / FormatOutputPro / ProjectArchivePro
-测试: 657/657 全过 (41 节点)
+测试: 788/788 全过 (41 节点)
+
+**Phase 28 改造: 真实 ComfyUI 工作流**
+- 每个 Production 节点注入 6 个 STRING input slot:
+  灵魂addon / 审美addon / 风格addon / 经验addon / 控制addon / 节奏addon
+- 起点节点: DirectorSoulNode / AestheticJudgmentPro / StyleGuidePro / Phase14AssetRegistry
+- output 名字从 RETURN_NAMES 读取,ComfyUI 显示具体名而非 out_X
 """
 
 from script_architecture_pro import ScriptArchitecturePro
@@ -59,7 +65,10 @@ from cleanup_pass_pro import CleanupPassPro
 from format_output_pro import FormatOutputPro
 from project_archive_pro import ProjectArchivePro
 
-NODE_CLASS_MAPPINGS = {
+# ===== Phase 28 改造: 注入 6 个 STRING input slot 到 Production 节点 =====
+from _addon_injector import inject_addon_inputs, PRODUCTION_NODES, STARTING_NODES
+
+_ALL_NODE_CLASSES = {
     "ScriptArchitecturePro": ScriptArchitecturePro,
     "ScriptBodyPro": ScriptBodyPro,
     "DirectorStoryboardPro": DirectorStoryboardPro,
@@ -103,47 +112,133 @@ NODE_CLASS_MAPPINGS = {
     "ProjectArchivePro": ProjectArchivePro,
 }
 
-NODE_DISPLAY_NAME_MAPPINGS = {
-    "ScriptArchitecturePro": "📖 剧本架构 (1/3)",
-    "ScriptBodyPro": "📜 剧本正文 (2/3)",
-    "DirectorStoryboardPro": "🎬 导演分镜 (3/3)",
-    "VerticalShortDramaPro": "📱 垂直短剧 (4/7)",
-    "HookMasterPro": "🎣 钩子大师 (5/7)",
-    "DialogueMasterPro": "💬 对白大师 (6/7)",
-    "CharacterArcPro": "👤 角色弧光 (7/7)",
-    "DirectorIntentPro": "🎯 导演意图 (附件核心)",
-    "ArtDirectionPro": "🎨 美术指导 (附件核心)",
-    "SpatialConsistencyPro": "📐 空间一致性 (附件核心)",
-    "SilenceMasteryPro": "🤫 沉默大师 (附件核心)",
-    "ConceptPitchPro": "💡 概念立项 (环节 1) — L5 重写",
-    "WorldBuildingPro": "🌍 世界设定 (环节 3) — L5 重写",
-    "ThemePhilosophyPro": "🧠 主题哲学 (环节 4) — L5 重写",
-    "SoundDesignPro": "🔊 声音设计 (环节 13) — L5 重写",
-    "MusicScorePro": "🎼 音乐配乐 (环节 14) — L5 重写",
-    "PerformanceDirectionPro": "🎭 表演指导 (环节 17) — L5 重写",
-    "CostumePropSetPro": "👘 服化道 (环节 19) — L5 重写",
-    "EditingPro": "✂️ 剪辑 (环节 28) — L5 重写",
-    "ColorGradingPro": "🎨 调色 (环节 32) — L5 重写",
-    "VfxPro": "✨ VFX (环节 33) — L5 重写",
-    "MvPro": "🎵 MV 导演 (环节 39) — L5 重写",
-    "PictureBookPro": "📚 故事绘本 (环节 40) — L5 重写",
-    "InteractiveDramaPro": "🎮 互动剧 (环节 41) — L5 重写",
-    "QualityAssurancePro": "✅ 质量 QA (环节 34) — L5 重写",
-    "Phase14AssetRegistry": "📦 资产注册表 (Phase 14)",
-    "Phase14SpatialLayout": "🗺️ Phase 14 GEO 空间布局 (Higgsfield 体系)",
-    "Phase14ActingSkill": "five_pillars / action_timing / emotion_to_action / living_human_rules / inner_monologue / full_acting_prompt",
-    "Phase14SoundSkill": "🔊 Phase14 声音层专家 (Higgsfield AUDIO 块架构)",
-    "IterationPostPro": "🔁 迭代 + 后期 (Phase 14) — Higgsfield 5 铁律",
-    "Phase14_30sSixAct": "six_act_overview / act_1_establish / act_2_introduce / act_3_interact / act_4_conflict / act_5_climax / act_6_hook / h3_three_fields_prompt",
-    "Phase14_CinematicStudio": "effects_23_overview / selected_model / model_weakness_avoidance / character_consistency_workflow / 11_stage_pipeline / 6_documents / h3_prompt",
-    "DirectorSoulNode": "soul_injection / fused_emotion / emotion_dimensions / soul_dimensions / soul_state / director_signature / scene_prompt_addon / h3_alignment_addon",
-    "ShotSelectionPro": "🎯 选片决策 (环节 30) — Phase 27 P0 / 8维度评分 / 选最佳候选",
-    "AestheticJudgmentPro": "🎨 审美判断 (环节 7) — Phase 28 P0 / 8原则+6导演+120场景 自动+专项",
-    "VersionControlPro": "🔀 版本控制 (环节 35) — Phase 28 P1 / commit/branch/tag/rollback",
-    "StyleGuidePro": "🎨 风格指南 (环节 8) — Phase 28 P1 / 5风格+5配色+6导演+20口诀",
-    "MarketAudiencePro": "📊 市场受众 (环节 36) — Phase 28 P1 / 8类型+5档期+3定位+4维评分",
-    "CleanupPassPro": "🧹 清理通道 (P2) — Phase 28 P2 / 反AI+重复+模板+空白",
-    "FormatOutputPro": "📐 格式化输出 (P2) — Phase 28 P2 / 8种格式 (text/md/json/yaml/xml/html/csv/srt)",
-    "ProjectArchivePro": "📦 项目归档 (P2) — Phase 28 P2 / 序列化+哈希+多格式",
+# 给所有 Production 节点注入 6 个 input slot
+for n in PRODUCTION_NODES:
+    if n in _ALL_NODE_CLASSES:
+        inject_addon_inputs(_ALL_NODE_CLASSES[n])
+
+# ============================================================
+# Phase 35.7 M-A2/M-A3: 统一 CATEGORY 路径 + RETURN_NAMES 命名
+# 策略: 不改 .py 源码, 在 __init__.py 集中 override
+# 统一为 `PromptLibrary/<功能>` 二级路径 + snake_case 英文
+# ============================================================
+_CATEGORY_UNIFIED = {
+    # 起点节点 (无 addon input, 纯 widget)
+    "DirectorSoulNode": "PromptLibrary/起点/灵魂",
+    "AestheticJudgmentPro": "PromptLibrary/起点/审美",
+    "StyleGuidePro": "PromptLibrary/起点/风格",
+    "Phase14AssetRegistry": "PromptLibrary/Phase14/资产",
+    # 剧本/分镜
+    "ScriptArchitecturePro": "PromptLibrary/剧本",
+    "ScriptBodyPro": "PromptLibrary/剧本",
+    "DirectorStoryboardPro": "PromptLibrary/剧本",
+    "VerticalShortDramaPro": "PromptLibrary/剧本",
+    "HookMasterPro": "PromptLibrary/剧本",
+    "DialogueMasterPro": "PromptLibrary/剧本",
+    "CharacterArcPro": "PromptLibrary/剧本",
+    # 导演附件 (表演/情感/留白/空间/美术)
+    "DirectorIntentPro": "PromptLibrary/导演附件",
+    "ArtDirectionPro": "PromptLibrary/导演附件",
+    "SpatialConsistencyPro": "PromptLibrary/导演附件",
+    "SilenceMasteryPro": "PromptLibrary/导演附件",
+    # 14 环节节点 (统一 PromptLibrary/环节, 阶段号在 display name)
+    "ConceptPitchPro": "PromptLibrary/环节",
+    "WorldBuildingPro": "PromptLibrary/环节",
+    "ThemePhilosophyPro": "PromptLibrary/环节",
+    "SoundDesignPro": "PromptLibrary/环节",
+    "MusicScorePro": "PromptLibrary/环节",
+    "PerformanceDirectionPro": "PromptLibrary/环节",
+    "CostumePropSetPro": "PromptLibrary/环节",
+    "EditingPro": "PromptLibrary/环节",
+    "ColorGradingPro": "PromptLibrary/环节",
+    "VfxPro": "PromptLibrary/环节",
+    "MvPro": "PromptLibrary/环节",
+    "PictureBookPro": "PromptLibrary/环节",
+    "InteractiveDramaPro": "PromptLibrary/环节",
+    "QualityAssurancePro": "PromptLibrary/环节",
+    # Phase 14 集群
+    "Phase14SpatialLayout": "PromptLibrary/Phase14/空间",
+    "Phase14ActingSkill": "PromptLibrary/Phase14/表演",
+    "Phase14SoundSkill": "PromptLibrary/Phase14/声音",
+    "IterationPostPro": "PromptLibrary/Phase14/迭代",
+    "Phase14_30sSixAct": "PromptLibrary/Phase14/6段",
+    "Phase14_CinematicStudio": "PromptLibrary/Phase14/电影",
+    # Phase 27
+    "ShotSelectionPro": "PromptLibrary/Phase27/选片",
+    # Phase 28
+    "VersionControlPro": "PromptLibrary/Phase28/版本",
+    "MarketAudiencePro": "PromptLibrary/Phase28/市场",
+    "CleanupPassPro": "PromptLibrary/Phase28/清理",
+    "FormatOutputPro": "PromptLibrary/Phase28/格式化",
+    "ProjectArchivePro": "PromptLibrary/Phase28/归档",
 }
 
+_RETURN_NAMES_UNIFIED = {
+    # 7 个中文 + 3 个混合 → 全部 snake_case 英文
+    "AestheticJudgmentPro": ("aesthetic_judgment", "principle_8_score", "color_system", "scene_match", "cinema_guide", "color_psychology"),
+    "VersionControlPro": ("operation_result", "version_history", "project_status"),
+    "StyleGuidePro": ("style_guide", "full_prompt", "color_palette", "color_mnemonics"),
+    "MarketAudiencePro": ("market_analysis", "audience_profile", "release_strategy", "box_office_forecast"),
+    "CleanupPassPro": ("cleaned_text", "cleanup_stats", "report"),
+    "FormatOutputPro": ("formatted_output", "metadata"),
+    "ProjectArchivePro": ("archive_content", "archive_id", "metadata"),
+    "HookMasterPro": ("hook_template", "hook_5_samples", "anti_ai_cleaned_samples"),
+    "SpatialConsistencyPro": ("spatial_design", "rules_5_application", "director_samples"),
+    "Phase14_CinematicStudio": ("effects_23_overview", "visual_language_params", "color_60_30_10_script", "lighting_9d_design", "dp_8_masters_style", "selected_model", "model_weakness_avoidance", "character_consistency_workflow", "stage_11_pipeline", "h3_prompt"),
+}
+
+# 应用 CATEGORY 统一覆盖
+for node_name, new_cat in _CATEGORY_UNIFIED.items():
+    if node_name in _ALL_NODE_CLASSES:
+        _ALL_NODE_CLASSES[node_name].CATEGORY = new_cat
+
+# 应用 RETURN_NAMES 统一覆盖 (M-A3)
+for node_name, new_rn in _RETURN_NAMES_UNIFIED.items():
+    if node_name in _ALL_NODE_CLASSES:
+        _ALL_NODE_CLASSES[node_name].RETURN_NAMES = new_rn
+
+NODE_CLASS_MAPPINGS = _ALL_NODE_CLASSES
+
+NODE_DISPLAY_NAME_MAPPINGS = {
+    "ScriptArchitecturePro": "📖 剧本架构 (1/3) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "ScriptBodyPro": "📜 剧本正文 (2/3) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "DirectorStoryboardPro": "🎬 导演分镜 (3/3) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "VerticalShortDramaPro": "📱 垂直短剧 (4/7) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "HookMasterPro": "🎣 钩子大师 (5/7) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "DialogueMasterPro": "💬 对白大师 (6/7) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "CharacterArcPro": "👤 角色弧光 (7/7) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "DirectorIntentPro": "🎯 导演意图 (附件核心) [起点·纯 widget]",
+    "ArtDirectionPro": "🎨 美术指导 (附件核心) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "SpatialConsistencyPro": "📐 空间一致性 (附件核心) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "SilenceMasteryPro": "🤫 沉默大师 (附件核心) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "ConceptPitchPro": "💡 概念立项 (环节 1) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "WorldBuildingPro": "🌍 世界设定 (环节 3) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "ThemePhilosophyPro": "🧠 主题哲学 (环节 4) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "SoundDesignPro": "🔊 声音设计 (环节 13) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "MusicScorePro": "🎼 音乐配乐 (环节 14) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "PerformanceDirectionPro": "🎭 表演指导 (环节 17) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "CostumePropSetPro": "👘 服化道 (环节 19) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "EditingPro": "✂️ 剪辑 (环节 28) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "ColorGradingPro": "🎨 调色 (环节 32) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "VfxPro": "✨ VFX (环节 33) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "MvPro": "🎵 MV 导演 (环节 39) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "PictureBookPro": "📚 故事绘本 (环节 40) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "InteractiveDramaPro": "🎮 互动剧 (环节 41) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "QualityAssurancePro": "✅ 质量 QA (环节 34) — L5 重写 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "Phase14AssetRegistry": "📦 资产注册表 (Phase 14) [起点·纯 widget]",
+    "Phase14SpatialLayout": "🗺️ Phase 14 GEO 空间布局 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "Phase14ActingSkill": "🎭 Phase14 表演层专家 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "Phase14SoundSkill": "🔊 Phase14 声音层专家 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "IterationPostPro": "🔁 迭代 + 后期 (Phase 14) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "Phase14_30sSixAct": "📜 Phase14 30s 6 段 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "Phase14_CinematicStudio": "🎬 Phase14 电影工作室 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "DirectorSoulNode": "💀 导演灵魂 (60情感+10维度+7融合) [起点·纯 widget]",
+    "ShotSelectionPro": "🎯 选片决策 (环节 30) — Phase 27 P0 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "AestheticJudgmentPro": "🎨 审美判断 (环节 7) — Phase 28 P0 [起点·纯 widget]",
+    "VersionControlPro": "🔀 版本控制 (环节 35) — Phase 28 P1 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "StyleGuidePro": "🎨 风格指南 (环节 8) — Phase 28 P1 [起点·纯 widget]",
+    "MarketAudiencePro": "📊 市场受众 (环节 36) — Phase 28 P1 [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "CleanupPassPro": "🧹 清理通道 (P2) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "FormatOutputPro": "📐 格式化输出 (P2) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
+    "ProjectArchivePro": "📦 项目归档 (P2) [终态·可接所有上游]",
+}

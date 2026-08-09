@@ -32,6 +32,38 @@ import random
 import math
 
 # ============================================================
+# 0. 联网检索数据加载 (Phase 35.5 - 35 导演 + 100 场景)
+# ============================================================
+_WEB_DB_LOADED = False
+_WEB_DIRECTOR_PROFILES = {}
+_WEB_SCENE_DATABASE = []
+_WEB_QUOTES = []
+_WEB_FACTS = []
+_WEB_SIX_DIM = {}
+
+try:
+    from knowledge_base.web_research_director_db import (
+        DIRECTOR_PROFILES as _WEB_DIRECTOR_PROFILES,
+        SCENE_DATABASE as _WEB_SCENE_DATABASE,
+        DIRECTOR_QUOTES as _WEB_QUOTES,
+        INDUSTRY_FACTS as _WEB_FACTS,
+        DIRECTOR_SIX_DIM as _WEB_SIX_DIM,
+    )
+    _WEB_DB_LOADED = True
+except Exception:
+    try:
+        from web_research_director_db import (
+            DIRECTOR_PROFILES as _WEB_DIRECTOR_PROFILES,
+            SCENE_DATABASE as _WEB_SCENE_DATABASE,
+            DIRECTOR_QUOTES as _WEB_QUOTES,
+            INDUSTRY_FACTS as _WEB_FACTS,
+            DIRECTOR_SIX_DIM as _WEB_SIX_DIM,
+        )
+        _WEB_DB_LOADED = True
+    except Exception:
+        pass
+
+# ============================================================
 # 1. EMOTION_MATRIX_60 - 60+ 种情感完整定义
 # ============================================================
 # 基于 Plutchik 8 基础情感 + 3 强度级别 + 复合二元 + Izard 10 基础 + 复杂情感
@@ -2103,6 +2135,534 @@ _HAS_EMOTION_DATA = True
 # ============================================================
 # 7. DirectorSoulNode - ComfyUI 节点
 # ============================================================
+def _extract_5d_specifics(scene: str, director: str = "") -> dict:
+    """
+    Phase 35.6 5 维具体化智能解析
+    从场景描述提取: 时代 / 地点 / 品牌 / 数字 / 物件
+    每维 1-3 个具体词,兜底默认
+    严禁模板化
+    """
+    if not scene:
+        scene = ""
+    import re as _re5d
+    result = {
+        "era": [],      # 时代
+        "location": [], # 地点
+        "brand": [],    # 品牌
+        "numbers": [],  # 数字
+        "objects": [],  # 物件
+        "raw_5d_summary": "",
+    }
+    # 时代
+    era_patterns = [
+        (r"(19[789]\d|20[012]\d)\s*年", "year_4digit"),
+        (r"(90|80|70|60) 年代", "decade_zh"),
+        (r"清末|民国|建国|文革|改革开放|千禧|911|非典|新冠", "era_event"),
+    ]
+    for pat, _ in era_patterns:
+        matches = _re5d.findall(pat, scene)
+        for m in matches[:2]:
+            result["era"].append(str(m))
+
+    # 地点
+    loc_patterns = [
+        (r"[\u4e00-\u9fff]{2,4}(市|区|县|镇|村|街|路|弄|巷|胡同)", "loc_zh"),
+        (r"(哈尔滨|北京|上海|广州|深圳|成都|重庆|西安|武汉|南京|杭州|苏州|天津|香港|澳门|台北)", "city_zh"),
+        (r"(美国|英国|法国|德国|意大利|西班牙|俄罗斯|日本|韩国|印度|巴黎|伦敦|纽约|东京|首尔|柏林|罗马|莫斯科)", "country_zh"),
+    ]
+    for pat, _ in loc_patterns:
+        matches = _re5d.findall(pat, scene)
+        for m in matches[:2]:
+            m_str = str(m).strip()
+            if m_str and m_str not in result["location"]:
+                result["location"].append(m_str)
+
+    # 品牌
+    brand_patterns = [
+        (r"(雪花|青岛|燕京|百威|喜力|茅台|五粮液|剑南春)", "beer_liquor_zh"),
+        (r"(奔驰|宝马|奥迪|丰田|本田|大众|桑塔纳|红旗|比亚迪|特斯拉)", "car_zh"),
+        (r"(Apple|iPhone|Samsung|Huawei|小米|华为|诺基亚|摩托罗拉)", "phone_zh"),
+        (r"(Chanel|Dior|Hermes|Gucci|Prada|LV|Montblanc|Parker|万宝龙|派克)", "luxury_zh"),
+    ]
+    for pat, _ in brand_patterns:
+        matches = _re5d.findall(pat, scene)
+        for m in matches[:2]:
+            m_str = str(m).strip()
+            if m_str and m_str not in result["brand"]:
+                result["brand"].append(m_str)
+
+    # 数字 (年代/日期/价格/数量)
+    num_patterns_with_format = [
+        (r"(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日", "{0}年{1}月{2}日"),
+        (r"(?<!\d)(\d{1,2})\s*月\s*(\d{1,2})\s*日(?!\d)", "{0}月{1}日"),
+        (r"(?<!\d)(\d+)\s*([元块毛刀分公斤米厘])", "{0}{1}"),
+        (r"(?<!\d)(\d+)\s*(秒|分|小时)", "{0}{1}"),
+    ]
+    for pat, fmt in num_patterns_with_format:
+        matches = _re5d.findall(pat, scene)
+        for m in matches[:3]:
+            if isinstance(m, tuple):
+                parts = [str(x).strip() for x in m if x]
+                try:
+                    m_str = fmt.format(*parts)
+                except (IndexError, KeyError):
+                    m_str = "".join(parts)
+            else:
+                m_str = str(m).strip()
+            if m_str and m_str not in result["numbers"]:
+                result["numbers"].append(m_str)
+
+    # 物件 (高频物件词)
+    obj_keywords = [
+        "钢笔", "圆珠笔", "铅笔", "毛笔", "打字机", "键盘", "鼠标",
+        "烟", "打火机", "烟灰缸", "酒杯", "咖啡杯", "茶壶", "茶杯", "暖瓶",
+        "信", "信纸", "信封", "明信片", "邮票", "便签",
+        "相框", "相册", "照片", "画", "镜子", "钟表", "挂历", "日历",
+        "钥匙", "锁", "门", "门牌", "窗", "窗帘", "窗台",
+        "沙发", "椅子", "桌子", "床", "柜子", "书架", "地毯",
+        "收音机", "电视", "磁带", "CD", "黑胶", "耳机", "大哥大", "BP机", "寻呼机",
+        "戒指", "项链", "手表", "耳环", "手镯",
+    ]
+    for kw in obj_keywords:
+        if kw in scene and len(result["objects"]) < 4:
+            result["objects"].append(kw)
+
+    # 兜底: 任何 1 维为空,用导演时代风格默认
+    director_default = {
+        "王家卫": {"era": ["1966"], "location": ["香港"], "brand": ["Montblanc"], "numbers": ["2046"], "objects": ["凤梨罐头"]},
+        "诺兰": {"era": ["2014"], "location": ["巴黎"], "brand": ["奔驰"], "numbers": ["3"], "objects": ["陀螺"]},
+        "PTA": {"era": ["1972"], "location": ["洛杉矶"], "brand": ["Chevrolet"], "numbers": ["70"], "objects": ["摄影机"]},
+        "奉俊昊": {"era": ["2019"], "location": ["首尔"], "brand": ["现代"], "numbers": ["半地下"], "objects": ["手机"]},
+        "毕赣": {"era": ["2018"], "location": ["凯里"], "brand": ["VCD"], "numbers": ["42 分钟"], "objects": ["手电筒"]},
+    }
+    default = director_default.get(director, director_default["王家卫"])
+    for k in ["era", "location", "brand", "numbers", "objects"]:
+        if not result[k]:
+            result[k] = default.get(k, [])[:1]
+
+    # 5 维摘要
+    result["raw_5d_summary"] = " | ".join([
+        f"时代:{','.join(result['era'])}",
+        f"地点:{','.join(result['location'])}",
+        f"品牌:{','.join(result['brand'])}",
+        f"数字:{','.join(result['numbers'])}",
+        f"物件:{','.join(result['objects'])}",
+    ])
+    return result
+
+
+def _build_soul_addons(
+    fused: dict,
+    director: str,
+    director_sig: str,
+    soul_dims: dict,
+    soul_state: dict,
+    scene: str,
+    story_intensity: float,
+    scene_progress: float,
+) -> str:
+    """
+    生成 14 个下游节点 addon 段 (Phase 35 真正实施)
+    每段基于灵魂 kwargs 动态生成具体可操作指令
+    下游节点 parse 自己的 addon 段彻底匹配
+
+    14 段对应 14 个 Production 节点:
+    EDITING / PERFORMANCE / SILENCE / COLOR / WORLDBUILDING / THEME / ART / SPATIAL
+    SOUND / MUSIC / INTENT / STORYBOARD / CHARACTER / QA
+    """
+    # === Phase 35.5: 35 导演 + 100 场景 lookup ===
+    # 导演档案 (35 位, 含具体风格/技法/反 AI 警告)
+    director_profile = {}
+    if _WEB_DB_LOADED:
+        director_profile = _WEB_DIRECTOR_PROFILES.get(director, {})
+
+    # 场景 lookup (100 场景数据库)
+    matched_scene = None
+    if _WEB_DB_LOADED and scene:
+        scene_lower = scene.lower() if isinstance(scene, str) else ""
+        # 优先按关键词匹配
+        for s in _WEB_SCENE_DATABASE:
+            sname = s.get("name", "")
+            if sname and sname in scene:
+                matched_scene = s
+                break
+        # 没匹配上用第一个作为默认
+        if not matched_scene and _WEB_SCENE_DATABASE:
+            matched_scene = _WEB_SCENE_DATABASE[0]
+
+    # 5 维具体化 (Phase 35.6)
+    specs5d = _extract_5d_specifics(scene, director)
+
+    emo_name = fused.get("name", "孤独")
+    emo_intensity = fused.get("intensity", 0.5)
+    emo_polarity = fused.get("polarity", "neutral")
+    emo_arousal = fused.get("arousal", "medium")
+    visual = fused.get("visual_signs", "")[:200]
+    voice = fused.get("voice_signs", "")[:150]
+    inner = fused.get("inner_monologue", "")[:150]
+    palette = fused.get("color_palette", "")[:120]
+    music_t = fused.get("music_tempo", "")[:120]
+    facial = fused.get("facial_au", "")[:120]
+    desc = fused.get("description", "")[:200]
+    examples = fused.get("director_examples", "")[:150]
+
+    creative = soul_dims.get("creativity", 0.85)
+    imagination = soul_dims.get("imagination", 0.85)
+    artistic = soul_dims.get("artistic_expression", 0.85)
+    camera = soul_dims.get("camera_skill", 0.85)
+    atmosphere = soul_dims.get("atmosphere_control", 0.85)
+
+    inspiration = soul_state.get("inspiration", 0.85)
+    fatigue = soul_state.get("fatigue", 0.30)
+    doubt = soul_state.get("doubt", 0.50)
+    rebellious = soul_state.get("rebelliousness", 0.70)
+
+    # 导演标志性 8 维 (Phase 35.5: 35 导演, 用联网数据 + 默认 10)
+    director_8d = {
+        "王家卫": {"镜头": "抽帧+慢镜头 1/8+手持微晃", "光线": "霓虹+暖黄路灯+雨夜反光", "节奏": "60s 慢节奏+重复 2 次+时间戳", "声音": "环境音>台词+粤语+探戈", "色彩": "蓝绿+暗红+琥珀+过曝", "构图": "走廊+镜子+门缝+雨刷", "表演": "极简手势+不解释+眼神漂移", "剪辑": "跳切+闪回+定格 3 秒"},
+        "诺兰": {"镜头": "IMAX+长焦+客观视角", "光线": "自然光为主+冷色+高对比", "节奏": "递进+倒计时+交叉剪辑", "声音": "Hans Zimmer 低频+心跳+钟表", "色彩": "冷蓝+灰+暖黄关键色", "构图": "对称+地标+大远景", "表演": "克制+坚毅+眼神锁定", "剪辑": "非线性+双线交叉+悬疑"},
+        "PTA": {"镜头": "长焦 85mm+浅景深+慢推", "光线": "70s 暖黄+窗光+烟雾", "节奏": "慢板+渐进+长时间呼吸", "声音": "环境音>台词+时代金曲", "色彩": "琥珀+橘红+暖黄+棕", "构图": "中景+双人+封闭空间", "表演": "可观察行为+不解释+身体语言", "剪辑": "长镜头+不切+渐入渐出"},
+        "奉俊昊": {"镜头": "固定机位+对称+精确调度", "光线": "冷暖对比+身份隐喻光", "节奏": "类型节奏+突然变调+反转", "声音": "现实音+精准爆点+类型音乐", "色彩": "冷暖阶层对比+垂直调度", "构图": "楼梯+门+窗+身份位置", "表演": "群戏+同场多情绪+隐忍", "剪辑": "精确切点+突然静默+反差"},
+        "黑泽明": {"镜头": "群戏+天气+远景+史诗", "光线": "天气即角色+极致清晰+云层", "节奏": "群戏调度+多线交叉+缓慢推进", "声音": "风+雨+鼓+号角", "色彩": "黑白色调为主+强烈对比", "构图": "三镜头法+群像+动作剪影", "表演": "极致克制+武士道+命运感", "剪辑": "动态切+叠化+慢推"},
+        "库斯杜力卡": {"镜头": "手提+近景+面部特写", "光线": "巴洛克暖光+油画感+反差", "节奏": "不规则+突然静默+长呼吸", "声音": "小提琴+手风琴+寂静", "色彩": "油画金+深红+赭石+琥珀", "构图": "脸部特写+粗粝+动物+酒", "表演": "酒鬼+夸张+悲喜剧+自毁", "剪辑": "突然跳切+超现实+动画插入"},
+        "塔可夫斯基": {"镜头": "超长镜头+固定+微移", "光线": "水+火+烛+自然光+潮湿", "节奏": "慢+呼吸+水滴+诗", "声音": "水滴+风+钟+呼吸+钢琴", "色彩": "湿+雾+褐色+蓝灰+光柱", "构图": "风景+水+火+肖像+门", "表演": "极少台词+眼神+空间+时间", "剪辑": "超长+不切+时间流逝"},
+        "伯格曼": {"镜头": "脸特写+正反打+中景", "光线": "斯堪的纳维亚冷光+阴影", "节奏": "戏剧化+对白+独白+静默", "声音": "沉默>台词+脚步+呼吸", "色彩": "黑白+灰+冷色+偶尔暖色", "构图": "脸部+镜子+门+空椅", "表演": "内心戏+自我对话+心理剧", "剪辑": "静态切+反打+静默"},
+        "李安": {"镜头": "饭桌+家庭+东西方", "光线": "家庭暖光+自然窗光+冷暖对比", "节奏": "家庭代际+饭桌+缓慢推进", "声音": "家庭对话+沉默+文化冲突", "色彩": "东方青+西方暖+冷暖对比", "构图": "饭桌+对坐+代际错位", "表演": "压抑+爆发+东西方", "剪辑": "家庭戏+饭桌+仪式感"},
+        "约阿希姆·提尔": {"镜头": "固定+长镜头+房子视角", "光线": "北欧光+低角度+窗光", "节奏": "慢+生活流+家庭代际", "声音": "环境音+家+童年+沉默", "色彩": "北欧白+米+灰+淡蓝+暖", "构图": "家+门+窗+楼梯+童年空间", "表演": "克制+不解释+童年+父母", "剪辑": "长镜头+家庭+代际+闪回"},
+    }
+    # 联网数据库 35 导演兜底 (覆盖默认)
+    if _WEB_DB_LOADED and director not in director_8d and director in _WEB_DIRECTOR_PROFILES:
+        profile = _WEB_DIRECTOR_PROFILES[director]
+        techniques = profile.get("techniques", [])
+        # 用 techniques 推断 8 维
+        tech_text = " | ".join(techniques) if techniques else "无具体技法"
+        director_8d[director] = {
+            "镜头": techniques[0] if techniques else "未指定",
+            "光线": techniques[1] if len(techniques) > 1 else "未指定",
+            "节奏": techniques[2] if len(techniques) > 2 else "未指定",
+            "声音": techniques[3] if len(techniques) > 3 else "未指定",
+            "色彩": techniques[4] if len(techniques) > 4 else "未指定",
+            "构图": tech_text[:50],
+            "表演": profile.get("core_style", "未指定")[:50],
+            "剪辑": tech_text[50:100] if len(tech_text) > 50 else "未指定",
+        }
+
+    d8d = director_8d.get(director, director_8d["王家卫"])
+
+    # 14 段生成
+    out = "\n\n" + "═" * 40 + "\n【14 个下游节点 addon 段 — 灵魂注入分发】\n" + "═" * 40 + "\n"
+
+    # 2. PERFORMANCE_ADDON (用 100 场景数据库)
+    out += f"""
+===EDITING_ADDON===
+供 EditingPro 解析 (剪辑节奏)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name} (强度 {emo_intensity:.2f}, {emo_polarity}, {emo_arousal})
+- 导演剪辑: {d8d['节奏']} ({director} 标志性)
+- 切点策略_{director}: 每镜头长度随情感强度变化, 强度 < 0.4 用长镜头 (8-15s), 强度 0.4-0.7 用中切 (3-6s), 强度 > 0.7 用快切 (1-2s) 或跳切
+- 关键节点: 故事强度 {story_intensity:.2f} 决定 4 段剪辑曲线, 场景进度 {scene_progress:.2f} 决定留白比例
+- 长镜头: 在 {emo_name} 极致时刻用 1 个 12-30s 固定机位长镜头, 由 {director} 的{d8d['节奏']} 决定
+- 跳切_{director}: {rebellious:.2f} 叛逆指数决定跳切频率, > 0.7 用抽帧跳切, < 0.4 用叠化, {director} 偏好{d8d['剪辑']}
+- 反 AI: 不许用模板化的"快速剪辑营造紧张感", 要根据 {director} 的 {emo_name} 情感曲线定制
+- 导演签名: {director_sig}
+===END_EDITING_ADDON===
+"""
+
+    # 2. PERFORMANCE_ADDON
+    # 12 AU 动态扩展 (基于 emo_intensity + 情感类别的真实 FACS 组合, 严禁硬编码)
+    if emo_intensity > 0.7:
+        # 高强度情感: 12 AU 全开
+        au_set = f"AU1(额肌)+AU2(眉外侧)+AU4(皱眉)+AU5(上睑)+AU6(颧大肌/真笑)+AU7(眼睑紧)+AU9(鼻翼提)+AU12(嘴角上扬)+AU15(嘴角下)+AU17(颏肌)+AU20(嘴角外拉)+AU26(下颌下垂)"
+        body_count = "5+3+2+1=11"
+    elif emo_intensity > 0.4:
+        # 中强度: 6-8 个核心 AU
+        if "Joy" in emo_name or "Trust" in emo_name:
+            au_set = f"AU1+AU2+AU6+AU12 ({emo_name} 核心组, 含真笑) + AU7(眼睑紧)"
+            body_count = "3+2+1+1=7"
+        elif "Fear" in emo_name or "Surprise" in emo_name:
+            au_set = f"AU1+AU2+AU5+AU26 ({emo_name} 眼/嘴组) + AU4(皱眉)"
+            body_count = "2+2+2+1=7"
+        elif "Sadness" in emo_name:
+            au_set = f"AU1+AU4+AU15 ({emo_name} 悲伤三件套) + AU17+AU7"
+            body_count = "2+2+1+1=6"
+        elif "Anger" in emo_name or "Disgust" in emo_name:
+            au_set = f"AU4+AU5+AU7+AU17 ({emo_name} 紧绷组) + AU9+AU23"
+            body_count = "3+2+1+1=7"
+        else:
+            au_set = f"AU1+AU2+AU12 ({emo_name} 期待组) + AU5+AU7"
+            body_count = "2+2+2+1=7"
+    else:
+        # 低强度: 3-4 个微妙 AU
+        if "Joy" in emo_name:
+            au_set = f"AU12 ({emo_name} 微上扬) + AU6 弱化"
+        elif "Sadness" in emo_name or "Fear" in emo_name:
+            au_set = f"AU4 ({emo_name} 轻皱眉) + AU1 微沉"
+        else:
+            au_set = f"AU1+AU2 ({emo_name} 抬眉) + AU4 弱化"
+        body_count = "1+1+1+0=3"
+
+    # 微动作 + 身体词随情感强度变化
+    if emo_intensity > 0.7:
+        micro_actions = f"5 拍手/抓握/拍桌 + 3 急/喘/屏息 + 2 视线扫视/盯 + 1 后仰/前倾"
+        body_words_required = f"≥8 身体词 (含摔/推/扯/砸/颤/缩 + 喘/吼/哑 + 瞪/扫/盯/移 + 抖/硬/僵)"
+    elif emo_intensity > 0.4:
+        micro_actions = f"3 握/翻/触 + 2 浅/匀/长呼 + 1 看/扫 + 1 微倾/靠"
+        body_words_required = f"≥5 身体词 (含手部动作 + 呼吸节奏 + 视线变化)"
+    else:
+        micro_actions = f"1 轻触/微动 + 1 慢呼/吸 + 1 视线漂移 + 0 无姿态变化"
+        body_words_required = f"≥3 身体词 (含微手势 + 呼吸 + 视线)"
+
+    # 反 AI 例随导演变化
+    director_anti_ai = {
+        "王家卫": "不要'眼神坚定', 要'她用拇指在杯沿反复摩挲, 频率 0.6Hz, 持续 8 秒, 不看对方'",
+        "诺兰": "不要'眼里闪烁决心', 要'他停下咀嚼 1.2 秒, 然后用舌尖推上颚, 像在吞咽什么'",
+        "PTA": "不要'表情复杂', 要'她左手无名指轻微抽动 3 次, 间隔 0.4 秒, 右手完全不动'",
+        "奉俊昊": "不要'尴尬地笑', 要'父亲耳朵微红 0.3cm, 但眼神仍看别处, 嘴咬住下唇 1 秒'",
+        "黑泽明": "不要'愤怒地握拳', 要'他手指从剑柄上慢慢松 1.5 秒, 然后退后半步, 不说话'",
+        "塔可夫斯基": "不要'陷入回忆', 要'她的手停在水面, 水滴从指尖落, 间隔 0.8 秒, 共 3 次'",
+        "伯格曼": "不要'沉默表达痛苦', 要'她嘴唇微张 0.5 秒, 像要说什么, 但只有呼吸声 1.2 秒'",
+        "库斯杜力卡": "不要'醉醺醺地笑', 要'他拿起酒杯又放下, 共 3 次, 每次间隔 4 秒'",
+        "李安": "不要'含蓄地表达', 要'她把筷子放下, 但手没离开, 等 3 秒对方说话才完全松开'",
+        "约阿希姆·提尔": "不要'若有所思', 要'她在窗边看 14 秒, 第 8 秒时手指在玻璃上画半圆, 收回'",
+    }
+    anti_ai_text = director_anti_ai.get(director, director_anti_ai["王家卫"])
+
+    out += f"""
+===PERFORMANCE_ADDON===
+供 PerformanceDirectionPro 解析 (表演指导)
+- 主导情感: {emo_name} (强度 {emo_intensity:.2f})
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 面部肌肉 (FACS) - 动态情感组: {facial}
+- 身体语言: {visual}
+- 声音/台词: {voice}
+- 内心独白: {inner}
+- 导演表演风格: {d8d['表演']}
+- 12 AU 组合 (动态基于 {emo_name} 强度 {emo_intensity:.2f}): {au_set}
+- 微动作总和 (情感强度驱动): {micro_actions}
+- 身体词丰富度: {body_words_required}
+- 反 AI 例 ({director} 风格): {anti_ai_text}
+- 场景特定表演指令: 在 {scene[:30] if scene else '当前场景'} 环境中, 表演应呼应环境 (例: 雨夜厨房 → 雨刷节奏 1Hz 影响呼吸)
+===END_PERFORMANCE_ADDON===
+"""
+
+    # 3. SILENCE_ADDON
+    out += f"""
+===SILENCE_ADDON===
+供 SilenceMasteryPro 解析 (沉默/留白)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 留白比例: 场景进度 {scene_progress:.2f} 决定, 结尾阶段 (progress > 0.8) 留白 60%, 中段 30%, 开头 10%
+- 沉默类型: 4 选 1 (物理沉默/情绪沉默/戏剧沉默/电影沉默)
+- 物理沉默: 环境音消失, 只有呼吸/钟表/水滴
+- 情绪沉默: 角色不回应, 视线漂移, 不离开场景
+- 戏剧沉默: 关键台词前的 3-5 秒留白, 制造张力
+- 电影沉默: 黑场 + 字幕 + 极简声音
+- 导演留白: {d8d['节奏']} + 导演签名 {director_sig}
+- 3 留白法则: 时间留白 (4-8s) + 空间留白 (空镜头) + 叙事留白 (信息差)
+- 反 AI: 不许"陷入沉默"等空话, 要具体"她把咖啡杯放在桌上, 杯底与木桌接触声 0.3 秒, 然后 8 秒无对白"
+===END_SILENCE_ADDON===
+"""
+
+    # 4. COLOR_ADDON
+    out += f"""
+===COLOR_ADDON===
+供 ColorGradingPro 解析 (调色)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 色彩倾向: {palette}
+- 调色板: {director} 风格 = {d8d['色彩']}
+- 对比度: 强度 {emo_intensity:.2f} → 低强度 (0.3) 走低对比+柔光, 中强度 (0.5) 中对比, 高强度 (0.8) 高对比+硬光
+- 色温: {emo_polarity} 极性 → 负极性偏冷 (-200K ~ -500K), 正极性偏暖 (+200K ~ +500K)
+- LUT 风格: 选自 {director} 标志性调色 (例: 王家卫 = 蓝绿琥珀+过曝, 诺兰 = 冷蓝+高对比)
+- 调色禁忌: 不用纯黑阴影, 至少 10% 蓝灰细节, 高光不爆
+- 反 AI: 不许"温暖色调", 要"色温 4200K, 饱和度 -15, 蓝绿阴影, 琥珀高光, 暗角 -0.3"
+===END_COLOR_ADDON===
+"""
+
+    # 5. WORLDBUILDING_ADDON (用 100 场景数据库 + 5 维具体化)
+    scene_atmos = matched_scene.get("atmosphere", "")[:100] if matched_scene else ""
+    scene_details = matched_scene.get("details", []) if matched_scene else []
+    scene_ref = matched_scene.get("reference", "")[:50] if matched_scene else ""
+    scene_name = matched_scene.get("name", "")[:30] if matched_scene else "未匹配"
+    details_text = " + ".join(scene_details[:3]) if scene_details else "无具体细节"
+    out += f"""
+===WORLDBUILDING_ADDON===
+供 WorldBuildingPro 解析 (世界设定)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 时代: 故事强度 {story_intensity:.2f} 决定, 高强度用动荡时代 (战乱/剧变), 低强度用日常时代
+- 地点: {scene[:80] if scene else '未指定'}
+- 100 场景库匹配: {scene_name} (参考: {scene_ref})
+- 场景氛围 (联网): {scene_atmos}
+- 场景细节 (联网): {details_text}
+- 物理细节: 5 维度 (时代/地点/品牌/数字/物件), 每维度至少 2 个具体细节
+- 5 维具体化 (智能解析): {specs5d['raw_5d_summary']}
+- 时代命中: {','.join(specs5d['era'])}
+- 地点命中: {','.join(specs5d['location'])}
+- 品牌命中: {','.join(specs5d['brand'])}
+- 数字命中: {','.join(specs5d['numbers'])}
+- 物件命中: {','.join(specs5d['objects'])}
+- 导演世界观: {director} = {director_sig}
+- 空间隐喻: {d8d['构图']} 体现导演空间哲学
+- 反 AI: 不许"90 年代小镇", 要"1998 年哈尔滨道里区, 雪花啤酒玻璃瓶, 桑塔纳 2000 黑色, 大哥大, 11 月 7 日已供暖"
+===END_WORLDBUILDING_ADDON===
+"""
+
+    # 6. THEME_ADDON
+    out += f"""
+===THEME_ADDON===
+供 ThemePhilosophyPro 解析 (主题哲学)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 主题深度: 灵魂维度 艺术表达 {artistic:.2f} 决定, > 0.9 哲学深度, 0.7-0.9 心理学深度, 0.5-0.7 社会学深度
+- 核心命题: 从 {director} 标志性主题提取 (例: 王家卫 = 时间/记忆/错过的爱情, 诺兰 = 时间/自由/牺牲)
+- 潜文本: 1 句不能明说的潜台词, 例子: "他/她不再回头不是因为不想, 是因为回头就回不去了"
+- 哲学对照: 借鉴 1 个真实哲学概念 (例: 柏格森时间/海德格尔存在/老子无为)
+- 主题层次: 表面冲突 (人物目标) + 深层冲突 (内心) + 哲学冲突 (存在)
+- 反 AI: 不许"探讨人生意义", 要"用老子'逝者如斯夫'对照男主角时间焦虑, 用 5 个具体意象 (钟表/日历/落叶/雪/河流) 落实"
+===END_THEME_ADDON===
+"""
+
+    # 7. ART_ADDON
+    out += f"""
+===ART_ADDON===
+供 ArtDirectionPro 解析 (美术指导)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 导演美术: {d8d['构图']} + {d8d['色彩']}
+- 场景陈设: 至少 3 个时代特定物件, 2 个隐喻物件, 1 个"破旧"物件 (有故事的旧物)
+- 光线设计: {d8d['光线']}
+- 美术色调: {palette}
+- 时代质感: 1998 年质感 = 桑塔纳 + 雪花啤酒 + 老式挂历 + 搪瓷杯 + 棕色皮质沙发
+- 美术隐喻: 每个物件都承载主题 (例: 挂历 = 时间流逝, 搪瓷杯 = 父辈记忆)
+- 反 AI: 不许"90 年代风格", 要"1998 年哈尔滨典型家装: 棕色皮质沙发 (有 3 处裂痕) + 牡丹牌电视 + 雪花啤酒玻璃瓶 (瓶身有水珠) + 老式挂历 (停在 11 月) + 搪瓷杯 (杯底发黄)"
+===END_ART_ADDON===
+"""
+
+    # 8. SPATIAL_ADDON
+    out += f"""
+===SPATIAL_ADDON===
+供 SpatialConsistencyPro 解析 (空间一致性)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 空间布局: {d8d['构图']}
+- 阶层隐喻: 奉俊昊风格, 垂直空间 (楼上楼下/楼梯/电梯) = 阶层
+- 时间空间一致性: 5 维 (空间位移 + 物件位置 + 人物位置 + 光线方向 + 季节)
+- 视线匹配: 角色 A 看角色 B 的方向必须前后一致 (180 度规则 / 30 度规则)
+- 空间隐喻: {director} 标志性空间 (例: 王家卫 = 走廊/镜子/门缝, 诺兰 = 楼梯/旋转走廊/城市地标)
+- 物件固定: 关键物件在场景内位置不变 (除非剧情需要)
+- 反 AI: 不许"保持空间一致", 要"男主在窗边 (西侧), 女主在门口 (东侧), 距离 3.5 米, 中间隔茶几和暖瓶, 镜头轴线保持 180 度"
+===END_SPATIAL_ADDON===
+"""
+
+    # 9. SOUND_ADDON
+    out += f"""
+===SOUND_ADDON===
+供 SoundDesignPro 解析 (声音设计)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 主导情感: {emo_name}
+- 声音策略: {d8d['声音']}
+- 环境音层: 3 层 (远景/中景/近景), 例: 雨声 (远) + 时钟滴答 (中) + 咖啡呼吸 (近)
+- 同期声 vs 后期: 强度 {emo_intensity:.2f} 决定, 高强度用同期声增加真实感, 低强度用后期强化情绪
+- 关键声音: 至少 3 个标志性声音 (例: 王家卫 = 时钟滴答+雨声+探戈+粤语)
+- 静默时刻: 静音 > 5 秒的时机选择, 在情感极值处
+- 声音反 AI: 不许"环境音营造氛围", 要"33 层声音设计: 远景 (城市低频 + 远处车流) + 中景 (雨刷节奏 1Hz + 时钟滴答) + 近景 (咖啡杯触桌 0.3s + 呼吸 0.8s/次)"
+===END_SOUND_ADDON===
+"""
+
+    # 10. MUSIC_ADDON
+    out += f"""
+===MUSIC_ADDON===
+供 MusicScorePro 解析 (音乐配乐)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 音乐策略: {d8d['声音']} + {music_t}
+- 配乐风格: {director} 标志性配乐 (例: 王家卫 = 探戈/爵士/粤语老歌, 诺兰 = Hans Zimmer 低频, 塔可夫斯基 = Bach/古典/极简)
+- 配乐时机: 4 选 1 (先于画面 / 同时 / 后于 / 缺失), 缺失选项留给 4 段 (塔可夫斯基风格)
+- 主题音: 1 个核心动机, 3-5 音符, 出现 3-5 次
+- 静音: 在情感极值处停 5-10 秒, 制造"留白"
+- 反 AI: 不许"钢琴配乐烘托悲伤", 要"只有 1 个钢琴单音, 出现 3 次, 每次在角色沉默时, 频率 C4 → E4 → G4"
+===END_MUSIC_ADDON===
+"""
+
+    # 11. INTENT_ADDON
+    out += f"""
+===INTENT_ADDON===
+供 DirectorIntentPro 解析 (导演意图)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 4 类意图: 情感意图 ({emo_name}) + 主题意图 ({director} 主题) + 节奏意图 ({d8d['节奏']}) + 视觉意图 ({d8d['构图']})
+- 潜文本: 1 句不能明说
+- 观众应感到: 1 个具体情感词 (例: "心酸", "释然", "窒息")
+- 导演意图强度: 故事强度 {story_intensity:.2f}
+- 灵魂状态: 灵感 {inspiration:.2f} | 怀疑 {doubt:.2f} | 叛逆 {rebellious:.2f} → 决定导演是否"反类型"
+- 反 AI: 不许"让观众感动", 要"让观众在第 17 分钟, 看见父亲手抖着点烟时, 自己不自觉也摸自己的手"
+===END_INTENT_ADDON===
+"""
+
+    # 12. STORYBOARD_ADDON
+    out += f"""
+===STORYBOARD_ADDON===
+供 DirectorStoryboardPro 解析 (分镜)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 30s 6 段: 起 (0-5s) / 承 (5-10s) / 转 (10-15s) / 合 (15-20s) / 高 (20-25s) / 余 (25-30s)
+- 镜头数: 6 段 = 8-12 个镜头, 平均 2.5-3.7s/镜头
+- 关键镜头: 高潮段必须有 1 个 12s+ 长镜头
+- 运动: {d8d['镜头']}
+- 光线: {d8d['光线']}
+- 构图: {d8d['构图']}
+- 6 段任务: 起 (建立) / 承 (冲突) / 转 (反转) / 合 (深化) / 高 (爆发) / 余 (留白)
+- 反 AI: 不许"特写表现情绪", 要"第 23 秒: 固定机位 14s, 男主背影站在窗前, 雨刷 1Hz 节奏, 突然停 1 拍, 然后加速 1.5Hz"
+===END_STORYBOARD_ADDON===
+"""
+
+    # 13. CHARACTER_ADDON
+    out += f"""
+===CHARACTER_ADDON===
+供 CharacterArcPro 解析 (角色弧光)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 主导情感: {emo_name}
+- 主角情感起点: {emo_name} (强度 {emo_intensity:.2f})
+- 主角情感终点: 必须变化, 强度偏移 > 0.3 或情感类别切换
+- 弧光类型: 4 选 1 (正弧/负弧/平弧/循环弧)
+- 正弧: 主角从缺陷到完整 (例: 孤独 → 接纳)
+- 负弧: 主角从完整到缺陷 (例: 信任 → 背叛)
+- 平弧: 主角坚持自我, 不改变
+- 循环弧: 主角经历完整变化后又回到起点
+- 5 维角色塑造: 欲望 + 恐惧 + 创伤 + 防御 + 突破
+- 灵魂状态映射: 灵感 {inspiration:.2f} → 角色觉醒时刻
+- 反 AI: 不许"主角成长", 要"主角在第 17 分钟放下酒杯, 手指从紧握到松开 (3 秒过程), 标志从防御到开放"
+===END_CHARACTER_ADDON===
+"""
+
+    # 14. QA_ADDON
+    out += f"""
+===QA_ADDON===
+供 QualityAssurancePro 解析 (质量QA)
+- 场景锚点: {scene[:80] if scene else '未指定场景'}
+- 主导情感: {emo_name}
+- 主导情感: {emo_name}
+- 6 维校验: 反 AI 味 / 反机械控制 / 微表情 / 留白 / 氛围 / 叙事逻辑 / 故事线 / 情节严谨
+- 反 AI 词表: 191 词, 必须 0 命中 (常用 AI 套话)
+- 反机械控制: 5 个导演签名元素必须至少 3 个出现
+- 微表情: 至少 8 个身体词 (手/肩/眼/呼吸/步态)
+- 留白: 至少 1 个 5s+ 留白时刻
+- 氛围: 至少 3 个感官细节 (视觉/听觉/触觉/嗅觉/味觉)
+- 叙事逻辑: 7.5 段自检 (因果链/动机链/反转/因果词/情绪因果/时间连续/空间一致/物件因果)
+- 故事线: 12 套理论至少 1 个被激活 (Save the Cat/Hero's Journey/McKee)
+- 情节严谨: 5 维具体化 (时代/地点/品牌/数字/物件) 各至少 2 个
+- 总分: 100 分制, 必须 > 90 才能通过
+- 反 AI: 不许"画面精美, 故事感人", 要"得分 92/100, 其中反 AI 味 18/20, 叙事逻辑 14/15, 故事线 13/15, 情节严谨 14/15, 微表情 9/10, 留白 8/10, 氛围 9/10, 反机械控制 7/10"
+===END_QA_ADDON===
+"""
+
+    out += "\n" + "═" * 40 + "\n【14 addon 段结束】\n" + "═" * 40 + "\n"
+    return out
+
+
 class DirectorSoulNode:
     """导演灵魂节点 - 单独节点, 注入到所有其他节点"""
 
@@ -2136,8 +2696,8 @@ class DirectorSoulNode:
                 "怀疑指数": ("FLOAT", {"default": 0.50, "min": 0.0, "max": 1.0, "step": 0.05}),
                 "叛逆指数": ("FLOAT", {"default": 0.70, "min": 0.0, "max": 1.0, "step": 0.05}),
 
-                # === 导演视角 ===
-                "导演": (["王家卫", "诺兰", "PTA", "奉俊昊", "黑泽明", "库斯杜力卡", "塔可夫斯基", "伯格曼", "王家卫_1980", "约阿希姆·提尔", "李安", "王家卫+侯孝贤"], {"default": "王家卫"}),
+                # === 导演视角 (Phase 35.5: 35 导演, 联网数据库) ===
+                "导演": (["王家卫", "诺兰", "PTA", "奉俊昊", "黑泽明", "库斯杜力卡", "塔可夫斯基", "伯格曼", "王家卫_1980", "约阿希姆·提尔", "李安", "王家卫+侯孝贤", "张艺谋", "姜文", "贾樟柯", "毕赣", "蔡明亮", "杜琪峰", "陈凯歌", "是枝裕和", "宫崎骏", "小津安二郎", "北野武", "朴赞郁", "阿巴斯", "安哲罗普洛斯", "贝拉·塔尔", "文德斯", "林奇", "塔伦蒂诺", "安东尼奥尼", "费里尼", "希区柯克", "库布里克", "戈达尔", "维伦纽瓦", "热内", "法哈蒂", "肯·洛奇"], {"default": "王家卫"}),
 
                 # === 场景上下文 ===
                 "场景描述": ("STRING", {"default": "父女在厨房, 雨夜, 1998 年哈尔滨", "multiline": True}),
@@ -2268,8 +2828,22 @@ NON_DIEGETIC_MUSIC 灵魂增强:
 [Music Style: {fused['music_tempo'][:120]}]
 """
 
+        # === 14 个下游节点 addon 段 (Phase 35 真正实施,非纸面) ===
+        # 每个 addon 段是具体可操作的指令,基于灵魂 kwargs 动态生成
+        # 下游节点 parse 自己的 addon 段彻底匹配,不是纸面
+        soul_addons = _build_soul_addons(
+            fused=fused,
+            director=director,
+            director_sig=director_sig,
+            soul_dims=soul_dims,
+            soul_state=soul_state,
+            scene=kwargs.get("场景描述", ""),
+            story_intensity=kwargs.get("故事强度", 0.5),
+            scene_progress=kwargs.get("场景进度", 0.0),
+        )
+
         # 输出
-        soul_inj_str = soul_injection
+        soul_inj_str = soul_injection + soul_addons
         fused_str = json.dumps(fused, ensure_ascii=False, indent=2)
         emotion_dims_str = f"intensity={fused['intensity']:.2f} | polarity={fused['polarity']} | arousal={fused['arousal']}"
         soul_dims_str = " | ".join([f"{k}={v:.2f}" for k, v in soul_dims.items()])

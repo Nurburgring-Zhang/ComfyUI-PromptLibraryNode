@@ -501,7 +501,7 @@ class Phase14_CinematicStudio:
 
     def build(self, 特效类型, 场景描述, 时长_秒, 语言, 参考图片URL, 服装描述, 角色名, 导演风格,
               摄影指导, 焦段, 光圈, 景别, 构图法则, 主色_60, 辅色_30, 点缀色_10,
-              光源类型, 光影方向, 色温, 比例, 时间, 启用反AI):
+              光源类型, 光影方向, 色温, 比例, 时间, 启用反AI, **kwargs):
 
         def _str(v, default=""):
             if v is None:

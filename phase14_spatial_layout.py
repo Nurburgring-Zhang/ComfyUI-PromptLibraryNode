@@ -120,6 +120,19 @@ except Exception:
         "五味杂陈", "空气中弥漫着", "仿佛", "像是", "宛如",
     ]
 
+# === Phase 35.9: 接入 director_soul 的 35 导演 + 100 场景联网数据 ===
+try:
+    from director_soul import (
+        _WEB_DIRECTOR_PROFILES, _WEB_SCENE_DATABASE, _WEB_DB_LOADED,
+        _extract_5d_specifics,
+    )
+    _HAS_WEB_DB = _WEB_DB_LOADED
+except Exception:
+    _HAS_WEB_DB = False
+    _WEB_DIRECTOR_PROFILES = {}
+    _WEB_SCENE_DATABASE = []
+    _extract_5d_specifics = None
+
 
 # ============================================================================
 # SCENE_REGISTRY — 场景注册表
@@ -373,7 +386,9 @@ SCENE_REGISTRY["ritual_altar"] = {
 # 5 要素生成器 — 每个函数都跑这一遍
 # ============================================================================
 
-def _gen_5_elements(scene_name: str, shot_context: str = "通用") -> Dict[str, str]:
+def _gen_5_elements(scene_name: str, shot_context: str = "通用", director: str = "",
+                     matched_scene: dict = None, director_profile: dict = None,
+                     specs5d: dict = None) -> Dict[str, str]:
     """
     5 要素处理生成器 (数据 + 上下文 + skill + 经验 + AI 深度)
 
@@ -390,30 +405,94 @@ def _gen_5_elements(scene_name: str, shot_context: str = "通用") -> Dict[str, 
     scene = SCENE_REGISTRY.get(scene_name, {})
     display = scene.get("display_name", scene_name)
     domain = scene.get("domain", "通用")
+
+    # === Phase 35.9: 5 要素真正差异化 (基于 matched_scene + director + specs5d) ===
+    _matched_name = matched_scene.get("name", "") if matched_scene else ""
+    _matched_ref = matched_scene.get("reference", "") if matched_scene else ""
+    _matched_atmos = matched_scene.get("atmosphere", "") if matched_scene else ""
+    _matched_details = matched_scene.get("details", []) if matched_scene else []
+    _dir_core = director_profile.get("core_style", "") if director_profile else ""
+    _dir_tech = director_profile.get("techniques", []) if director_profile else []
+    _5d_era = ",".join((specs5d or {}).get("era", []))
+    _5d_loc = ",".join((specs5d or {}).get("location", []))
+    _5d_brand = ",".join((specs5d or {}).get("brand", []))
+    _5d_num = ",".join((specs5d or {}).get("numbers", []))
+    _5d_obj = ",".join((specs5d or {}).get("objects", []))
+
     return {
         "data": (
             "【数据】Higgsfield brief 14 维场景描述符 (PLATFORM/ALTAR-MONOLITH/RITUAL CENTER/"
             "frame-left/frame-right/180° AXIS/BACK-LIGHTING/FLOOR PLAN/3/4 REFERENCE) + "
-            "63 导演 12 维 + 191 反 AI 词表 + 12 套理论"
+            "63 导演 12 维 + 191 反 AI 词表 + 12 套理论 + "
+            "35 导演联网档案 (命中: " + director + " = " + (_dir_core[:40] if _dir_core else "未命中") + ") + "
+            "100 场景库 (匹配: " + (_matched_name or "未匹配") + " = " + (_matched_ref or "无参考") + ")"
         ),
         "context": (
             "【上下文缩略】场景=" + display + " (" + scene_name + "), 域=" + domain +
-            ", 当前 shot_context=" + shot_context
+            ", 当前 shot_context=" + shot_context +
+            ", 导演=" + (director or "未指定") +
+            ", 5维具体化=时代:" + (_5d_era or "无") + "/地点:" + (_5d_loc or "无") +
+            "/品牌:" + (_5d_brand or "无") + "/数字:" + (_5d_num or "无") + "/物件:" + (_5d_obj or "无")
         ),
         "skill": (
             "【Skill/Harness】GEO SPATIAL LAYOUT 9 块 (" + " / ".join(GEO_BLOCK_9) + ") + "
             "180° AXIS 铁律 + 5 空间不变量 (" + ", ".join(SPATIAL_INVARIANTS_5.keys()) + ") + "
-            "3/4 视角规则 + initialization shot 协议"
+            "3/4 视角规则 + initialization shot 协议 + "
+            "5 维具体化智能解析 (时代/地点/品牌/数字/物件) + "
+            "35 导演核心风格 (" + director + "): " + (_dir_core[:60] if _dir_core else "未命中")
         ),
         "experience": (
             "【经验矩阵】3 内置场景 (训练室/走廊/祭坛) + 8 空间原型 (" +
-            ", ".join(SPATIAL_PROTOTYPES_8.keys()) + ") + 12 真实 AI 短剧空间案例"
+            ", ".join(SPATIAL_PROTOTYPES_8.keys()) + ") + 12 真实 AI 短剧空间案例 + "
+            "100 场景库 " + str(len(_WEB_SCENE_DATABASE) if _HAS_WEB_DB else 0) + " 个 + "
+            "35 导演联网 " + str(len(_WEB_DIRECTOR_PROFILES) if _HAS_WEB_DB else 0) + " 位 + "
+            "当前场景锚定: " + (_matched_name or scene_name) + " 氛围: " + (_matched_atmos[:60] if _matched_atmos else "无")
         ),
         "ai_deep": (
             "【AI 深度处理】反 AI 词表清洗 (191 条) + 5 空间一致性检查 + 方向语义注入 "
-            "(frame-left/frame-right 而非 hero's left) + EXACT N 硬性约束"
+            "(frame-left/frame-right 而非 hero's left) + EXACT N 硬性约束 + "
+            "5 维物件锚定: " + (_5d_obj or "无") + " + "
+            "导演反 AI 警告 (" + director + "): " + (
+                (director_profile.get("anti_ai_warning", "")[:80] if director_profile else "") or "无"
+            )
         ),
     }
+
+
+def parse_spatial_addon(addon_raw: str) -> Dict[str, str]:
+    """
+    Phase 35.9: 解析 ===SPATIAL_ADDON=== 段 (DirectorSoulNode 输出)
+
+    返回字典, key 为解析出的字段 (kebab→snake):
+        - 场景锚点
+        - 主导情感
+        - 空间布局
+        - 阶层隐喻
+        - 时间空间一致性
+        - 视线匹配
+        - 空间隐喻
+        - 物件固定
+        - 反 AI
+    """
+    import re as _re_spa
+    out: Dict[str, str] = {}
+    if not addon_raw:
+        return out
+    m = _re_spa.search(r"===SPATIAL_ADDON===\s*\n(.*?)===END_SPATIAL_ADDON===",
+                       addon_raw, _re_spa.DOTALL)
+    if not m:
+        return out
+    body = m.group(1)
+    # 行级解析 "- key: value"
+    for line in body.split("\n"):
+        line = line.strip()
+        if line.startswith("- "):
+            kv = line[2:].split(":", 1)
+            if len(kv) == 2:
+                k = kv[0].strip()
+                v = kv[1].strip()
+                out[k] = v
+    return out
 
 
 def _anti_ai_clean(text: str) -> str:
@@ -587,7 +666,9 @@ def _build_props_phrase(props_count: Dict[str, int]) -> str:
     return ", ".join(parts) + ", NEVER more, NEVER fewer"
 
 
-def get_geo_block(name: str, shot_context: str = "通用") -> str:
+def get_geo_block(name: str, shot_context: str = "通用", director: str = "",
+                  matched_scene: dict = None, director_profile: dict = None,
+                  specs5d: dict = None) -> str:
     """
     取得 GEO SPATIAL LAYOUT block (可逐字粘贴)
 
@@ -600,24 +681,27 @@ def get_geo_block(name: str, shot_context: str = "通用") -> str:
         场景 ID
     shot_context: str
         当前镜头上下文 (对话 / 动作 / 特写 / 全景), 用于动态微调
+    director: str
+        导演名 (Phase 35.9 新增, 用于联网档案 + 空间原型切换)
+    matched_scene: dict
+        100 场景库匹配结果 (Phase 35.9 新增, 用于丰富锚定)
+    director_profile: dict
+        35 导演联网档案 (Phase 35.9 新增, 用于反 AI 警告 + 核心风格注入)
+    specs5d: dict
+        5 维具体化解析结果 (Phase 35.9 新增, 用于物件锚定)
 
     返回
     ----
     str: 可逐字粘贴的 GEO SPATIAL LAYOUT block, 含 5 要素底注
-
-    示例
-    ----
-    >>> geo = get_geo_block("training_room")
-    >>> print(geo)
-    GEO SPATIAL LAYOUT (locked across every shot — pure spatial map):
-    ...
     """
     scene = SCENE_REGISTRY.get(name)
     if not scene:
         return "[ERROR] scene not registered: " + name
 
-    # 5 要素驱动
-    el = _gen_5_elements(name, shot_context)
+    # 5 要素驱动 (Phase 35.9 真正注入 director / matched_scene / specs5d)
+    el = _gen_5_elements(name, shot_context, director=director,
+                         matched_scene=matched_scene, director_profile=director_profile,
+                         specs5d=specs5d)
 
     # 动态生成 (不是模板 — 真正根据 landmarks/axis/lighting 拼)
     platform = scene.get("platform", "(unset)")
@@ -652,6 +736,39 @@ def get_geo_block(name: str, shot_context: str = "通用") -> str:
             scene["corner_for_talk"]
         )
 
+    # === Phase 35.9: 导演专属空间隐喻 + 5 维物件锚定 ===
+    _dir_spatial_meta = ""
+    _director_spatial_map = {
+        "王家卫": "走廊+镜子+门缝+雨刷 (空间是时间的容器, 镜中是第二叙事层)",
+        "诺兰": "楼梯+旋转走廊+城市地标 (空间是时间的物理折叠, 旋转 = 时间相对论)",
+        "奉俊昊": "楼梯+门+窗+垂直阶层 (楼上楼下 = 阶层, 垂直空间承载社会隐喻)",
+        "塔可夫斯基": "水+火+雾+雨+门 (Zone 单一空间长时间不动, 自然元素是空间主角)",
+        "是枝裕和": "家庭日常空间+厨房+客厅+走廊 (日常空间承载情感潜流)",
+        "PTA": "中景+双人+封闭空间 (亲密中景, 空间是情感容器)",
+        "黑泽明": "群像+天气+远景+动作剪影 (极端天气扩展空间纵深)",
+    }
+    _dir_spatial = _director_spatial_map.get(director, "")
+    if _dir_spatial:
+        _dir_spatial_meta = "\n— 导演专属空间隐喻 (" + director + "): " + _dir_spatial + "\n"
+
+    _5d_anchor_meta = ""
+    if specs5d:
+        _parts = []
+        for k in ("era", "location", "brand", "numbers", "objects"):
+            v = specs5d.get(k, [])
+            if v:
+                _parts.append(k + ":" + ",".join(v[:2]))
+        if _parts:
+            _5d_anchor_meta = "\n— 5 维具体化锚定: " + " | ".join(_parts) + "\n"
+
+    _matched_meta = ""
+    if matched_scene:
+        _matched_meta = (
+            "\n— 100 场景库锚定: " + matched_scene.get("name", "") + " (参考: " +
+            (matched_scene.get("reference", "") or "无") + ")\n"
+            "  场景氛围: " + (matched_scene.get("atmosphere", "")[:80] if matched_scene.get("atmosphere") else "无") + "\n"
+        )
+
     out = (
         "GEO SPATIAL LAYOUT (locked across every shot — pure spatial map):\n"
         "\n"
@@ -679,7 +796,10 @@ def get_geo_block(name: str, shot_context: str = "通用") -> str:
         "— PROPS COUNT (EXACT, NEVER more/fewer): " + props_phrase + "\n"
         "\n"
         "— 3/4 REFERENCE: " + scene.get("three_quarter_ref", "(unset)") + "\n"
-        "\n"
+        + _matched_meta
+        + _dir_spatial_meta
+        + _5d_anchor_meta
+        + "\n"
         "════════════════════════════════════════\n"
         + el["data"] + "\n"
         + el["context"] + "\n"
@@ -692,7 +812,9 @@ def get_geo_block(name: str, shot_context: str = "通用") -> str:
     return _anti_ai_clean(out)
 
 
-def get_initialization_shot(name: str, duration: float = 1.0) -> str:
+def get_initialization_shot(name: str, duration: float = 1.0, director: str = "",
+                           matched_scene: dict = None, director_profile: dict = None,
+                           specs5d: dict = None) -> str:
     """
     取得第 1 秒全景镜头描述 (initialization wide shot)
 
@@ -709,20 +831,26 @@ def get_initialization_shot(name: str, duration: float = 1.0) -> str:
         场景 ID
     duration: float
         初始化时长, 默认 1.0 秒, 范围 0.5-2.0
+    director: str (Phase 35.9 新增)
+        导演名, 用于注入 5 要素
+    matched_scene: dict (Phase 35.9 新增)
+        100 场景库匹配结果
+    director_profile: dict (Phase 35.9 新增)
+        35 导演联网档案
+    specs5d: dict (Phase 35.9 新增)
+        5 维具体化解析结果
 
     返回
     ----
     str: 可直接用作 Shot 1 prompt 的全景镜头描述
-
-    示例
-    ----
-    >>> init = get_initialization_shot("ritual_altar", duration=1.0)
     """
     scene = SCENE_REGISTRY.get(name)
     if not scene:
         return "[ERROR] scene not registered: " + name
 
-    el = _gen_5_elements(name, "initialization_wide_shot")
+    el = _gen_5_elements(name, "initialization_wide_shot", director=director,
+                         matched_scene=matched_scene, director_profile=director_profile,
+                         specs5d=specs5d)
 
     # 时长合法化
     if duration < 0.5:
@@ -790,7 +918,9 @@ def get_initialization_shot(name: str, duration: float = 1.0) -> str:
     return _anti_ai_clean(out)
 
 
-def get_180_axis_constraint(name: str) -> str:
+def get_180_axis_constraint(name: str, director: str = "",
+                           matched_scene: dict = None, director_profile: dict = None,
+                           specs5d: dict = None) -> str:
     """
     取得 180° AXIS 约束
 
@@ -801,22 +931,20 @@ def get_180_axis_constraint(name: str) -> str:
     ----
     name: str
         场景 ID
+    director: str (Phase 35.9 新增)
+        导演名
 
     返回
     ----
     str: 完整的 180° AXIS 约束文本, 含违反后果、补救方法
-
-    示例
-    ----
-    >>> c = get_180_axis_constraint("ritual_altar")
-    >>> print(c)
-    180° AXIS: ...
     """
     scene = SCENE_REGISTRY.get(name)
     if not scene:
         return "[ERROR] scene not registered: " + name
 
-    el = _gen_5_elements(name, "axis_check")
+    el = _gen_5_elements(name, "axis_check", director=director,
+                         matched_scene=matched_scene, director_profile=director_profile,
+                         specs5d=specs5d)
     axis = scene.get("axis", {})
 
     fixed_side = axis.get("fixed_side", "(unset)")
@@ -873,7 +1001,9 @@ def get_180_axis_constraint(name: str) -> str:
     return _anti_ai_clean(out)
 
 
-def get_visual_anchors(name: str) -> str:
+def get_visual_anchors(name: str, director: str = "",
+                      matched_scene: dict = None, director_profile: dict = None,
+                      specs5d: dict = None) -> str:
     """
     取得视觉锚点 (visual anchors)
 
@@ -889,24 +1019,21 @@ def get_visual_anchors(name: str) -> str:
     ----
     name: str
         场景 ID
+    director: str (Phase 35.9 新增)
+        导演名, 用于补充导演专属锚点
 
     返回
     ----
     str: 视觉锚点列表 + 3/4 视角参考图 + 5 要素底注
-
-    示例
-    ----
-    >>> a = get_visual_anchors("training_room")
-    >>> print(a)
-    Visual Anchors (spatial reference for every shot):
-    ...
     """
     scene = SCENE_REGISTRY.get(name)
     if not scene:
         return "[ERROR] scene not registered: " + name
 
-    el = _gen_5_elements(name, "visual_anchors")
-    anchors = scene.get("anchors", [])
+    el = _gen_5_elements(name, "visual_anchors", director=director,
+                         matched_scene=matched_scene, director_profile=director_profile,
+                         specs5d=specs5d)
+    anchors = list(scene.get("anchors", []))  # copy
 
     if not anchors:
         return "[WARN] no anchors registered for " + name
@@ -974,7 +1101,9 @@ def get_visual_anchors(name: str) -> str:
     return _anti_ai_clean(out)
 
 
-def get_continuity_check(name: str) -> str:
+def get_continuity_check(name: str, director: str = "",
+                        matched_scene: dict = None, director_profile: dict = None,
+                        specs5d: dict = None) -> str:
     """
     取得跨镜头空间连续性检查清单
 
@@ -984,23 +1113,20 @@ def get_continuity_check(name: str) -> str:
     ----
     name: str
         场景 ID
+    director: str (Phase 35.9 新增)
+        导演名, 用于追加导演专属检查项
 
     返回
     ----
     str: 5 项检查清单 + 失败后果 + 5 要素底注
-
-    示例
-    ----
-    >>> c = get_continuity_check("training_room")
-    >>> print(c)
-    Spatial Continuity Checklist (run after every shot generation):
-    ...
     """
     scene = SCENE_REGISTRY.get(name)
     if not scene:
         return "[ERROR] scene not registered: " + name
 
-    el = _gen_5_elements(name, "continuity_check")
+    el = _gen_5_elements(name, "continuity_check", director=director,
+                         matched_scene=matched_scene, director_profile=director_profile,
+                         specs5d=specs5d)
     axis_fixed = scene.get("axis", {}).get("fixed_side", "(unset)")
     props = scene.get("props_count", {})
 
@@ -1228,7 +1354,7 @@ class Phase14SpatialLayout:
     FUNCTION = "build"
     CATEGORY = "PromptLibrary/Phase14 空间"
 
-    def build(self, 场景, 镜头上下文, 初始化时长_秒, 启用反AI规则):
+    def build(self, 场景, 镜头上下文, 初始化时长_秒, 启用反AI规则, **kwargs):
         if 场景 not in SCENE_REGISTRY:
             return ("[ERROR] scene not registered: " + 场景, "", "", "")
 
