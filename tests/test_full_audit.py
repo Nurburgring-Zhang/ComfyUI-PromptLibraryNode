@@ -35,8 +35,8 @@ print("【ComfyUI节点全面审核测试】")
 print("="*70)
 
 # === 1. 节点注册 ===
-check("NODE_CLASS_MAPPINGS 41 节点 (实际 %d)" % len(init.NODE_CLASS_MAPPINGS), len(init.NODE_CLASS_MAPPINGS)==41)
-check("NODE_DISPLAY_NAME_MAPPINGS (41 节点)", len(init.NODE_DISPLAY_NAME_MAPPINGS)==41)
+check("NODE_CLASS_MAPPINGS 43 节点 (实际 %d)" % len(init.NODE_CLASS_MAPPINGS), len(init.NODE_CLASS_MAPPINGS)==43)
+check("NODE_DISPLAY_NAME_MAPPINGS (43 节点)", len(init.NODE_DISPLAY_NAME_MAPPINGS)==43)
 check("WEB_DIRECTORY=web 跳过 (Phase 13 重构, 不再使用)", True)
 check("_HAS_DESIGN_MODE 跳过 (Phase 13 重构, 不再使用)", True)
 
