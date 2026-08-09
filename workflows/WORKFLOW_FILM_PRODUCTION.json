@@ -1,0 +1,2081 @@
+{
+  "last_node_id": 23,
+  "last_link_id": 17,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "DirectorSoulNode",
+      "pos": [
+        100,
+        100
+      ],
+      "size": [
+        260,
+        110
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "links": [
+            1,
+            2,
+            3,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            17
+          ],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "融合情感",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "情感维度",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "灵魂维度",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        },
+        {
+          "name": "灵魂状态",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 4
+        },
+        {
+          "name": "导演签名",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 5
+        },
+        {
+          "name": "场景提示词addon",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 6
+        },
+        {
+          "name": "H3对齐addon",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 7
+        }
+      ],
+      "widgets_values": [
+        "auto",
+        "none",
+        "none",
+        "none",
+        "none",
+        "auto",
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        "王家卫",
+        "",
+        1.0,
+        1.0
+      ],
+      "title": "DirectorSoulNode",
+      "properties": {}
+    },
+    {
+      "id": 2,
+      "type": "AestheticJudgmentPro",
+      "pos": [
+        100,
+        250
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "目标情感",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "8原则权重",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_主导情感",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂_次要情感",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "审美判断",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "8原则评分",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "色彩系统",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "场景匹配",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        },
+        {
+          "name": "电影指南",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 4
+        },
+        {
+          "name": "色彩心理学",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 5
+        }
+      ],
+      "widgets_values": [
+        "",
+        "auto",
+        "auto",
+        "ON",
+        1.0,
+        "auto"
+      ],
+      "title": "AestheticJudgmentPro",
+      "properties": {}
+    },
+    {
+      "id": 3,
+      "type": "StyleGuidePro",
+      "pos": [
+        100,
+        400
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "风格指南",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "完整提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "色板",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "色彩口诀",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        }
+      ],
+      "widgets_values": [
+        "梦幻",
+        "单色",
+        "auto",
+        "ON",
+        "ON"
+      ],
+      "title": "StyleGuidePro",
+      "properties": {}
+    },
+    {
+      "id": 4,
+      "type": "AssetRegistry",
+      "pos": [
+        100,
+        550
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "资产描述符",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "状态描述符",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "声音签名",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "行为签名",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        },
+        {
+          "name": "完整提示词块",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 4
+        },
+        {
+          "name": "锁定测试报告",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 5
+        }
+      ],
+      "widgets_values": [
+        "@crystal_sword",
+        "(默认)",
+        false,
+        false
+      ],
+      "title": "AssetRegistry",
+      "properties": {}
+    },
+    {
+      "id": 5,
+      "type": "DirectorIntentPro",
+      "pos": [
+        100,
+        700
+      ],
+      "size": [
+        260,
+        162
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "意图声明",
+          "type": "STRING",
+          "links": [
+            4,
+            16
+          ],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "导演意图样例",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "反AI清理后",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "对话",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        "auto",
+        "none",
+        "none",
+        "none",
+        "none",
+        "auto",
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        "王家卫",
+        false
+      ],
+      "title": "DirectorIntentPro",
+      "properties": {}
+    },
+    {
+      "id": 6,
+      "type": "ScriptArchitecturePro",
+      "pos": [
+        500,
+        100
+      ],
+      "size": [
+        260,
+        146
+      ],
+      "inputs": [
+        {
+          "name": "额外禁用词",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 1,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "故事架构",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "反AI规则",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "迭代链",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "",
+        0,
+        0,
+        "",
+        "人与人",
+        "",
+        "",
+        "",
+        "",
+        "经典三幕剧",
+        0,
+        "无",
+        0,
+        0,
+        0,
+        "大众",
+        "疏 (留白多)",
+        "10%以下",
+        "淡",
+        "auto",
+        "auto",
+        1.0,
+        "auto",
+        "爱情",
+        "雨夜",
+        false,
+        false
+      ],
+      "title": "ScriptArchitecturePro",
+      "properties": {}
+    },
+    {
+      "id": 7,
+      "type": "ScriptBodyPro",
+      "pos": [
+        500,
+        250
+      ],
+      "size": [
+        260,
+        114
+      ],
+      "inputs": [
+        {
+          "name": "上游_故事架构",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "额外禁用词",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 2,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "剧本正文",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "反AI样例",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "迭代链",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "",
+        "极少 (10%以下)",
+        "几乎不 (5%)",
+        "无",
+        "少",
+        "模糊 (一天)",
+        "模糊",
+        0,
+        "",
+        "",
+        0,
+        0,
+        "关",
+        "auto",
+        1.0,
+        "auto",
+        "auto",
+        false
+      ],
+      "title": "ScriptBodyPro",
+      "properties": {}
+    },
+    {
+      "id": 8,
+      "type": "DirectorStoryboardPro",
+      "pos": [
+        500,
+        400
+      ],
+      "size": [
+        260,
+        186
+      ],
+      "inputs": [
+        {
+          "name": "上游_剧本正文",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "额外禁用词",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键道具",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "潜文本_情感",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "情绪基调",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演意图_观众应感到",
+          "type": "STRING",
+          "link": 4,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 3,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "分镜",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "反AI样例",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "迭代链",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "Paul Thomas Anderson (PTA)",
+        "大量特写",
+        "固定",
+        "自然光 (侯孝贤/是枝裕和)",
+        "高饱和 (王家卫/李安早期)",
+        "无声 + 环境声 (侯孝贤/蔡明亮)",
+        "极慢 (30 秒/镜)",
+        "克制 (无表情)",
+        "几乎不留",
+        "无",
+        "淡",
+        0,
+        "10%以下",
+        "每场",
+        false,
+        false,
+        "关",
+        false,
+        "auto",
+        "auto",
+        1.0,
+        "auto",
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "title": "DirectorStoryboardPro",
+      "properties": {}
+    },
+    {
+      "id": 9,
+      "type": "ConceptPitchPro",
+      "pos": [
+        500,
+        550
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 5,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "概念H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "AI深度处理",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "Paul Thomas Anderson (PTA)",
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        "",
+        "",
+        "auto",
+        "",
+        "",
+        "王家卫"
+      ],
+      "title": "ConceptPitchPro",
+      "properties": {}
+    },
+    {
+      "id": 10,
+      "type": "WorldBuildingPro",
+      "pos": [
+        500,
+        700
+      ],
+      "size": [
+        260,
+        162
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 6,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "世界H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "光影9D设计",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "视觉语言参数",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "色彩60_30_10",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        },
+        {
+          "name": "摄影8大师",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 4
+        },
+        {
+          "name": "经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 5
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "罗杰·迪金斯_Roger_Deakins",
+        "14mm_ultra_wide",
+        "T1.4_T2_extreme",
+        "ELS",
+        "rule_of_thirds",
+        "",
+        "",
+        "",
+        "自然光 (太阳)",
+        "顺光",
+        "强光",
+        "warm_3200K",
+        "硬光",
+        "高调_2_1",
+        "长阴影",
+        "丁达尔效应",
+        "正午",
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        "auto",
+        1.0,
+        "none",
+        "auto",
+        ""
+      ],
+      "title": "WorldBuildingPro",
+      "properties": {}
+    },
+    {
+      "id": 11,
+      "type": "ThemePhilosophyPro",
+      "pos": [
+        900,
+        100
+      ],
+      "size": [
+        260,
+        102
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 7,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "主题H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "AI深度处理",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "Paul Thomas Anderson (PTA)",
+        "",
+        "",
+        "存在主义",
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        "auto",
+        1.0,
+        "none",
+        "auto"
+      ],
+      "title": "ThemePhilosophyPro",
+      "properties": {}
+    },
+    {
+      "id": 12,
+      "type": "ArtDirectionPro",
+      "pos": [
+        900,
+        250
+      ],
+      "size": [
+        260,
+        186
+      ],
+      "inputs": [
+        {
+          "name": "视觉风格",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "材质重点",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "光影",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "颜色",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "空间布局",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "导演风格",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 8,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "美术圣经",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "视觉语言参数",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "色彩60_30_10",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "光影9D设计",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        },
+        {
+          "name": "摄影8大师",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 4
+        },
+        {
+          "name": "灵魂注入载荷",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 5
+        },
+        {
+          "name": "H3三字段addon",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 6
+        },
+        {
+          "name": "电影签名addon",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 7
+        }
+      ],
+      "widgets_values": [
+        "auto",
+        "none",
+        "none",
+        "none",
+        "none",
+        "auto",
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        "",
+        "王家卫",
+        1.0,
+        1.0,
+        "",
+        "织物",
+        "",
+        "1_自然光_日光",
+        "",
+        "1_高饱和暖色",
+        "",
+        "1_室内_封闭",
+        "",
+        "",
+        "罗杰·迪金斯_Roger_Deakins",
+        false
+      ],
+      "title": "ArtDirectionPro",
+      "properties": {}
+    },
+    {
+      "id": 13,
+      "type": "SpatialLayout",
+      "pos": [
+        900,
+        400
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "空间提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "地理块",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "初始镜头",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "连续性",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        }
+      ],
+      "widgets_values": [
+        "training_room",
+        "对话",
+        1.0,
+        false
+      ],
+      "title": "SpatialLayout",
+      "properties": {}
+    },
+    {
+      "id": 14,
+      "type": "ActingSkill",
+      "pos": [
+        900,
+        550
+      ],
+      "size": [
+        260,
+        102
+      ],
+      "inputs": [
+        {
+          "name": "上一句尾音",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "对手角色",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "角色表演块",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "5支柱字典",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "5元素驱动",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "自定义",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "calm",
+        0,
+        "default",
+        0,
+        "",
+        0,
+        "none",
+        "none"
+      ],
+      "title": "ActingSkill",
+      "properties": {}
+    },
+    {
+      "id": 15,
+      "type": "CostumePropSetPro",
+      "pos": [
+        900,
+        700
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 9,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "服化道H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "AI深度处理",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        "auto",
+        1.0,
+        "none",
+        "auto"
+      ],
+      "title": "CostumePropSetPro",
+      "properties": {}
+    },
+    {
+      "id": 16,
+      "type": "SoundDesignPro",
+      "pos": [
+        1300,
+        100
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 10,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "声音H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "AI深度处理",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        "auto",
+        1.0,
+        "none",
+        "auto"
+      ],
+      "title": "SoundDesignPro",
+      "properties": {}
+    },
+    {
+      "id": 17,
+      "type": "MusicScorePro",
+      "pos": [
+        1300,
+        250
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 11,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "音乐H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "AI深度处理",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        "auto",
+        1.0,
+        "none",
+        "auto"
+      ],
+      "title": "MusicScorePro",
+      "properties": {}
+    },
+    {
+      "id": 18,
+      "type": "SilenceMasteryPro",
+      "pos": [
+        1300,
+        400
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 12,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "沉默设计",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "沉默公式",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "导演样例",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "对话",
+        "",
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        "塔可夫斯基",
+        false,
+        "auto",
+        1.0,
+        "none",
+        "auto"
+      ],
+      "title": "SilenceMasteryPro",
+      "properties": {}
+    },
+    {
+      "id": 19,
+      "type": "ColorGradingPro",
+      "pos": [
+        1300,
+        550
+      ],
+      "size": [
+        260,
+        154
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 13,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "调色H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "色彩60_30_10",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "色彩8大师",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "调色3阶段",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        },
+        {
+          "name": "光影9D设计",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 4
+        },
+        {
+          "name": "经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 5
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "罗杰·迪金斯_Roger_Deakins",
+        "14mm_ultra_wide",
+        "T1.4_T2_extreme",
+        "ELS",
+        "rule_of_thirds",
+        "",
+        "",
+        "",
+        "统一色温/对比度/曝光",
+        "肤色优先",
+        "强化点缀色 10%",
+        "自然光 (太阳)",
+        "顺光",
+        "warm_3200K",
+        "高调_2_1",
+        "正午",
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        "auto",
+        1.0,
+        "none",
+        "auto"
+      ],
+      "title": "ColorGradingPro",
+      "properties": {}
+    },
+    {
+      "id": 20,
+      "type": "VfxPro",
+      "pos": [
+        1300,
+        700
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 14,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "特效H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "AI深度处理",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        "auto",
+        1.0,
+        "none",
+        "auto"
+      ],
+      "title": "VfxPro",
+      "properties": {}
+    },
+    {
+      "id": 21,
+      "type": "EditingPro",
+      "pos": [
+        1700,
+        100
+      ],
+      "size": [
+        260,
+        170
+      ],
+      "inputs": [
+        {
+          "name": "导演意图_观众应感到",
+          "type": "STRING",
+          "link": 16,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "潜文本_情感",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "情绪基调",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键道具",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "关键参考片",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 15,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "剪辑灵魂提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "节奏经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "AI深度灵魂处理",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        "",
+        "",
+        0,
+        "",
+        "",
+        "",
+        "auto",
+        "none",
+        "none",
+        "none",
+        "none",
+        "auto",
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        false
+      ],
+      "title": "EditingPro",
+      "properties": {}
+    },
+    {
+      "id": 22,
+      "type": "IterationPostPro",
+      "pos": [
+        1700,
+        250
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "迭代H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "经验矩阵",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "AI深度处理",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "T2VA (文生视频, 无参考图)",
+        "自动",
+        "",
+        "塔可夫斯基",
+        0,
+        "",
+        "未开始",
+        "对话",
+        false
+      ],
+      "title": "IterationPostPro",
+      "properties": {}
+    },
+    {
+      "id": 23,
+      "type": "CinematicStudio",
+      "pos": [
+        1700,
+        400
+      ],
+      "size": [
+        260,
+        122
+      ],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": 17,
+          "color": "#7f9e5a",
+          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "23效果总览",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "视觉语言参数",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "色彩60_30_10",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "光影9D设计",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        },
+        {
+          "name": "摄影8大师",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 4
+        },
+        {
+          "name": "选中模型",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 5
+        },
+        {
+          "name": "模型弱点规避",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 6
+        },
+        {
+          "name": "角色一致性工作流",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 7
+        },
+        {
+          "name": "11阶段流水线",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 8
+        },
+        {
+          "name": "H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 9
+        }
+      ],
+      "widgets_values": [
+        "venom_symbiote",
+        "",
+        0,
+        "zh",
+        "",
+        "",
+        "",
+        "塔可夫斯基",
+        "罗杰·迪金斯_Roger_Deakins",
+        "14mm_ultra_wide",
+        "T1.4_T2_extreme",
+        "ELS",
+        "rule_of_thirds",
+        "",
+        "",
+        "",
+        "自然光 (太阳)",
+        "顺光",
+        "warm_3200K",
+        "高调_2_1",
+        "正午",
+        false
+      ],
+      "title": "CinematicStudio",
+      "properties": {}
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      6,
+      1,
+      "STRING"
+    ],
+    [
+      2,
+      1,
+      0,
+      7,
+      2,
+      "STRING"
+    ],
+    [
+      3,
+      1,
+      0,
+      8,
+      6,
+      "STRING"
+    ],
+    [
+      4,
+      5,
+      0,
+      8,
+      5,
+      "STRING"
+    ],
+    [
+      5,
+      1,
+      0,
+      9,
+      0,
+      "STRING"
+    ],
+    [
+      6,
+      1,
+      0,
+      10,
+      0,
+      "STRING"
+    ],
+    [
+      7,
+      1,
+      0,
+      11,
+      0,
+      "STRING"
+    ],
+    [
+      8,
+      1,
+      0,
+      12,
+      6,
+      "STRING"
+    ],
+    [
+      9,
+      1,
+      0,
+      15,
+      0,
+      "STRING"
+    ],
+    [
+      10,
+      1,
+      0,
+      16,
+      0,
+      "STRING"
+    ],
+    [
+      11,
+      1,
+      0,
+      17,
+      0,
+      "STRING"
+    ],
+    [
+      12,
+      1,
+      0,
+      18,
+      0,
+      "STRING"
+    ],
+    [
+      13,
+      1,
+      0,
+      19,
+      0,
+      "STRING"
+    ],
+    [
+      14,
+      1,
+      0,
+      20,
+      0,
+      "STRING"
+    ],
+    [
+      15,
+      1,
+      0,
+      21,
+      5,
+      "STRING"
+    ],
+    [
+      16,
+      5,
+      0,
+      21,
+      0,
+      "STRING"
+    ],
+    [
+      17,
+      1,
+      0,
+      23,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "workflow_info": {
+      "name": "电影生产工作流",
+      "description": "完整 60-120min 电影, 6 环节 + Phase14 全程 + 迭代",
+      "video_type": "电影 (60-120min)",
+      "target_output_node": "CinematicStudio",
+      "total_nodes": 23,
+      "total_links": 17,
+      "node_types": [
+        "ActingSkill",
+        "AestheticJudgmentPro",
+        "ArtDirectionPro",
+        "AssetRegistry",
+        "CinematicStudio",
+        "ColorGradingPro",
+        "ConceptPitchPro",
+        "CostumePropSetPro",
+        "DirectorIntentPro",
+        "DirectorSoulNode",
+        "DirectorStoryboardPro",
+        "EditingPro",
+        "IterationPostPro",
+        "MusicScorePro",
+        "ScriptArchitecturePro",
+        "ScriptBodyPro",
+        "SilenceMasteryPro",
+        "SoundDesignPro",
+        "SpatialLayout",
+        "StyleGuidePro",
+        "ThemePhilosophyPro",
+        "VfxPro",
+        "WorldBuildingPro"
+      ],
+      "real_workflow": true
+    }
+  },
+  "version": 0.4
+}

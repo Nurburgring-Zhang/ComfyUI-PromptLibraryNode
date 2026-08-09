@@ -1,6 +1,6 @@
 {
-  "last_node_id": 10,
-  "last_link_id": 7,
+  "last_node_id": 9,
+  "last_link_id": 4,
   "nodes": [
     {
       "id": 1,
@@ -21,9 +21,7 @@
           "links": [
             1,
             2,
-            4,
-            5,
-            7
+            4
           ],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -348,8 +346,7 @@
           "name": "意图声明",
           "type": "STRING",
           "links": [
-            3,
-            6
+            3
           ],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -408,16 +405,23 @@
     },
     {
       "id": 6,
-      "type": "MvPro",
+      "type": "ScriptArchitecturePro",
       "pos": [
         500,
         100
       ],
       "size": [
         260,
-        100
+        146
       ],
       "inputs": [
+        {
+          "name": "额外禁用词",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
         {
           "name": "灵魂注入",
           "type": "STRING",
@@ -428,21 +432,21 @@
       ],
       "outputs": [
         {
-          "name": "MVH3提示词",
+          "name": "故事架构",
           "type": "STRING",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
         },
         {
-          "name": "经验矩阵",
+          "name": "反AI规则",
           "type": "STRING",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
         },
         {
-          "name": "AI深度处理",
+          "name": "迭代链",
           "type": "STRING",
           "links": [],
           "color": "#7f9e5a",
@@ -450,22 +454,35 @@
         }
       ],
       "widgets_values": [
-        "T2VA (文生视频, 无参考图)",
-        "自动",
         "",
-        "塔可夫斯基",
+        0,
+        0,
         "",
-        "",
-        "",
+        "人与人",
         "",
         "",
-        false,
+        "",
+        "",
+        "经典三幕剧",
+        0,
+        "无",
+        0,
+        0,
+        0,
+        "大众",
+        "疏 (留白多)",
+        "10%以下",
+        "淡",
+        "auto",
         "auto",
         1.0,
-        "none",
-        "auto"
+        "auto",
+        "爱情",
+        "雨夜",
+        false,
+        false
       ],
-      "title": "MvPro",
+      "title": "ScriptArchitecturePro",
       "properties": {}
     },
     {
@@ -592,14 +609,14 @@
     },
     {
       "id": 8,
-      "type": "MusicScorePro",
+      "type": "CinematicStudio",
       "pos": [
         500,
         400
       ],
       "size": [
         260,
-        100
+        122
       ],
       "inputs": [
         {
@@ -612,225 +629,83 @@
       ],
       "outputs": [
         {
-          "name": "音乐H3提示词",
+          "name": "23效果总览",
           "type": "STRING",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 0
         },
         {
-          "name": "经验矩阵",
+          "name": "视觉语言参数",
           "type": "STRING",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 1
-        },
-        {
-          "name": "AI深度处理",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 2
-        }
-      ],
-      "widgets_values": [
-        "T2VA (文生视频, 无参考图)",
-        "自动",
-        "",
-        "塔可夫斯基",
-        "",
-        "",
-        "",
-        "",
-        "",
-        false,
-        "auto",
-        1.0,
-        "none",
-        "auto"
-      ],
-      "title": "MusicScorePro",
-      "properties": {}
-    },
-    {
-      "id": 9,
-      "type": "EditingPro",
-      "pos": [
-        500,
-        550
-      ],
-      "size": [
-        260,
-        170
-      ],
-      "inputs": [
-        {
-          "name": "导演意图_观众应感到",
-          "type": "STRING",
-          "link": 6,
-          "color": "#7f9e5a",
-          "tooltip": ""
-        },
-        {
-          "name": "潜文本_情感",
-          "type": "STRING",
-          "link": null,
-          "color": "#7f9e5a",
-          "tooltip": ""
-        },
-        {
-          "name": "情绪基调",
-          "type": "STRING",
-          "link": null,
-          "color": "#7f9e5a",
-          "tooltip": ""
-        },
-        {
-          "name": "关键道具",
-          "type": "STRING",
-          "link": null,
-          "color": "#7f9e5a",
-          "tooltip": ""
-        },
-        {
-          "name": "关键参考片",
-          "type": "STRING",
-          "link": null,
-          "color": "#7f9e5a",
-          "tooltip": ""
-        },
-        {
-          "name": "灵魂注入",
-          "type": "STRING",
-          "link": 5,
-          "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "剪辑灵魂提示词",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 0
-        },
-        {
-          "name": "节奏经验矩阵",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 1
-        },
-        {
-          "name": "AI深度灵魂处理",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 2
-        }
-      ],
-      "widgets_values": [
-        "T2VA (文生视频, 无参考图)",
-        "自动",
-        "",
-        "塔可夫斯基",
-        "",
-        "",
-        0,
-        "",
-        "",
-        "",
-        "auto",
-        "none",
-        "none",
-        "none",
-        "none",
-        "auto",
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        false
-      ],
-      "title": "EditingPro",
-      "properties": {}
-    },
-    {
-      "id": 10,
-      "type": "ColorGradingPro",
-      "pos": [
-        500,
-        700
-      ],
-      "size": [
-        260,
-        154
-      ],
-      "inputs": [
-        {
-          "name": "灵魂注入",
-          "type": "STRING",
-          "link": 7,
-          "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "调色H3提示词",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 0
         },
         {
           "name": "色彩60_30_10",
           "type": "STRING",
           "links": [],
           "color": "#7f9e5a",
-          "slot_index": 1
-        },
-        {
-          "name": "色彩8大师",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
           "slot_index": 2
-        },
-        {
-          "name": "调色3阶段",
-          "type": "STRING",
-          "links": [],
-          "color": "#7f9e5a",
-          "slot_index": 3
         },
         {
           "name": "光影9D设计",
           "type": "STRING",
           "links": [],
           "color": "#7f9e5a",
+          "slot_index": 3
+        },
+        {
+          "name": "摄影8大师",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
           "slot_index": 4
         },
         {
-          "name": "经验矩阵",
+          "name": "选中模型",
           "type": "STRING",
           "links": [],
           "color": "#7f9e5a",
           "slot_index": 5
+        },
+        {
+          "name": "模型弱点规避",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 6
+        },
+        {
+          "name": "角色一致性工作流",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 7
+        },
+        {
+          "name": "11阶段流水线",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 8
+        },
+        {
+          "name": "H3提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 9
         }
       ],
       "widgets_values": [
-        "T2VA (文生视频, 无参考图)",
-        "自动",
+        "venom_symbiote",
+        "",
+        0,
+        "zh",
+        "",
+        "",
         "",
         "塔可夫斯基",
         "罗杰·迪金斯_Roger_Deakins",
@@ -841,26 +716,141 @@
         "",
         "",
         "",
-        "统一色温/对比度/曝光",
-        "肤色优先",
-        "强化点缀色 10%",
         "自然光 (太阳)",
         "顺光",
         "warm_3200K",
         "高调_2_1",
         "正午",
-        "",
-        "",
-        "",
-        "",
+        false
+      ],
+      "title": "CinematicStudio",
+      "properties": {}
+    },
+    {
+      "id": 9,
+      "type": "H3ContextIRNode",
+      "pos": [
+        500,
+        550
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "inputs": [
+        {
+          "name": "reference_assets",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "scene",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "dialogue",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "non_diegetic_music",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "emotion",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        },
+        {
+          "name": "intent",
+          "type": "STRING",
+          "link": null,
+          "color": "#7f9e5a",
+          "tooltip": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "H3模式",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 0
+        },
+        {
+          "name": "H3指令",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 1
+        },
+        {
+          "name": "整合多模态描述",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 2
+        },
+        {
+          "name": "整体音景",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 3
+        },
+        {
+          "name": "非叙事音乐",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 4
+        },
+        {
+          "name": "H3完整提示词",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 5
+        },
+        {
+          "name": "H3验证报告",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 6
+        },
+        {
+          "name": "H3摘要卡",
+          "type": "STRING",
+          "links": [],
+          "color": "#7f9e5a",
+          "slot_index": 7
+        }
+      ],
+      "widgets_values": [
         "",
         false,
-        "auto",
-        1.0,
-        "none",
-        "auto"
+        false,
+        false,
+        "通用",
+        0,
+        "Cinematic",
+        "16:9",
+        "English"
       ],
-      "title": "ColorGradingPro",
+      "title": "H3ContextIRNode",
       "properties": {}
     }
   ],
@@ -870,7 +860,7 @@
       1,
       0,
       6,
-      0,
+      1,
       "STRING"
     ],
     [
@@ -896,52 +886,27 @@
       8,
       0,
       "STRING"
-    ],
-    [
-      5,
-      1,
-      0,
-      9,
-      5,
-      "STRING"
-    ],
-    [
-      6,
-      5,
-      0,
-      9,
-      0,
-      "STRING"
-    ],
-    [
-      7,
-      1,
-      0,
-      10,
-      0,
-      "STRING"
     ]
   ],
   "groups": [],
   "config": {},
   "extra": {
     "workflow_info": {
-      "name": "MV 音乐视频工作流",
-      "description": "3-5min MV, 音乐驱动 + 视觉叙事 + 剪辑节奏",
-      "video_type": "MV 音乐视频 (3-5min)",
-      "target_output_node": "MvPro + MusicScorePro",
-      "total_nodes": 10,
-      "total_links": 7,
+      "name": "H3 多模态生产工作流",
+      "description": "MiniMax H3 5 模式 (T2VA/I2VA/FL2VA/L2VA/Ref2VA) + 4 reference labels",
+      "video_type": "H3 多模态生产",
+      "target_output_node": "H3ContextIRNode",
+      "total_nodes": 9,
+      "total_links": 4,
       "node_types": [
         "AestheticJudgmentPro",
         "AssetRegistry",
-        "ColorGradingPro",
+        "CinematicStudio",
         "DirectorIntentPro",
         "DirectorSoulNode",
         "DirectorStoryboardPro",
-        "EditingPro",
-        "MusicScorePro",
-        "MvPro",
+        "H3ContextIRNode",
+        "ScriptArchitecturePro",
         "StyleGuidePro"
       ],
       "real_workflow": true

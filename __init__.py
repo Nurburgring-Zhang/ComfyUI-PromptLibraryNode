@@ -66,9 +66,7 @@ from format_output_pro import FormatOutputPro
 from project_archive_pro import ProjectArchivePro
 from h3_context_ir_node import H3ContextIRNode
 from universal_director_prompt_node import UniversalDirectorPromptNode
-
-# ===== Phase 28 改造: 注入 6 个 STRING input slot 到 Production 节点 =====
-from _addon_injector import inject_addon_inputs, PRODUCTION_NODES, STARTING_NODES
+from director_mastery import DirectorMasteryNode
 
 _ALL_NODE_CLASSES = {
     "ScriptArchitecturePro": ScriptArchitecturePro,
@@ -114,12 +112,14 @@ _ALL_NODE_CLASSES = {
     "ProjectArchivePro": ProjectArchivePro,
     "H3ContextIRNode": H3ContextIRNode,
     "UniversalDirectorPromptNode": UniversalDirectorPromptNode,
+    "DirectorMasteryNode": DirectorMasteryNode,  # Phase 36.6 v5: 导演能力总控
 }
 
 # 给所有 Production 节点注入 6 个 input slot
-for n in PRODUCTION_NODES:
-    if n in _ALL_NODE_CLASSES:
-        inject_addon_inputs(_ALL_NODE_CLASSES[n])
+# Phase 36.6 v2: 完全删除 (演示欺骗 21.0 修复)
+# for n in PRODUCTION_NODES:
+#     if n in _ALL_NODE_CLASSES:
+#         inject_addon_inputs(_ALL_NODE_CLASSES[n])
 
 # ============================================================
 # Phase 35.7 M-A2/M-A3: 统一 CATEGORY 路径 + RETURN_NAMES 命名
@@ -132,6 +132,7 @@ _CATEGORY_UNIFIED = {
     "AestheticJudgmentPro": "PromptLibrary/起点/审美",
     "StyleGuidePro": "PromptLibrary/起点/风格",
     "AssetRegistry": "PromptLibrary/节点/资产",
+    "DirectorMasteryNode": "PromptLibrary/起点/总控",  # Phase 36.6 v5 导演能力总控
     # 剧本/分镜
     "ScriptArchitecturePro": "PromptLibrary/剧本",
     "ScriptBodyPro": "PromptLibrary/剧本",
@@ -182,21 +183,50 @@ _CATEGORY_UNIFIED = {
 }
 
 _RETURN_NAMES_UNIFIED = {
-    # 7 个中文 + 3 个混合 → 全部 snake_case 英文
-    "AestheticJudgmentPro": ("aesthetic_judgment", "principle_8_score", "color_system", "scene_match", "cinema_guide", "color_psychology"),
-    "VersionControlPro": ("operation_result", "version_history", "project_status"),
-    "StyleGuidePro": ("style_guide", "full_prompt", "color_palette", "color_mnemonics"),
-    "MarketAudiencePro": ("market_analysis", "audience_profile", "release_strategy", "box_office_forecast"),
-    "CleanupPassPro": ("cleaned_text", "cleanup_stats", "report"),
-    "FormatOutputPro": ("formatted_output", "metadata"),
-    "ProjectArchivePro": ("archive_content", "archive_id", "metadata"),
-    "HookMasterPro": ("hook_template", "hook_5_samples", "anti_ai_cleaned_samples"),
-    "SpatialConsistencyPro": ("spatial_design", "rules_5_application", "director_samples"),
-    "CinematicStudio": ("effects_23_overview", "visual_language_params", "color_60_30_10_script", "lighting_9d_design", "dp_8_masters_style", "selected_model", "model_weakness_avoidance", "character_consistency_workflow", "stage_11_pipeline", "h3_prompt"),
-    # Phase 36.2: H3ContextIRNode
-    "H3ContextIRNode": ("h3_mode", "h3_instruction", "integrated_multimodal_description", "overall_soundscape", "non_diegetic_music", "h3_full_prompt", "h3_validation_report", "h3_summary_card"),
-    # Phase 36.3: UniversalDirectorPromptNode
-    "UniversalDirectorPromptNode": ("target_model", "model_specific_prompt", "h3_mode", "h3_full_prompt", "universal_5_section", "director_style_anchor", "shot_plan_with_timestamps", "dialogue_block", "audio_block", "story_arc_anchor", "validation_report", "anti_ai_clean_guarantee"),
+    # === Phase 36.6 v5: 全部 RETURN_NAMES 中文化 ===
+    "ScriptArchitecturePro": ("故事架构", "反AI规则", "迭代链"),
+    "ScriptBodyPro": ("剧本正文", "反AI样例", "迭代链"),
+    "DirectorStoryboardPro": ("分镜", "反AI样例", "迭代链"),
+    "VerticalShortDramaPro": ("短剧体系", "单集模板", "付费墙设计"),
+    "HookMasterPro": ("钩子模板", "钩子5样本", "反AI清理后样本"),
+    "DialogueMasterPro": ("对白体系", "对白样例", "反AI对白对"),
+    "CharacterArcPro": ("人物圣经", "弧光旅程", "导演经验"),
+    "DirectorIntentPro": ("意图声明", "导演意图样例", "反AI清理后"),
+    "ArtDirectionPro": ("美术圣经", "视觉语言参数", "色彩60_30_10", "光影9D设计", "摄影8大师", "灵魂注入载荷", "H3三字段addon", "电影签名addon"),
+    "SpatialConsistencyPro": ("空间设计", "5规则应用", "导演样例"),
+    "SilenceMasteryPro": ("沉默设计", "沉默公式", "导演样例"),
+    "ConceptPitchPro": ("概念H3提示词", "经验矩阵", "AI深度处理"),
+    "WorldBuildingPro": ("世界H3提示词", "光影9D设计", "视觉语言参数", "色彩60_30_10", "摄影8大师", "经验矩阵"),
+    "ThemePhilosophyPro": ("主题H3提示词", "经验矩阵", "AI深度处理"),
+    "SoundDesignPro": ("声音H3提示词", "经验矩阵", "AI深度处理"),
+    "MusicScorePro": ("音乐H3提示词", "经验矩阵", "AI深度处理"),
+    "PerformanceDirectionPro": ("表演H3提示词", "经验矩阵", "AI深度处理"),
+    "CostumePropSetPro": ("服化道H3提示词", "经验矩阵", "AI深度处理"),
+    "EditingPro": ("剪辑灵魂提示词", "节奏经验矩阵", "AI深度灵魂处理"),
+    "ColorGradingPro": ("调色H3提示词", "色彩60_30_10", "色彩8大师", "调色3阶段", "光影9D设计", "经验矩阵"),
+    "VfxPro": ("特效H3提示词", "经验矩阵", "AI深度处理"),
+    "MvPro": ("MVH3提示词", "经验矩阵", "AI深度处理"),
+    "PictureBookPro": ("绘本H3提示词", "经验矩阵", "AI深度处理"),
+    "InteractiveDramaPro": ("互动剧H3提示词", "经验矩阵", "AI深度处理"),
+    "QualityAssurancePro": ("质量H3提示词", "经验矩阵", "AI深度处理"),
+    "AssetRegistry": ("资产描述符", "状态描述符", "声音签名", "行为签名", "完整提示词块", "锁定测试报告"),
+    "SpatialLayout": ("空间提示词", "地理块", "初始镜头", "连续性"),
+    "ActingSkill": ("角色表演块", "5支柱字典", "5元素驱动"),
+    "SoundSkill": ("声音提示词", "声音经验矩阵", "声音AI深度处理"),
+    "IterationPostPro": ("迭代H3提示词", "经验矩阵", "AI深度处理"),
+    "ThirtySecSixAct": ("6段总览", "第1段_建立", "第2段_引入", "第3段_互动", "第4段_冲突", "第5段_高潮", "第6段_留钩", "H3三字段提示词"),
+    "CinematicStudio": ("23效果总览", "视觉语言参数", "色彩60_30_10", "光影9D设计", "摄影8大师", "选中模型", "模型弱点规避", "角色一致性工作流", "11阶段流水线", "H3提示词"),
+    "DirectorSoulNode": ("灵魂注入", "融合情感", "情感维度", "灵魂维度", "灵魂状态", "导演签名", "场景提示词addon", "H3对齐addon"),
+    "ShotSelectionPro": ("选片决策", "评分矩阵", "导演理由"),
+    "AestheticJudgmentPro": ("审美判断", "8原则评分", "色彩系统", "场景匹配", "电影指南", "色彩心理学"),
+    "VersionControlPro": ("操作结果", "版本历史", "项目状态"),
+    "StyleGuidePro": ("风格指南", "完整提示词", "色板", "色彩口诀"),
+    "MarketAudiencePro": ("市场分析", "受众画像", "发布策略", "票房预测"),
+    "CleanupPassPro": ("清理后文本", "清理统计", "报告"),
+    "FormatOutputPro": ("格式化输出", "元数据"),
+    "ProjectArchivePro": ("归档内容", "归档ID", "元数据"),
+    "H3ContextIRNode": ("H3模式", "H3指令", "整合多模态描述", "整体音景", "非叙事音乐", "H3完整提示词", "H3验证报告", "H3摘要卡"),
+    "UniversalDirectorPromptNode": ("目标模型", "模型特定提示词", "H3模式", "H3完整提示词", "通用5段", "导演风格锚", "带时间戳镜头计划", "对白块", "音频块", "故事弧锚", "验证报告", "反AI清理保证"),
 }
 
 # 应用 CATEGORY 统一覆盖
@@ -210,6 +240,41 @@ for node_name, new_rn in _RETURN_NAMES_UNIFIED.items():
         _ALL_NODE_CLASSES[node_name].RETURN_NAMES = new_rn
 
 NODE_CLASS_MAPPINGS = _ALL_NODE_CLASSES
+
+# ===== Phase 36.6 v4.1+: 灵魂 addon 注入 (演示欺骗 24.0 修复) =====
+# 26 个有灵魂字段的节点注入 "灵魂addon" optional input slot
+# 让 DirectorSoulNode.soul_injection 能连到其他节点
+from _addon_injector import STARTING_NODES, SOUL_NODES
+
+
+def inject_soul_addon(cls):
+    """给节点注入 灵魂注入 (STRING, optional) input slot"""
+    orig_input_types = cls.__dict__.get("INPUT_TYPES", None)
+    if orig_input_types is None:
+        return
+    if not isinstance(orig_input_types, classmethod):
+        return
+    raw_func = orig_input_types.__func__
+    if getattr(raw_func, "_soul_addon_injected", False):
+        return
+
+    def new_input_types(cls_arg):
+        result = raw_func(cls_arg)
+        opt = result.setdefault("optional", {})
+        if "灵魂addon" in opt:
+            # 改名: 灵魂addon → 灵魂注入 (更明确)
+            opt["灵魂注入"] = opt.pop("灵魂addon")
+        elif "灵魂注入" not in opt:
+            opt["灵魂注入"] = ("STRING", {"default": "", "multiline": True, "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"})
+        return result
+
+    new_input_types._soul_addon_injected = True
+    cls.INPUT_TYPES = classmethod(new_input_types)
+
+
+for _name in SOUL_NODES:
+    if _name in _ALL_NODE_CLASSES:
+        inject_soul_addon(_ALL_NODE_CLASSES[_name])
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "ScriptArchitecturePro": "📖 剧本架构 (1/3) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",
@@ -255,4 +320,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "ProjectArchivePro": "📦 项目归档 (P2) [终态·可接所有上游]",
     "H3ContextIRNode": "🎬 H3 Context IR (MiniMax-H3 框架转换 5 模式) [起点·纯 widget]",
     "UniversalDirectorPromptNode": "🎬 通用导演 Prompt (H3/Seedance/Wan/Sora/Veo/短剧 6 模型路由) [起点·纯 widget]",
+    # Phase 36.6 v5: 导演能力总控节点 (1 节点 = 4 起点聚合)
+    "DirectorMasteryNode": "🎬 导演能力总控 (灵魂+审美+风格+意图 4 合 1) [起点·纯 widget] — 拖 1 个节点 = 拖 4 个",
 }

@@ -193,6 +193,7 @@ class H3ContextIRNode:
         non_diegetic_music: str = "",
         emotion: str = "孤独",
         intent: str = "营造孤寂浪漫氛围",
+        **kwargs,
     ) -> Tuple[str, str, str, str, str, str, str, str]:
         """
         转换为 H3 框架输出

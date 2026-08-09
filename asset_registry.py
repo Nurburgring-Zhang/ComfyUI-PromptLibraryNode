@@ -1510,7 +1510,7 @@ class AssetRegistry:
     FUNCTION = "run"
     CATEGORY = "PromptLibrary/Asset层"
 
-    def run(self, 资产名, 状态版本, 是否压力测试, 是否锁定):
+    def run(self, 资产名="", 状态版本="", 是否压力测试=False, 是否锁定=False, **kwargs):
         if 资产名 == "__REGISTER_NEW__":
             return ("请用 register_asset() 函数注册新资产", "", "", "", "", "")
 
