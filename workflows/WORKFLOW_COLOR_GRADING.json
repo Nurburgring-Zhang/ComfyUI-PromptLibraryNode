@@ -1,6 +1,6 @@
 {
   "last_node_id": 7,
-  "last_link_id": 5,
+  "last_link_id": 17,
   "nodes": [
     {
       "id": 1,
@@ -31,9 +31,9 @@
           "label": "灵魂注入_整合",
           "links": [
             1,
-            3,
-            4,
-            5
+            6,
+            10,
+            14
           ],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -42,7 +42,12 @@
           "name": "审美判断",
           "type": "STRING",
           "label": "审美判断",
-          "links": [],
+          "links": [
+            2,
+            7,
+            11,
+            15
+          ],
           "color": "#7f9e5a",
           "slot_index": 1
         },
@@ -50,7 +55,12 @@
           "name": "风格指南",
           "type": "STRING",
           "label": "风格指南",
-          "links": [],
+          "links": [
+            3,
+            8,
+            12,
+            16
+          ],
           "color": "#7f9e5a",
           "slot_index": 2
         },
@@ -58,7 +68,12 @@
           "name": "导演意图",
           "type": "STRING",
           "label": "导演意图",
-          "links": [],
+          "links": [
+            4,
+            9,
+            13,
+            17
+          ],
           "color": "#7f9e5a",
           "slot_index": 3
         },
@@ -107,11 +122,11 @@
         1.0,
         1.0,
         1.0,
-        "Paul Thomas Anderson (PTA)",
+        "王家卫 (Wong Kar-wai)",
         "",
         "",
         "梦幻",
-        "Paul Thomas Anderson (PTA)",
+        "王家卫 (Wong Kar-wai)",
         "情感冲击",
         "",
         false
@@ -130,7 +145,44 @@
         260,
         100
       ],
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "灵魂注入",
+          "type": "STRING",
+          "link": null,
+          "label": "灵魂注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[0] 灵魂注入_整合 (60 情感 + 10 维度 + 7 融合)",
+          "slot_index": 0
+        },
+        {
+          "name": "审美注入",
+          "type": "STRING",
+          "link": null,
+          "label": "审美注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[1] 审美判断 (8 原则 + 120 场景)",
+          "slot_index": 1
+        },
+        {
+          "name": "风格注入",
+          "type": "STRING",
+          "link": null,
+          "label": "风格注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[2] 风格指南 (5 调色 + 8 摄影指导 + 9 构图)",
+          "slot_index": 2
+        },
+        {
+          "name": "导演意图",
+          "type": "STRING",
+          "link": null,
+          "label": "导演意图",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[3] 导演意图 (4 类意图 + 观众应感到)",
+          "slot_index": 3
+        }
+      ],
       "outputs": [
         {
           "name": "资产描述符",
@@ -199,7 +251,7 @@
       ],
       "size": [
         260,
-        162
+        174
       ],
       "inputs": [
         {
@@ -208,8 +260,35 @@
           "link": null,
           "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[0] 灵魂注入_整合 (60 情感 + 10 维度 + 7 融合)",
           "slot_index": 0
+        },
+        {
+          "name": "审美注入",
+          "type": "STRING",
+          "link": null,
+          "label": "审美注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[1] 审美判断 (8 原则 + 120 场景)",
+          "slot_index": 1
+        },
+        {
+          "name": "风格注入",
+          "type": "STRING",
+          "link": null,
+          "label": "风格注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[2] 风格指南 (5 调色 + 8 摄影指导 + 9 构图)",
+          "slot_index": 2
+        },
+        {
+          "name": "导演意图",
+          "type": "STRING",
+          "link": null,
+          "label": "导演意图",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[3] 导演意图 (4 类意图 + 观众应感到)",
+          "slot_index": 3
         }
       ],
       "outputs": [
@@ -218,7 +297,7 @@
           "type": "STRING",
           "label": "意图声明",
           "links": [
-            2
+            5
           ],
           "color": "#7f9e5a",
           "slot_index": 0
@@ -286,7 +365,7 @@
       ],
       "size": [
         260,
-        186
+        198
       ],
       "inputs": [
         {
@@ -337,7 +416,7 @@
         {
           "name": "导演意图_观众应感到",
           "type": "STRING",
-          "link": 2,
+          "link": 5,
           "label": "导演意图_观众应感到",
           "color": "#7f9e5a",
           "tooltip": "",
@@ -349,8 +428,35 @@
           "link": 1,
           "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[0] 灵魂注入_整合 (60 情感 + 10 维度 + 7 融合)",
           "slot_index": 6
+        },
+        {
+          "name": "审美注入",
+          "type": "STRING",
+          "link": 2,
+          "label": "审美注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[1] 审美判断 (8 原则 + 120 场景)",
+          "slot_index": 7
+        },
+        {
+          "name": "风格注入",
+          "type": "STRING",
+          "link": 3,
+          "label": "风格注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[2] 风格指南 (5 调色 + 8 摄影指导 + 9 构图)",
+          "slot_index": 8
+        },
+        {
+          "name": "导演意图",
+          "type": "STRING",
+          "link": 4,
+          "label": "导演意图",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[3] 导演意图 (4 类意图 + 观众应感到)",
+          "slot_index": 9
         }
       ],
       "outputs": [
@@ -425,7 +531,7 @@
       ],
       "size": [
         260,
-        186
+        198
       ],
       "inputs": [
         {
@@ -485,11 +591,38 @@
         {
           "name": "灵魂注入",
           "type": "STRING",
-          "link": 3,
+          "link": 6,
           "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[0] 灵魂注入_整合 (60 情感 + 10 维度 + 7 融合)",
           "slot_index": 6
+        },
+        {
+          "name": "审美注入",
+          "type": "STRING",
+          "link": 7,
+          "label": "审美注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[1] 审美判断 (8 原则 + 120 场景)",
+          "slot_index": 7
+        },
+        {
+          "name": "风格注入",
+          "type": "STRING",
+          "link": 8,
+          "label": "风格注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[2] 风格指南 (5 调色 + 8 摄影指导 + 9 构图)",
+          "slot_index": 8
+        },
+        {
+          "name": "导演意图",
+          "type": "STRING",
+          "link": 9,
+          "label": "导演意图",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[3] 导演意图 (4 类意图 + 观众应感到)",
+          "slot_index": 9
         }
       ],
       "outputs": [
@@ -604,17 +737,44 @@
       ],
       "size": [
         260,
-        154
+        166
       ],
       "inputs": [
         {
           "name": "灵魂注入",
           "type": "STRING",
-          "link": 4,
+          "link": 10,
           "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[0] 灵魂注入_整合 (60 情感 + 10 维度 + 7 融合)",
           "slot_index": 0
+        },
+        {
+          "name": "审美注入",
+          "type": "STRING",
+          "link": 11,
+          "label": "审美注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[1] 审美判断 (8 原则 + 120 场景)",
+          "slot_index": 1
+        },
+        {
+          "name": "风格注入",
+          "type": "STRING",
+          "link": 12,
+          "label": "风格注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[2] 风格指南 (5 调色 + 8 摄影指导 + 9 构图)",
+          "slot_index": 2
+        },
+        {
+          "name": "导演意图",
+          "type": "STRING",
+          "link": 13,
+          "label": "导演意图",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[3] 导演意图 (4 类意图 + 观众应感到)",
+          "slot_index": 3
         }
       ],
       "outputs": [
@@ -711,17 +871,44 @@
       ],
       "size": [
         260,
-        100
+        102
       ],
       "inputs": [
         {
           "name": "灵魂注入",
           "type": "STRING",
-          "link": 5,
+          "link": 14,
           "label": "灵魂注入",
           "color": "#7f9e5a",
-          "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[0] 灵魂注入_整合 (60 情感 + 10 维度 + 7 融合)",
           "slot_index": 0
+        },
+        {
+          "name": "审美注入",
+          "type": "STRING",
+          "link": 15,
+          "label": "审美注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[1] 审美判断 (8 原则 + 120 场景)",
+          "slot_index": 1
+        },
+        {
+          "name": "风格注入",
+          "type": "STRING",
+          "link": 16,
+          "label": "风格注入",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[2] 风格指南 (5 调色 + 8 摄影指导 + 9 构图)",
+          "slot_index": 2
+        },
+        {
+          "name": "导演意图",
+          "type": "STRING",
+          "link": 17,
+          "label": "导演意图",
+          "color": "#7f9e5a",
+          "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[3] 导演意图 (4 类意图 + 观众应感到)",
+          "slot_index": 3
         }
       ],
       "outputs": [
@@ -781,6 +968,30 @@
     ],
     [
       2,
+      1,
+      1,
+      4,
+      7,
+      "STRING"
+    ],
+    [
+      3,
+      1,
+      2,
+      4,
+      8,
+      "STRING"
+    ],
+    [
+      4,
+      1,
+      3,
+      4,
+      9,
+      "STRING"
+    ],
+    [
+      5,
       3,
       0,
       4,
@@ -788,15 +999,39 @@
       "STRING"
     ],
     [
+      6,
+      1,
+      0,
+      5,
+      6,
+      "STRING"
+    ],
+    [
+      7,
+      1,
+      1,
+      5,
+      7,
+      "STRING"
+    ],
+    [
+      8,
+      1,
+      2,
+      5,
+      8,
+      "STRING"
+    ],
+    [
+      9,
+      1,
       3,
-      1,
-      0,
       5,
-      6,
+      9,
       "STRING"
     ],
     [
-      4,
+      10,
       1,
       0,
       6,
@@ -804,11 +1039,59 @@
       "STRING"
     ],
     [
-      5,
+      11,
+      1,
+      1,
+      6,
+      1,
+      "STRING"
+    ],
+    [
+      12,
+      1,
+      2,
+      6,
+      2,
+      "STRING"
+    ],
+    [
+      13,
+      1,
+      3,
+      6,
+      3,
+      "STRING"
+    ],
+    [
+      14,
       1,
       0,
       7,
       0,
+      "STRING"
+    ],
+    [
+      15,
+      1,
+      1,
+      7,
+      1,
+      "STRING"
+    ],
+    [
+      16,
+      1,
+      2,
+      7,
+      2,
+      "STRING"
+    ],
+    [
+      17,
+      1,
+      3,
+      7,
+      3,
       "STRING"
     ]
   ],
@@ -821,7 +1104,7 @@
       "video_type": "完整调色 (60-30-10)",
       "target_output_node": "ColorGradingPro",
       "total_nodes": 7,
-      "total_links": 5,
+      "total_links": 17,
       "node_types": [
         "ArtDirectionPro",
         "AssetRegistry",

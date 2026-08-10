@@ -244,37 +244,142 @@ NODE_CLASS_MAPPINGS = _ALL_NODE_CLASSES
 # ===== Phase 36.6 v4.1+: 灵魂 addon 注入 (演示欺骗 24.0 修复) =====
 # 26 个有灵魂字段的节点注入 "灵魂addon" optional input slot
 # 让 DirectorSoulNode.soul_injection 能连到其他节点
+# Phase 36.6 v5g: 扩展为 4 路 injection (灵魂/审美/风格/意图)
 from _addon_injector import STARTING_NODES, SOUL_NODES
 
 
-def inject_soul_addon(cls):
-    """给节点注入 灵魂注入 (STRING, optional) input slot"""
+def inject_4_addon(cls):
+    """Phase 36.6 v5g: 给节点注入 4 路 injection (灵魂/审美/风格/意图) optional input slot
+
+    这些 slot 用于接收 DirectorMasteryNode 总控的 4 路 output (灵魂注入_整合/审美判断/风格指南/导演意图)
+    """
     orig_input_types = cls.__dict__.get("INPUT_TYPES", None)
     if orig_input_types is None:
         return
     if not isinstance(orig_input_types, classmethod):
         return
     raw_func = orig_input_types.__func__
-    if getattr(raw_func, "_soul_addon_injected", False):
+    if getattr(raw_func, "_4_addon_injected", False):
         return
 
     def new_input_types(cls_arg):
         result = raw_func(cls_arg)
         opt = result.setdefault("optional", {})
+        # 1. 兼容老的 "灵魂addon" 改名
         if "灵魂addon" in opt:
-            # 改名: 灵魂addon → 灵魂注入 (更明确)
             opt["灵魂注入"] = opt.pop("灵魂addon")
-        elif "灵魂注入" not in opt:
-            opt["灵魂注入"] = ("STRING", {"default": "", "multiline": True, "tooltip": "灵魂节点注入字符串 (可连接 DirectorSoulNode.灵魂注入 输出)"})
+        # 2. 注入 4 路 injection slot
+        injection_slots = {
+            "灵魂注入": ("STRING", {"default": "", "multiline": True, "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[0] 灵魂注入_整合 (60 情感 + 10 维度 + 7 融合)"}),
+            "审美注入": ("STRING", {"default": "", "multiline": True, "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[1] 审美判断 (8 原则 + 120 场景)"}),
+            "风格注入": ("STRING", {"default": "", "multiline": True, "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[2] 风格指南 (5 调色 + 8 摄影指导 + 9 构图)"}),
+            "导演意图": ("STRING", {"default": "", "multiline": True, "tooltip": "Phase 36.6 v5g: 来自 DirectorMasteryNode.output[3] 导演意图 (4 类意图 + 观众应感到)"}),
+        }
+        for slot_name, slot_spec in injection_slots.items():
+            if slot_name not in opt:
+                opt[slot_name] = slot_spec
         return result
 
-    new_input_types._soul_addon_injected = True
+    new_input_types._4_addon_injected = True
     cls.INPUT_TYPES = classmethod(new_input_types)
 
 
-for _name in SOUL_NODES:
+# 保留旧函数名兼容
+def inject_soul_addon(cls):
+    """兼容旧调用 — 实际调用 inject_4_addon"""
+    inject_4_addon(cls)
+
+
+# 注入所有 production 节点 (44 节点, 只排除总控)
+# Phase 36.6 v5g: 4 路 injection 给所有节点 (含 5 起点)
+# 起点节点也可以接收"自身灵魂"形成 self-loop (虽然没意义, 但不报错)
+PRODUCTION_NODES = [n for n in _ALL_NODE_CLASSES.keys() if n not in [
+    "DirectorMasteryNode",  # 总控, 自己输出 4 路, 不需要接收
+]]
+for _name in PRODUCTION_NODES:
     if _name in _ALL_NODE_CLASSES:
-        inject_soul_addon(_ALL_NODE_CLASSES[_name])
+        inject_4_addon(_ALL_NODE_CLASSES[_name])
+
+
+# ===== Phase 36.6 v5h: wrap_build_with_injection =====
+# 真实解决: 43 节点 build() 没用 4 路 injection 的 bug
+# 包装 build() 方法, 末尾追加 4 路 injection block 到主输出
+# 这保证 4 路 injection 真实进入 build 输出, 不是"假 link"
+
+import functools
+import inspect as _inspect
+
+
+def _build_injection_block(灵魂注入, 审美注入, 风格注入, 导演意图):
+    """构造 4 路 injection block 字符串 (返回 '' 如果没数据)"""
+    if not (灵魂注入 or 审美注入 or 风格注入 or 导演意图):
+        return ""
+    block = "\n\n════════════════════════════════════════\n"
+    block += "【Phase 36.6 v5h: 4 路起点注入 集成】\n"
+    block += "════════════════════════════════════════\n\n"
+    if 灵魂注入:
+        block += "【灵魂注入】(60 情感 + 10 维度 + 7 融合模式):\n" + str(灵魂注入) + "\n\n"
+    if 审美注入:
+        block += "【审美判断】(8 原则 + 120 场景):\n" + str(审美注入) + "\n\n"
+    if 风格注入:
+        block += "【风格指南】(5 调色 + 8 摄影指导 + 9 构图):\n" + str(风格注入) + "\n\n"
+    if 导演意图:
+        block += "【导演意图】(4 类意图 + 观众应感到):\n" + str(导演意图) + "\n"
+    return block
+
+
+def _append_injection_to_result(result, block):
+    """把 injection block 追加到主输出 (最后一个 string) 末尾"""
+    if not block:
+        return result
+    if isinstance(result, str):
+        return result + block
+    if isinstance(result, tuple) and len(result) > 0:
+        result_list = list(result)
+        # 找到最后一个 string 输出追加
+        for i in range(len(result_list) - 1, -1, -1):
+            if isinstance(result_list[i], str):
+                result_list[i] = result_list[i] + block
+                return tuple(result_list)
+        # 没有 string 输出, 加一个新输出
+        return tuple(list(result_list) + [block])
+    return result
+
+
+def wrap_build_with_injection(cls):
+    """包装 build() 方法, 真实集成 4 路 injection 到输出
+
+    Phase 36.6 v5h: 解决 43 节点 build() 没用 4 路 injection 的 bug
+    """
+    func_name = getattr(cls, "FUNCTION", None)
+    if not func_name or not hasattr(cls, func_name):
+        return
+    if getattr(cls, "_injection_wrapped", False):
+        return
+
+    orig_build = getattr(cls(), func_name).__func__  # 拿到 unbound function
+
+    @functools.wraps(orig_build)
+    def wrapped_build(self, *args, **kwargs):
+        # 提取 4 路 injection
+        soul = kwargs.pop("灵魂注入", "")
+        aesthetic = kwargs.pop("审美注入", "")
+        style = kwargs.pop("风格注入", "")
+        intent = kwargs.pop("导演意图", "")
+
+        result = orig_build(self, *args, **kwargs)
+        block = _build_injection_block(soul, aesthetic, style, intent)
+        return _append_injection_to_result(result, block)
+
+    # 把 wrapped_build 设为新的 method
+    setattr(cls, func_name, wrapped_build)
+    cls._injection_wrapped = True
+
+
+# 包装所有 44 节点 (除总控)
+for _name in PRODUCTION_NODES:
+    if _name in _ALL_NODE_CLASSES:
+        wrap_build_with_injection(_ALL_NODE_CLASSES[_name])
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "ScriptArchitecturePro": "📖 剧本架构 (1/3) [中间态·可接灵魂/审美/风格/经验/控制/节奏]",

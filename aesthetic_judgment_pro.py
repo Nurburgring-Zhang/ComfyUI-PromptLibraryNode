@@ -33,6 +33,19 @@ from __future__ import annotations
 
 import os
 import sys
+
+# === Phase 36.6 v5i: 35 导演统一数据中枢 ===
+try:
+    from director_data_unified import (
+        DIRECTOR_PROFILES_35,
+        SCENE_DATABASE_100,
+        DP_8_MASTERS,
+        get_director,
+        get_scene,
+    )
+    _HAS_DDU = True
+except Exception:
+    _HAS_DDU = False
 import json
 import re
 
@@ -537,10 +550,16 @@ class AestheticJudgmentPro:
 
     @classmethod
     def INPUT_TYPES(cls):
+        _director_choices = (
+            ["auto", "无"] + list(DIRECTOR_PROFILES_35.keys())
+            if _HAS_DDU else
+            ["auto", "王家卫", "韦斯·安德森", "陈凯歌", "诺兰", "塔可夫斯基", "黑泽明", "无"]
+        )
         return {
             "required": {
                 "输入描述": ("STRING", {"default": "", "multiline": True}),
-                "导演风格": (["auto", "王家卫", "韦斯·安德森", "陈凯歌", "诺兰", "塔可夫斯基", "黑泽明", "无"], {"default": "auto"}),
+                # Phase 36.6 v5i: 35 导演全列表 (镜头/光/节奏/色彩/表演/构图/声音/情绪)
+                "导演风格": (_director_choices, {"default": "auto"}),
                 "场景类型": (["auto", "STUDIO_INTERIOR", "NATURE_EXTERIOR", "URBAN_EXTERIOR", "URBAN_INTERIOR", "PERIOD_FILM_LOCATION", "VIRTUAL_SCENE", "PSYCHE_SPACE", "DREAM_MEMORY"], {"default": "auto"}),
             },
             "optional": {
@@ -600,6 +619,41 @@ class AestheticJudgmentPro:
             auto_principles=auto_p,
             custom_weights=custom_weights,
         )
+
+        # Phase 36.6 v5i: 35 导演 8 维真实档案增强审美判断
+        if director and _HAS_DDU and director in DIRECTOR_PROFILES_35:
+            d_p = DIRECTOR_PROFILES_35[director]
+            v5i_block = (
+                f"\n\n【Phase 36.6 v5i: {director} 35 导演 8 维真实档案】\n"
+                f"  镜头: {d_p['镜头']}\n"
+                f"  光: {d_p['光']}\n"
+                f"  节奏: {d_p['节奏']}\n"
+                f"  色彩: {d_p['色彩']}\n"
+                f"  表演: {d_p['表演']}\n"
+                f"  构图: {d_p['构图']}\n"
+                f"  声音: {d_p['声音']}\n"
+                f"  情绪: {d_p['情绪']}\n"
+                f"  代表作: {d_p['代表作']} (年代 {d_p['年代']})\n"
+                f"  标志物件: {d_p['物件']}\n"
+                f"  5 维标签: {d_p['5维标签']}\n"
+            )
+            # 8 大师摄影指导匹配
+            tag_set = set(d_p["5维标签"].split("/"))
+            for dp_name, dp_info in DP_8_MASTERS.items():
+                if "罗杰·狄金斯" in dp_name and dp_info.get("代表作") == []:
+                    continue
+                dp_tag = set(dp_info.get("5维标签", "").split("/"))
+                if tag_set & dp_tag:
+                    v5i_block += f"  推荐摄影指导: {dp_name} - {dp_info['signature']}\n"
+                    break
+            # 100 场景匹配
+            s_m = get_scene(director, scene_keyword=input_text[:50])
+            if s_m and s_m.get("director") != "通用":
+                v5i_block += (
+                    f"  场景参考: {s_m['scene']} - 物件 {s_m['object']}, "
+                    f"色调 {s_m['color']}, 声景 {s_m['sound']}\n"
+                )
+            result["judgment"] = result["judgment"] + v5i_block
 
         # 灵魂注入 (如果提供)
         if _HAS_SOUL and soul_primary != "auto":

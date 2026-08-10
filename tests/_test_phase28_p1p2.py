@@ -2,8 +2,9 @@
 """
 Phase 28 P1+P2 专项测试 - VersionControlPro / StyleGuidePro / MarketAudiencePro / CleanupPassPro / FormatOutputPro / ProjectArchivePro
 """
-import sys
-sys.path.insert(0, '.')
+import os, sys
+# Phase 35.8: 移到 tests/ 后用上级目录
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import version_control_pro
 import style_guide_pro
 import market_audience_pro

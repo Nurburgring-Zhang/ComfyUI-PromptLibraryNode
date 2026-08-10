@@ -75,7 +75,13 @@ for wf in workflows:
         kind, fname = slots[tgt_slot]
         real_in_wf += 1
         total_real += 1
-        print(f"  ✓ link #{link_id}: node#{src_id} -> {ntype}.{fname}  ({kind})")
+        # 找 src 节点 output 名字
+        src_ntype, _ = id_to_node.get(src_id, (None, []))
+        src_node = next((n for n in nodes if n.get("id") == src_id), None)
+        src_out_name = "?"
+        if src_node and 0 <= src_slot < len(src_node.get("outputs", [])):
+            src_out_name = src_node["outputs"][src_slot].get("name", "?")
+        print(f"  ✓ link #{link_id}: node#{src_id}({src_ntype}).{src_out_name} -> {ntype}.{fname}  ({kind})")
 
     print(f"  真实连线: {real_in_wf}/{len(links)}\n")
 

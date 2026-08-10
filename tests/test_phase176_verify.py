@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Phase 17.6 最终验收 — API + 灵魂字段 + 3 情感差异 + 597 测试"""
-import sys
-sys.path.insert(0, r"D:\minimax\comfyui-prompt-node-extracted\ComfyUI-PromptLibraryNode")
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import __init__ as init
 from vertical_short_drama_pro import VerticalShortDramaPro

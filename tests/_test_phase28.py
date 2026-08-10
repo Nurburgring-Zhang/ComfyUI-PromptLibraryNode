@@ -2,8 +2,9 @@
 """
 Phase 28 P0 专项测试 - AestheticJudgmentPro + scene_library
 """
-import sys
-sys.path.insert(0, '.')
+import os, sys
+# Phase 35.8: 移到 tests/ 后用上级目录
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import scene_library
 import aesthetic_judgment_pro
 from scene_library import get_stats, get_scenes_by_director, get_scenes_by_type, scene_to_prompt

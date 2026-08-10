@@ -741,7 +741,6 @@ class DirectorStoryboardPro:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "剧本正文_来自节点2": ("STRING", {"default": "", "multiline": True}),
                 "导演风格_8选1": (list(MASTER_DIRECTORS_8.keys()), {"default": "Paul Thomas Anderson (PTA)"}),
                 "景别偏好": (SHOT_SIZE, {"default": "中景"}),
                 "摄影机运动": (CAMERA_MOVE, {"default": "缓推"}),
@@ -761,6 +760,8 @@ class DirectorStoryboardPro:
                 "反AI强度": (["关", "轻 (词表)", "中 (词表+铁律)", "重 (词表+铁律+微调)"], {"default": "重 (词表+铁律+微调)"}),
             },
             "optional": {
+                # === 业务链 slot (上游节点 2/3 剧本正文 输出) ===
+                "上游_剧本正文": ("STRING", {"default": "", "multiline": True}),
                 "额外禁用词": ("STRING", {"default": "", "multiline": True}),
                 "关键道具": ("STRING", {"default": "一封没寄出的信 / 半瓶白酒 / 老式收音机"}),
                 "潜文本_情感": ("STRING", {"default": "想说对不起但拉不下脸"}),

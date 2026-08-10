@@ -880,6 +880,42 @@ Photoreal. NON-IP. 16:9. 12s. SFX only. NO CGI. Cinematic.
                 injection_block += "【导演意图】(4 类意图 + 观众应感到):\n" + str(导演意图) + "\n"
             h3 = h3 + injection_block
 
+        # ========== Phase 36.6 v5i: 35 导演 8 维档案 + 100 场景匹配增强 ==========
+        # 把导演风格的 8 维真实档案 (镜头/光/节奏/色彩/表演/构图/声音/情绪) + 物件/年代/代表作
+        # 集成到 h3_prompt 末尾, 提升输出具体性 (D级 → A级)
+        try:
+            from director_data_unified import (
+                DIRECTOR_PROFILES_35, SCENE_DATABASE_100, get_scene
+            )
+            director_zh = str(导演风格).split(" (")[0] if "(" in str(导演风格) else str(导演风格)
+            if director_zh and director_zh != "通用" and director_zh in DIRECTOR_PROFILES_35:
+                d_p = DIRECTOR_PROFILES_35[director_zh]
+                v5i_block = "\n\n════════════════════════════════════════\n"
+                v5i_block += f"【Phase 36.6 v5i: {director_zh} 35 导演 8 维真实档案】\n"
+                v5i_block += "════════════════════════════════════════\n\n"
+                v5i_block += f"镜头: {d_p['镜头']}\n"
+                v5i_block += f"光: {d_p['光']}\n"
+                v5i_block += f"节奏: {d_p['节奏']}\n"
+                v5i_block += f"色彩: {d_p['色彩']}\n"
+                v5i_block += f"表演: {d_p['表演']}\n"
+                v5i_block += f"构图: {d_p['构图']}\n"
+                v5i_block += f"声音: {d_p['声音']}\n"
+                v5i_block += f"情绪: {d_p['情绪']}\n"
+                v5i_block += f"代表作: {d_p['代表作']} (年代 {d_p['年代']})\n"
+                v5i_block += f"标志物件: {d_p['物件']}\n"
+                v5i_block += f"5 维标签: {d_p['5维标签']}\n"
+                # 100 场景匹配
+                s_match = get_scene(director_zh, scene_keyword=str(场景描述))
+                if s_match and s_match.get("director") != "通用":
+                    v5i_block += (
+                        f"\n场景参考: {s_match['director']} - {s_match['scene']} | "
+                        f"物件={s_match['object']} | 色调={s_match['color']} | "
+                        f"声景={s_match['sound']} | 情绪={s_match['emotion']}\n"
+                    )
+                h3 = h3 + v5i_block
+        except Exception:
+            pass
+
         return (effects_overview, visual_lang, color_60, lighting_9d, dp_style, sel_model, avoid, consistency, pipeline, h3)
 
 

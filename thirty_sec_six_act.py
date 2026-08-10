@@ -34,7 +34,7 @@ try:
         CAMERA_MOTION_13, STYLE_KEYWORDS, SCENE_MOTION_MAP,
         H3_RULES_11, SEEDANCE_25_QUOTES, DIRECTOR_CONTROL_11,
         build_30s_timeline, build_alignment_instruction, build_h3_three_fields,
-        inject_director_control_11, inject_5_elements, inject_anti_ai_rules as inject_anti_ai_pb,
+        inject_director_control_11, inject_5_elements,
     )
     from asset_registry_data import ASSET_REGISTRY
     from style_prefix_data import STYLE_PREFIX
@@ -825,8 +825,8 @@ class ThirtySecSixAct:
         # 反 AI
         if 启用反AI and _HAS_DEPS:
             try:
-                overview = inject_anti_ai_pb(overview)
-                h3 = inject_anti_ai_pb(h3)
+                overview = inject_anti_ai_rules(overview)
+                h3 = inject_anti_ai_rules(h3)
             except Exception:
                 pass
 

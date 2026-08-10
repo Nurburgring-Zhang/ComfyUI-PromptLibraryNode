@@ -42,6 +42,21 @@ from typing import Tuple
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _HERE)
 
+# === Phase 36.6 v5i: 35 导演统一数据中枢 ===
+try:
+    from director_data_unified import (
+        DIRECTOR_PROFILES_35,
+        SCENE_DATABASE_100,
+        DP_8_MASTERS,
+        COLOR_STYLES_5,
+        COMPOSITION_RULES_9,
+        get_director,
+        get_scene,
+    )
+    _DIRECTOR_DATA_LOADED = True
+except Exception:
+    _DIRECTOR_DATA_LOADED = False
+
 # === 6 大模型 prompt 优化器 (Phase 36.3 提炼) ===
 MODEL_PROMPT_OPTIMIZERS = {
     "MiniMax H3 (官方)": {
@@ -215,8 +230,8 @@ class UniversalDirectorPromptNode:
                     "papercraft", "paper-collage", "documentary", "music video",
                 ], {"default": "Cinematic"}),
 
-                # === 导演 ===
-                "director": ([
+                # === 导演 (Phase 36.6 v5i: 35 导演全列表) ===
+                "director": (["通用"] + list(DIRECTOR_PROFILES_35.keys()) if _DIRECTOR_DATA_LOADED else [
                     "通用", "王家卫", "张艺谋", "李安", "侯孝贤", "贾樟柯",
                     "诺兰", "奉俊昊", "黑泽明", "小津安二郎", "是枝裕和",
                     "宫崎骏", "北野武", "塔可夫斯基", "维伦纽瓦", "PTA",
@@ -292,6 +307,7 @@ class UniversalDirectorPromptNode:
         story_theory: str = "通用",
         hook_style: str = "无",
         subtitle_required: bool = False,
+        **kwargs,  # 接受灵魂addon 等其他 optional input (ComfyUI 注入)
     ) -> Tuple:
         """
         转换通用 prompt
@@ -546,7 +562,40 @@ class UniversalDirectorPromptNode:
         return f"{instruction}{multimodal}\n\n{audio_block}"
 
     def _build_model_specific(self, target_model, model_cfg, universal_5, hook_style, subtitle_required, duration) -> str:
-        """模型特定 prompt 优化"""
+        """模型特定 prompt 优化
+        Phase 36.6 v5i: 6 模型各自集成导演 8 维真实档案 (镜头/光/节奏/色彩/构图/声音)
+        """
+        # 提取导演 8 维 (Phase 36.6 v5i)
+        director_8d_block = ""
+        scene_match_block = ""
+        if _DIRECTOR_DATA_LOADED:
+            # universal_5 中抽出 director 名
+            import re
+            m = re.search(r"导演 (\S+?) 的标志性美学", universal_5)
+            director_name = m.group(1) if m else "通用"
+            if director_name in DIRECTOR_PROFILES_35:
+                d_p = DIRECTOR_PROFILES_35[director_name]
+                director_8d_block = (
+                    f"\n[导演 8 维真实档案 - {director_name}]\n"
+                    f"  镜头: {d_p['镜头']}\n"
+                    f"  光: {d_p['光']}\n"
+                    f"  节奏: {d_p['节奏']}\n"
+                    f"  色彩: {d_p['色彩']}\n"
+                    f"  构图: {d_p['构图']}\n"
+                    f"  声音: {d_p['声音']}\n"
+                    f"  物件: {d_p['物件']}\n"
+                    f"  主题: {d_p['5维标签']}\n"
+                )
+                s_m = get_scene(director_name, scene_keyword=universal_5[:80])
+                if s_m and s_m.get("director") != "通用":
+                    scene_match_block = (
+                        f"\n[场景匹配 - {s_m['scene']}]\n"
+                        f"  物件: {s_m['object']}\n"
+                        f"  色调: {s_m['color']}\n"
+                        f"  声景: {s_m['sound']}\n"
+                        f"  情绪: {s_m['emotion']}\n"
+                    )
+
         if target_model == "短剧平台 (抖音/快手/小红书)":
             # 短剧: 3-7s 钩子 + 1-3 镜 + 强烈情绪 + 字幕
             hook_phrase = ""
@@ -570,6 +619,7 @@ class UniversalDirectorPromptNode:
 [镜 3] {duration-1}-{duration}s 转折/钩子结束
 
 {universal_5}
+{director_8d_block}{scene_match_block}
 {subtitle_note}
 """
         elif target_model == "Wan 3.0 (阿里)":
@@ -578,6 +628,7 @@ class UniversalDirectorPromptNode:
 
 [核心 prompt - 简洁美学]
 {universal_5}
+{director_8d_block}{scene_match_block}
 
 [Wan 技巧] 中文 prompt 优于英文, 简洁动作优于复杂描述, 强美学关键词 (电影感, 高质感, 极致细节)
 """
@@ -587,6 +638,7 @@ class UniversalDirectorPromptNode:
 
 [核心 prompt]
 {universal_5}
+{director_8d_block}{scene_match_block}
 
 [Seedance 技巧] 强 3D 物理一致, 多角度相机, 运动控制精确, 适合角色动作+物体物理
 """
@@ -596,6 +648,7 @@ class UniversalDirectorPromptNode:
 
 [核心 prompt]
 {universal_5}
+{director_8d_block}{scene_match_block}
 
 [Sora 技巧] 长视频多 shot, 复杂调度, 物理真实, 多角色互动
 """
@@ -605,6 +658,7 @@ class UniversalDirectorPromptNode:
 
 [核心 prompt]
 {universal_5}
+{director_8d_block}{scene_match_block}
 
 [Veo 技巧] 4K 高质量, 拟真, 物理真实, 创意场景
 """
@@ -614,6 +668,7 @@ class UniversalDirectorPromptNode:
 
 [核心 prompt]
 {universal_5}
+{director_8d_block}{scene_match_block}
 
 [H3 技巧] integrated_multimodal_description + overall_soundscape + non_diegetic_music 三段式, 严格 [Shot N] At MM:SS.mmm, 4 reference labels
 """
@@ -621,6 +676,7 @@ class UniversalDirectorPromptNode:
             return f"""[通用 5 段 - 任何模型都支持]
 
 {universal_5}
+{director_8d_block}{scene_match_block}
 """
 
     def _validate(self, target_model, h3_mode, model_cfg, universal_5, dialogue_block, audio_block) -> str:

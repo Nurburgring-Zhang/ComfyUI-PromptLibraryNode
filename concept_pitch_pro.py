@@ -489,7 +489,7 @@ def _parse_soul_weights(s, n=0, default_weights=None):
 
 
 def _parse_soul_dict(s, default=None):
-    """解析灵魂维度 / 状态 JSON 字符串"""
+    """解析灵魂维度 / 状态 JSON 字符串 (支持 JSON / 换行 / 逗号 / 混合)"""
     if isinstance(s, dict):
         return s
     if not s:
@@ -497,21 +497,28 @@ def _parse_soul_dict(s, default=None):
     s = str(s).strip()
     if not s:
         return dict(default) if default else {}
+    # 1. 先试 JSON
     try:
         return json.loads(s)
     except Exception:
-        # 解析 key=value 格式
-        result = dict(default) if default else {}
-        for line in s.split("\n"):
-            if "=" in line:
-                k, v = line.split("=", 1)
-                k = k.strip()
-                v = v.strip()
-                try:
-                    result[k] = float(v)
-                except Exception:
-                    result[k] = v
-        return result
+        pass
+    # 2. 解析 key=value 格式 (换行 或 逗号 分隔)
+    result = dict(default) if default else {}
+    # 先按换行 split, 再按逗号 split
+    for chunk in s.replace("\n", ",").split(","):
+        chunk = chunk.strip()
+        if not chunk or "=" not in chunk:
+            continue
+        k, v = chunk.split("=", 1)
+        k = k.strip()
+        v = v.strip()
+        try:
+            result[k] = float(v)
+        except Exception:
+            # 字符串值 (如 mental_state=lucid-dreamy)
+            if v:
+                result[k] = v
+    return result
 
 
 def _safe_fuse(emotion_keys, weights, mode):

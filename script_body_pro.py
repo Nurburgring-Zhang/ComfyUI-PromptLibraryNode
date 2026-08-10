@@ -164,13 +164,7 @@ class ScriptBodyPro:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                # === 1. 接收节点 1/3 输出 ===
-                "故事架构_来自节点1": ("STRING", {
-                    "default": "",
-                    "multiline": True,
-                }),
-
-                # === 2. 导演风格 ===
+                # === 1. 导演风格 (业务链 slot 移到 optional, 见下) ===
                 "导演风格_63选1": ("STRING", {
                     "default": "王家卫",
                     "multiline": False,
@@ -211,6 +205,11 @@ class ScriptBodyPro:
                 "灵魂_融合模式": (SOUL_FUSION_MODES, {"default": "auto"}),
             },
             "optional": {
+                # === 业务链 slot (上游节点 1/3 故事架构 输出) ===
+                "上游_故事架构": ("STRING", {
+                    "default": "",
+                    "multiline": True,
+                }),
                 "额外禁用词": ("STRING", {
                     "default": "",
                     "multiline": True,

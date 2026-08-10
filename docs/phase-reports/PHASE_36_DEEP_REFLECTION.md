@@ -126,7 +126,7 @@
 
 ## 五、立即执行 (Phase 36.0)
 
-1. **写 SKILL.md + HARNESS.md** (mavis 格式, 存 `.minimax/skills/` 和 `.minimax/harness/`)
+1. **写 SKILL.md + HARNESS.md** (项目内格式, 存 `docs/agent-rules/`, 已取代 `.minimax/` 品牌目录)
 2. **启动 1 个子 agent (场景专家) 真跑完不抢断**, 跑完后自检 + 写报告
 3. **修 anti_ai 4 节点真命中** (HookMasterPro/DialogueMasterPro/DirectorIntentPro/DirectorSoulNode)
 4. **修 5 要素 6 PARTIAL + 5 FAIL 节点** (Phase14ActingSkill 等)

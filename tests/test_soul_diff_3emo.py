@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """3 情感差异化验证 — 验收用"""
-import sys
-sys.path.insert(0, r"D:\minimax\comfyui-prompt-node-extracted\ComfyUI-PromptLibraryNode")
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from vertical_short_drama_pro import VerticalShortDramaPro
 

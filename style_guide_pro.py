@@ -34,6 +34,19 @@ try:
 except Exception:
     _HAS_AJP = False
 
+# === Phase 36.6 v5i: 35 导演统一数据中枢 (8 大师 + 5 调色 + 9 构图) ===
+try:
+    from director_data_unified import (
+        DIRECTOR_PROFILES_35,
+        DP_8_MASTERS,
+        COLOR_STYLES_5 as DDU_COLOR_STYLES,
+        COMPOSITION_RULES_9,
+        get_director,
+    )
+    _HAS_DDU = True
+except Exception:
+    _HAS_DDU = False
+
 
 # ============================================================
 # 5 大调色风格 (抖音/勤学网 20 调色口诀 + 5 流行风格)
@@ -223,11 +236,15 @@ class StyleGuidePro:
 
     @classmethod
     def INPUT_TYPES(cls):
+        _director_choices = (["auto", "无"] + list(DIRECTOR_PROFILES_35.keys())) if _HAS_DDU else (
+            ["auto", "无", "王家卫", "韦斯·安德森", "陈凯歌", "诺兰", "塔可夫斯基", "黑泽明"]
+        )
         return {
             "required": {
                 "调色风格": (list(COLOR_STYLES_5.keys()) + ["auto"], {"default": "梦幻"}),
                 "配色方案": (list(COLOR_SCHEMES_5.keys()) + ["auto"], {"default": "互补色"}),
-                "导演体系": (["auto", "无", "王家卫", "韦斯·安德森", "陈凯歌", "诺兰", "塔可夫斯基", "黑泽明"], {"default": "auto"}),
+                # Phase 36.6 v5i: 35 导演真实档案 (镜头/光/节奏/色彩/表演/构图/声音/情绪)
+                "导演体系": (_director_choices, {"default": "auto"}),
             },
             "optional": {
                 "包含调色口诀": (["ON", "OFF"], {"default": "ON"}),
@@ -270,7 +287,37 @@ class StyleGuidePro:
             result["调色风格"]["applies_to"],
         )
 
+        # Phase 36.6 v5i: 35 导演 8 维真实档案 (镜头/光/节奏/色彩/表演/构图/声音/情绪)
+        if director and _HAS_DDU and director in DIRECTOR_PROFILES_35:
+            d_p = DIRECTOR_PROFILES_35[director]
+            guide_text += "\n\n【Phase 36.6 v5i: 35 导演 8 维真实档案】\n"
+            guide_text += f"  镜头: {d_p['镜头']}\n"
+            guide_text += f"  光: {d_p['光']}\n"
+            guide_text += f"  节奏: {d_p['节奏']}\n"
+            guide_text += f"  色彩: {d_p['色彩']}\n"
+            guide_text += f"  表演: {d_p['表演']}\n"
+            guide_text += f"  构图: {d_p['构图']}\n"
+            guide_text += f"  声音: {d_p['声音']}\n"
+            guide_text += f"  情绪: {d_p['情绪']}\n"
+            guide_text += f"  代表作: {d_p['代表作']} (年代 {d_p['年代']})\n"
+            guide_text += f"  物件: {d_p['物件']}\n"
+            guide_text += f"  5维标签: {d_p['5维标签']}\n"
+            # 8 大师摄影指导匹配
+            tag_set = set(d_p["5维标签"].split("/"))
+            for dp_name, dp_info in DP_8_MASTERS.items():
+                if "罗杰·狄金斯" in dp_name and dp_info.get("代表作") == []:
+                    continue
+                dp_tag = set(dp_info.get("5维标签", "").split("/"))
+                if tag_set & dp_tag:
+                    guide_text += f"  推荐摄影指导: {dp_name} - {dp_info['signature']}\n"
+                    break
+
         full_prompt = result.get("full_prompt", "")
+        # Phase 36.6 v5i: 把 director 5 维标签加到 full_prompt
+        if director and _HAS_DDU and director in DIRECTOR_PROFILES_35:
+            d_p = DIRECTOR_PROFILES_35[director]
+            full_prompt += f", {d_p['5维标签']}, {d_p['代表作'][:40]}"
+
         palette_str = json.dumps(result.get("调色盘", {}), ensure_ascii=False, indent=2)
         tips_str = ""
         if include_tips and result.get("调色口诀"):
